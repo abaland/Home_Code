@@ -1,0 +1,3 @@
+export PYTHONPATH="/home/pi/Home_Code:${PYTHONPATH}"
+python /home/pi/Home_Code/python/temperature_monitoring/home_environment_sensors.py &
+python /home/pi/Home_Code/python/rabbitmq_instructions/worker.py tv_pi &

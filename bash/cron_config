@@ -1,0 +1,2 @@
+# Run Pi backup script at 4:00am every day
+0 4 * * * /home/pi/Home_Code/bash/auto_self_backup.sh

@@ -27,6 +27,8 @@ __author__ = "Adrien Baland"
 # Global parameters
 ####################
 
+# All times are in microseconds
+
 filename = '../../data/heater_auto_auto_25_on_off.txt'  # File with signals to process
 
 # Threshold length for a signal (pulse/space) to be "too short". Matching signal will be merged with neighbor.

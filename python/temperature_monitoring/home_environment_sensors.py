@@ -24,12 +24,13 @@ import os  # Allows file creation/deletion (for output values)
 import time  # Measures when to print output, collect samples, ...
 import urllib2  # Connects to website to post measured data
 
-import python.global_libraries.BME280_Driver as BME280_Driver  # BME280 Sensor. Extension to official Adafruit module
-import python.global_libraries.DHT11_Driver as DHT11_Driver  # DHT11 Sensor
-import python.global_libraries.DS18B20_Driver as DS18B20_Driver  # DS18B20 (One-wire) Sensor
-import python.global_libraries.Sensehat_Driver as Sensehat_Driver  # Sensehat
-import python.global_libraries.TSL2561_Driver as TSL2561_Driver  # TSL2561_Driver
+import BME280_Driver  # BME280 Sensor. Extension to official Adafruit module
+import DHT11_Driver  # DHT11 Sensor
+import DS18B20_Driver  # DS18B20 (One-wire) Sensor
+import TSL2561_Driver  # TSL2561_Driver
+
 import python.global_libraries.general_utils as general_utils
+import python.temperature_monitoring.Sensehat_Driver as Sensehat_Driver  # Sensehat
 
 __author__ = 'Baland Adrien'  # That's me, yeay.
 
@@ -924,7 +925,7 @@ def output_measures_to_web():
         for measurement in sensor_object['smoothed_average'].keys():
 
             # Gets value, and augments the string with '&fieldX=YY.YYY' , with X index and YY.YYY value. (ignore None)
-            measurement_value = sensor_object['smoothed_average'][measurement]
+            measurement_value = float(sensor_object['smoothed_average'][measurement])
             if measurement_value is not None:
 
                 all_fields_as_string += '&field%d=%0.3f' % (field_index, measurement_value)
@@ -1041,9 +1042,6 @@ def main():
         if thingspeak_url is not None:
 
             output_measures_to_web()
-
-    # Should never be reached because Infinite loop, but exit the code when loop is over.
-    exit(0)
 
 ###########
 # END main

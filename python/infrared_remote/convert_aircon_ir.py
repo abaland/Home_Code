@@ -1,4 +1,10 @@
 """
+NOTE :
+This code became useless after I found the Mitsubishi_Aircon_Info.pdf, though it helped confirming that the results
+observed were correct
+
+========================================================================================================================
+
 This code converts raw infrared lengths from mode2 instruction (linux LIRC package) into a set of binary elements, that
 decrypt a command send by a aircon remote control.
 

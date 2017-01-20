@@ -1,21 +1,9 @@
-#########################
-# Import global packages
-#########################
-
-import general_utils
-
-try:
-    import tsl2561  # If not install,
-
-except ImportError:
-
-    tsl2561 = None
-    general_utils.log_error(-425, 'TSL2561')
-    general_utils.log_message('Is tsl2561 package installed (pip)?')
-
 ########################
 # Import local packages
 ########################
+
+import BME280_Driver_Official_Adafruit  # Official BME280_Driver module, on which this module relies.
+import python.global_libraries.general_utils  # Prints starting/ending message as well as all errors messages
 
 __author__ = 'Baland Adrien'
 
@@ -28,13 +16,13 @@ __author__ = 'Baland Adrien'
 ########################################################################################################################
 def is_valid_address(sensor_address):
     """
-    Tests whether provided address is a valid TSL2561 address for such sensors
+    Tests whether provided address is a valid BME280 address for such sensors
 
     INPUT:
         address (string) : address to test
 
     RETURNS:
-        (boolean) whether the address is a valid TSL2561 address,
+        (boolean) whether the address is a valid BME280 address,
         (int) BME280 address to measure for sample collection.
     """
 
@@ -86,7 +74,7 @@ def get_measurement_types():
         (string[]) list of all types of measure from sensor (e.g. temperature, humidity, ...)
     """
 
-    all_measures = ['luminosity']
+    all_measures = ['temperature', 'humidity', 'pressure']
 
     ####################
     return all_measures
@@ -103,40 +91,54 @@ def get_measurement_types():
 # Revision History:
 #   2016-11-04 AB - Function Created
 ########################################################################################################################
-def get_measurements(address, _):
+def get_measurements(address, temperature_correction):
     """
     Measures and returns all available measurements for the room as a dictionnary.
 
     INPUT:
-        address (None) address of sensehat (to ignore)
-        temperature_correction (float, unused) correction to apply to measurement value, to account for external effects
+        address (None) address of one-wire sensor
+        temperature_correction (float) correction to apply to measurement value, to account for external effects.
+
 
     RETURNS:
-        (Dict) dictionnary as {'luminosity': value1}
+        (Dict) dictionnary as {'temperature': value}
     """
 
     # Initializes dictionnary of measurements collected
     all_values = {
-        'luminosity': None
+        'temperature': None,
+        'humidity': None,
+        'pressure': None
     }
 
+    # Creates BME280 object to measurements desired values.
+    sensor_driver_object = BME280_Driver_Official_Adafruit.BME280(address)
+
     try:
+        # Gets values from object created
+        temperature = sensor_driver_object.read_temperature()
+        humidity = sensor_driver_object.read_humidity()
+        pressure = sensor_driver_object.read_pressure()
 
-        if tsl2561 is not None:
+        # Applies correction to temperature
+        temperature += temperature_correction
 
-            # Gets all measurements from Sensehat, and applies correction
-            tsl2561_sensor = tsl2561.TSL2561(address)
-            all_values['luminosity'] = tsl2561_sensor.lux()
+        # Updates dictionnary of values
+        all_values = {
+            'temperature': temperature,
+            'humidity': humidity,
+            'pressure': pressure
+        }
 
-    except IOError as e:
+    except TypeError as e:
 
         # Something went wrong when retrieving the values. Log error.
-        general_utils.log_error(-409, 'TSL2561', str(e))
+        python.global_libraries.general_utils.log_error(-409, 'Failed to get measures from BME280. %s' % str(e))
 
     ##################
     return all_values
     ##################
 
-#######################
-# END get_measurements
-#######################
+##########################
+# END get_measurements()
+##########################

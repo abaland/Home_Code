@@ -305,6 +305,7 @@ class SignalSendManager:
         if clear != 0:
 
             print("Error in clearing wave!")
+
             #########
             return 1
             #########
@@ -365,5 +366,3 @@ class SignalSendManager:
 ########################
 # END SignalSendManager
 ########################
-
-

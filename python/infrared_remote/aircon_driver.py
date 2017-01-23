@@ -297,30 +297,10 @@ def send_signal(is_turned_on, mode, temperature, wind_speed, wind_direction):
     """
 
     data_bytes = convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direction)
-    print(data_bytes)
 
     all_lengths = convert_bits_to_length(data_bytes)
-    all_lengths = [
-        3385,    1687,     430,     420,     430,    1250,
-        430,     420,     430,    1250,     430,     420,
-        430,    1250,     430,     420,     430,    1250,
-        430,     420,     430,    1250,     430,     420,
-        430,    1250,     430,    1250,     430,     420,
-        430,    1250,     430,     420,     430,    1250,
-        430,    1250,     430,    1250,     430,    1250,
-        430,     420,     430,     420,     430,     420,
-        430,    1250,     430,     420,     430,    1250,
-        430,     420,     430,     420,     430,    1250,
-        430,     420,     430,     420,     430,     420,
-        430,     420,     430,    1250,     430,    1250,
-        430,     420,     430,    1250,     430,     420,
-        430,     420,     430,     420,     430,    1250,
-        430,     420,     430,     420,     430,     420,
-        430,    1250,     430,     420,     430,    1250,
-        430,    1250,     430]
-    print(all_lengths)
 
-    ir = signal_sender.SignalSendManager(21, 3800, 0.5)
+    ir = signal_sender.SignalSendManager(21, 38000, 0.5)
 
     ir.send_code(all_lengths)
 

@@ -283,32 +283,33 @@ class SignalSendManager:
     #
 
     ####################################################################################################################
-    # send_code
+    # clear_waves
     ####################################################################################################################
     # Revision History :
-    #   2017-01-22 AdBa : Function created
+    #   2017-01-25 AdBa : Function created
     ####################################################################################################################
-    def send_code(self, ir_all_lengths):
+    def clear_waves(self):
         """
-        Takes care of all interaction with pigpio library and sends infrared signal.
-
-        INPUT:
-            ir_all_lengths (int[]) duration (microseconds) of the sequential High/Low states, starting with the length
-                of a "High" state.
-
-        OUTPUT:
-            (int) 0 if successfull, negative number otherwise
         """
 
         # Makes sure all previous signal data is cleared from pigpio.
-        clear = self.pigpio.wave_clear()
-        if clear != 0:
+        self.pigpio.wave_clear()
 
-            print("Error in clearing wave!")
+    ##################
+    # END clear_waves
+    ##################
 
-            #########
-            return 1
-            #########
+    #
+    #
+    #
+
+    ####################################################################################################################
+    # make_wave
+    ####################################################################################################################
+    # Revision History :
+    #   2017-01-25 AdBa : Function created
+    ####################################################################################################################
+    def make_wave(self, ir_all_lengths):
 
         # Configuration the signal parameters based on the input argument
         all_pulses = self.pulse_converter.process_code(ir_all_lengths)
@@ -324,44 +325,66 @@ class SignalSendManager:
         # Creates signal wave based on parameters sent.
         wave_id = self.pigpio.wave_create()
 
-        # Sends wave
-        if wave_id >= 0:
+        ###############
+        return wave_id
+        ###############
 
-            print("Sending wave...")
-            wave_send_status = self.pigpio.wave_send_once(wave_id)
+    ################
+    # END make_wave
+    ################
 
-            if wave_send_status >= 0:
+    #
+    #
+    #
 
-                print("Success! (result: %d)" % wave_send_status)
+    ####################################################################################################################
+    # send_code
+    ####################################################################################################################
+    # Revision History :
+    #   2017-01-22 AdBa : Function created
+    #   2017-01-25 AdBa : Modified whole function.
+    ####################################################################################################################
+    def send_code(self, all_wave_ids):
+        """
+        Takes care of all interaction with pigpio library and sends infrared signal.
 
-            else:
+        INPUT:
+            ir_all_lengths (int[]) duration (microseconds) of the sequential High/Low states, starting with the length
+                of a "High" state.
 
-                print("Error! (result: %d)" % wave_send_status)
+        OUTPUT:
+            (int) 0 if successfull, negative number otherwise
+        """
 
-                ########################
-                return wave_send_status
-                ########################
-
-        else:
-
-            print("Error creating wave: %d" % wave_id)
-
-            ###############
-            return wave_id
-            ###############
+        print all_wave_ids
+        self.pigpio.wave_chain(all_wave_ids)
 
         # Pauses until the signal is sent.
         while self.pigpio.wave_tx_busy():
 
-            sleep(0.1)
+            sleep(0.0000001)
 
-        # After signal has been sent, removes the wave from pigpio.
-        print("Deleting wave")
-        self.pigpio.wave_delete(wave_id)
+        for wave_id in set(all_wave_ids):
+
+            # After signal has been sent, removes the wave from pigpio.
+            print("Deleting wave")
+            self.pigpio.wave_delete(wave_id)
 
         # Closes connexion with daemon.
         print("Terminating pigpio")
         self.pigpio.stop()
+
+        #######
+        return
+        #######
+
+    ################
+    # END send_code
+    ################
+
+    #
+    #
+    #
 
 ########################
 # END SignalSendManager

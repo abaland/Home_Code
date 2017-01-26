@@ -32,14 +32,15 @@ import signal_sender
 __author__ = 'Baland Adrien'
 
 # Signal parameters
-signal_header = [3400, 1750]  # Header of signal, before any data bit (On, Off)
+header_signal = [3400, 1750]  # Header of signal, before any data bit (On, Off)
 
 bit_separator = 450  # Length between each 0/1 data bit (On)
 one_bit = 1300  # Length for 1-data bit (Off)
 zero_bit = 420  # Length for 0-data bit (Off)
 
 n_repeat = 1  # Number of time the signal will be repeated. If > 0, repeat must be non-empty
-repeat = [440, 17100]  # (On, Off) separating signal repetition.
+repeat_signal = [440, 17100]  # (On, Off) separating signal repetition.
+trail_signal = [440, 17100]  # (On, Off) to notify the end of the signal
 
 
 # Signal construction
@@ -220,6 +221,7 @@ def convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direc
 ########################################################################################################################
 # Revision History:
 #   19/01/2016 AB - Created function
+#   26/01/2016 AB - Added trailing signal.
 ########################################################################################################################
 def convert_bits_to_length(all_data_bytes):
     """
@@ -233,45 +235,52 @@ def convert_bits_to_length(all_data_bytes):
         all_lengths (int[]) list of length to apply for on/off state of the IR emitter.
     """
 
-    all_lengths = []
-
     # Starts by merging all the bytes together to facilitate the loop through bits to come
     full_data_signal = ''.join(all_data_bytes)
+    data_signal_as_length = []
+    # Then each data bit is converted into an (On, Off) sequence, where On has fixed length and Off variable
+    #     depending on whether 0-bit or 1-bit.
+    for data_bit in full_data_signal:
+
+        # Fixed length separator (On)
+        data_signal_as_length.append(bit_separator)
+
+        # Variable length depending on bit value
+        if data_bit == '0':
+
+            data_signal_as_length.append(zero_bit)
+
+        else:
+
+            data_signal_as_length.append(one_bit)
+
+    # Creates all possible subsignals that can be sent through the full signal to transmit.
+    all_signal_types = [header_signal, data_signal_as_length, repeat_signal, trail_signal]
 
     # Initializes the repeat index value and starts looping
     sent_index = 0
+    signal_types_order = []
     while sent_index <= n_repeat:
 
         # For every repeat, the signal first starts with the header part
-        all_lengths.extend(signal_header)
+        signal_types_order.append(0)
 
-        # Then each data bit is converted into an (On, Off) sequence, where On has fixed length and Off variable
-        #     depending on whether 0-bit or 1-bit.
-        for data_bit in full_data_signal:
-
-            # Fixed length separator (On)
-            all_lengths.append(bit_separator)
-
-            # Variable length depending on bit value
-            if data_bit == '0':
-
-                all_lengths.append(zero_bit)
-
-            else:
-
-                all_lengths.append(one_bit)
+        signal_types_order.append(1)
 
         # After the data bytes are all sent, the "repeat" information must be sent to signal the receiver the message
         #     will be repeated. If no repeat are necessary anymore, signal is complete.
         if sent_index < n_repeat:
 
-            all_lengths.extend(repeat)
+            signal_types_order.append(2)
 
         sent_index += 1
 
-    ###################
-    return all_lengths
-    ###################
+    # Adds trailing signal after everything else is sent
+    signal_types_order.append(3)
+
+    ############################################
+    return all_signal_types, signal_types_order
+    ############################################
 
 #############################
 # END convert_bits_to_length
@@ -298,11 +307,17 @@ def send_signal(is_turned_on, mode, temperature, wind_speed, wind_direction):
 
     data_bytes = convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direction)
 
-    all_lengths = convert_bits_to_length(data_bytes)
+    all_wave_lengths, wave_order = convert_bits_to_length(data_bytes)
 
     ir = signal_sender.SignalSendManager(21, 38000, 0.5)
 
-    ir.send_code(all_lengths)
+    wave_ids = []
+    ir.clear_waves()
+    for one_wave_length in all_wave_lengths:
+
+        wave_ids.append(ir.make_wave(one_wave_length))
+
+    ir.send_code([wave_ids[i] for i in wave_order])
 
 
 ###########################

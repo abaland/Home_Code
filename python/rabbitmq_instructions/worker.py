@@ -18,6 +18,9 @@ import pika  # RabbitMQ Python port
 import psutil  # Gets information about CPU usage and processes
 from lxml import etree  # Converts some of the message (in a xml format) to a xml-like object
 
+########################
+# Import Local Packages
+########################
 from python.global_libraries import general_utils  # Generic functions + Logs errors / messages in console and syslog
 from python.global_libraries import pika_connector_manager  # Handles connection with RabbitMQ server
 from worker_config import config_general

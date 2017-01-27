@@ -260,6 +260,7 @@ class PigpioInterface:
     ####################################################################################################################
     # Revision History :
     #   2017-01-22 AdBa : Function created
+    #   2017-01-27 AdBa : Added internal parameter all_wave_ids
     ####################################################################################################################
     def __init__(self, gpio_pin, frequency, duty_cycle):
         """
@@ -273,7 +274,7 @@ class PigpioInterface:
         """
 
         # Initializes connexion to pigpio module.
-        self.pigpio = pigpio.pi()
+        self.pigpio = None
 
         # Sets pin mode to output.
         self.pigpio.set_mode(gpio_pin, pigpio.OUTPUT)
@@ -297,16 +298,12 @@ class PigpioInterface:
     ####################################################################################################################
     # Revision History :
     #   2017-01-25 AdBa : Function created
+    #   2017-01-27 AdBa : Added internal parameter all_wave_ids
     ####################################################################################################################
     def clear_waves(self):
         """
         Clears all registered waves in pigpio.
         """
-
-        self.pigpio.wave_clear()
-
-        # Resets internal parameter
-        self.all_wave_ids = []
 
         #######
         return
@@ -325,6 +322,7 @@ class PigpioInterface:
     ####################################################################################################################
     # Revision History :
     #   2017-01-25 AdBa : Function created
+    #   2017-01-27 AdBa : Added better return if failure
     ####################################################################################################################
     def make_wave(self, ir_all_lengths):
         """
@@ -375,8 +373,9 @@ class PigpioInterface:
     # Revision History :
     #   2017-01-22 AdBa : Function created
     #   2017-01-25 AdBa : Modified whole function.
+    #   2017-01-27 AdBa : Reviewed function structure
     ####################################################################################################################
-    def send_code(self, all_wave_ids):
+    def send_code(self, all_wave_lengths, wave_order):
         """
         Sends an infrared signal using previously created wave, blocks until signal is sent, deletes all waves used in
         pigpio and stops connection to pigpio library.
@@ -388,17 +387,29 @@ class PigpioInterface:
             (int) 0 if successfull, negative number otherwise
         """
 
-        # Makes sure all wave ids to use for signal exist.
-        for one_wave_id in all_wave_ids:
+        # Resets parameter (internal and pigpio-related)
+        self.all_wave_ids = []
+        self.pigpio = pigpio.pi()
+        self.pigpio.wave_clear()
 
-            if one_wave_id not in self.all_wave_ids:
+        # Creates all waves matching subsignals to send in pigpio
+        for one_wave_length in all_wave_lengths:
 
-                #######################################################################
-                return general_utils.log_error(-504, error_details=one_wave_id)
-                #######################################################################
+            # Creates wave in pigpio and retrieves its corresponding id
+            creation_status = self.make_wave(one_wave_length)
+
+            # If result is negative, an error occured (ids are >= 0), so stop execution and reports error.
+            if creation_status < 0:
+
+                #######################
+                return creation_status
+                #######################
+
+        # Uses wave sending order to get wave id sending sequence
+        wave_id_order = [self.all_wave_ids[wave_index] for wave_index in wave_order]
 
         # Sends the signal using created wave ids in order.
-        self.pigpio.wave_chain(all_wave_ids)
+        self.pigpio.wave_chain(wave_id_order)
 
         # Pauses until the signal is sent.
         while self.pigpio.wave_tx_busy():
@@ -406,7 +417,7 @@ class PigpioInterface:
             sleep(0.0000001)
 
         # After signal has been sent, removes all waves created to send signal. (set function makes ids unique)
-        for wave_id in set(all_wave_ids):
+        for wave_id in set(self.all_wave_ids):
 
             print("Deleting wave")
             self.pigpio.wave_delete(wave_id)
@@ -440,3 +451,75 @@ class PigpioInterface:
 ######################
 # END PigpioInterface
 ######################
+
+
+########################################################################################################################
+# convert_bits_to_length
+########################################################################################################################
+# Revision History:
+#   19/01/2016 AB - Created function
+#   26/01/2016 AB - Added trailing signal.
+########################################################################################################################
+def convert_bits_to_length(all_data_bytes, one_bit, zero_bit, header_signal, repeat_signal, trail_signal, n_repeat):
+    """
+    Converts a constructed data signal (list of bytes from the base signal formatted as binary string) into a list of
+    lengths of High/Low states for the IR emitter. The first length matches an On status.
+
+    INPUT:
+        all_data_bytes ({'0','1'}[]) list of all data bits, string-formatted, to send the aircon
+        one_bit (int[]) length in microseconds of ('High', 'Low') sequence corresponding to a 1-data-bit
+        zero_bit (int[]) length in microseconds of ('High', 'Low') sequence corresponding to a 0-data-bit
+        header_signal (int[]) length in microseconds of ('High', 'Low') sequence preceding the databits
+        repeat_signal (int[]) length in microseconds of ('High', 'Low') sequence between two databits
+        trail_signal (int[]) length in microseconds of ('High', 'Low') sequence to conclude the signal
+
+    OUTPUT:
+        (int[][]) list of length to apply for High/Low state of the IR emitter for each of the subparts of the signal.
+        (int[]) order in which the here-above subparts should be sent to get the full signal
+    """
+
+    # Starts by merging all the bytes together to facilitate the loop through bits to come
+    full_data_signal = ''.join(all_data_bytes)
+    data_signal_as_length = []
+    # Then each data bit is converted into an (On, Off) sequence.
+    for data_bit in full_data_signal:
+
+        if data_bit == '0':
+
+            data_signal_as_length.extend(zero_bit)
+
+        else:
+
+            data_signal_as_length.extend(one_bit)
+
+    # Creates all possible subsignals that can be sent through the full signal to transmit.
+    all_signal_types = [header_signal, data_signal_as_length, repeat_signal, trail_signal]
+
+    # Initializes the repeat index value and starts looping
+    sent_index = 0
+    signal_types_order = []
+    while sent_index <= n_repeat:
+
+        # For every repeat, the signal first starts with the header part
+        signal_types_order.append(0)
+
+        signal_types_order.append(1)
+
+        # After the data bytes are all sent, the "repeat" information must be sent to signal the receiver the message
+        #     will be repeated. If no repeat are necessary anymore, signal is complete.
+        if sent_index < n_repeat:
+
+            signal_types_order.append(2)
+
+        sent_index += 1
+
+    # Adds trailing signal after everything else is sent
+    signal_types_order.append(3)
+
+    ############################################
+    return all_signal_types, signal_types_order
+    ############################################
+
+#############################
+# END convert_bits_to_length
+#############################

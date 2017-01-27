@@ -8,6 +8,10 @@
 import Tkinter as Tk  # GUI Packages
 import threading  # Handles multi-threading in the code (send RabbitMQ request, check GUI updates, ...)
 
+########################
+# Import Local Packages
+########################
+
 from python.rabbitmq_instructions import master as master_script  # code for Rabbit Master Controller
 from python.global_libraries import general_utils  # Main script to print welcome/ending messages and log errors
 import tkinter_remote_control_tv

@@ -1,9 +1,12 @@
+
+########################
+# Import Local Packages
+########################
+import python.global_libraries.general_utils
+
 #########################
 # Import global packages
 #########################
-
-import python.global_libraries.general_utils
-
 try:
     import tsl2561  # If not install,
 

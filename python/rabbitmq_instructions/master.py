@@ -14,6 +14,9 @@ import uuid
 import pika  # RabbitMQ Python port
 from lxml import etree  # Converts worker response element to a tree-like object
 
+########################
+# Import Local Packages
+########################
 from python.rabbitmq_instructions.master_config import master_commands  # Message generation/procession on Master-Side
 from python.rabbitmq_instructions.worker_config import config_general
 

@@ -1,10 +1,18 @@
 """
 This driver help converting the desired settng for the air conditioning ystem in my house to the appropriate signal
-length to send through infrared.
+length to send through infrared, and takes care of sending these signals.
 
 After examination of the receiver signals (with convert_aircon_ir.py code) on many tests configuration. The following
 conclusions were taken.
 
+== Signals ==
+A signal is started by a Header (High, Low) of (3400, 1750)
+Follows the data bits where each 1 is a (High, Low) of (450, 1300) and each 0 is a (High, Low) of (450, 420)
+Follows the repetition signal  (High, Low) of (440, 17100)
+Follows the same data bits as before
+Finally, the signal concludes with a Trail (High, Low) of (440, 17100)
+
+== Configuration ==
 Off, On     : 6-th byte,  6th bit     : 0=Off,    1=On
 Temperature : 8-th byte,  1st-4th bit : 0000=16,  1000=17,  0100=18,  0010=20,  0001=24,  1111=31
 Wind speed  : 10-th byte, 1st-2nd bit : 00=auto,  10=low,  01=middle,  11=high
@@ -24,6 +32,9 @@ Checksum    : last byte, all bits.
 #########################
 import copy
 
+########################
+# Import local Packages
+########################
 from python.global_libraries import signal_sender
 
 ####################
@@ -35,9 +46,8 @@ __author__ = 'Baland Adrien'
 # Signal parameters
 header_signal = [3400, 1750]  # Header of signal, before any data bit (On, Off)
 
-bit_separator = 450  # Length between each 0/1 data bit (On)
-one_bit = 1300  # Length for 1-data bit (Off)
-zero_bit = 420  # Length for 0-data bit (Off)
+one_bit = [450, 1300]  # Length for 1-data bit (On, Off)
+zero_bit = [450, 420]  # Length for 0-data bit (On, Off)
 
 n_repeat = 1  # Number of time the signal will be repeated. If > 0, repeat must be non-empty
 repeat_signal = [440, 17100]  # (On, Off) separating signal repetition.
@@ -103,9 +113,9 @@ def compute_checksum(all_data_bytes):
     return checksum[::-1]
     ######################
 
-###########################
-# END convert_info_to_bits
-###########################
+#######################
+# END compute_checksum
+#######################
 
 
 ########################################################################################################################
@@ -218,78 +228,7 @@ def convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direc
 
 
 ########################################################################################################################
-# convert_bits_to_length
-########################################################################################################################
-# Revision History:
-#   19/01/2016 AB - Created function
-#   26/01/2016 AB - Added trailing signal.
-########################################################################################################################
-def convert_bits_to_length(all_data_bytes):
-    """
-    Converts a constructed data signal (updated list of bytes from the base signal) into a list of length of On/Off for
-    the IR emitter. The first length matches an On status.
-
-    INPUT:
-        all_data_bytes ({0,1}[8][]) list of string-formatted bytes containing the "info" to send the aircon.
-
-    OUTPUT:
-        all_lengths (int[]) list of length to apply for on/off state of the IR emitter.
-    """
-
-    # Starts by merging all the bytes together to facilitate the loop through bits to come
-    full_data_signal = ''.join(all_data_bytes)
-    data_signal_as_length = []
-    # Then each data bit is converted into an (On, Off) sequence, where On has fixed length and Off variable
-    #     depending on whether 0-bit or 1-bit.
-    for data_bit in full_data_signal:
-
-        # Fixed length separator (On)
-        data_signal_as_length.append(bit_separator)
-
-        # Variable length depending on bit value
-        if data_bit == '0':
-
-            data_signal_as_length.append(zero_bit)
-
-        else:
-
-            data_signal_as_length.append(one_bit)
-
-    # Creates all possible subsignals that can be sent through the full signal to transmit.
-    all_signal_types = [header_signal, data_signal_as_length, repeat_signal, trail_signal]
-
-    # Initializes the repeat index value and starts looping
-    sent_index = 0
-    signal_types_order = []
-    while sent_index <= n_repeat:
-
-        # For every repeat, the signal first starts with the header part
-        signal_types_order.append(0)
-
-        signal_types_order.append(1)
-
-        # After the data bytes are all sent, the "repeat" information must be sent to signal the receiver the message
-        #     will be repeated. If no repeat are necessary anymore, signal is complete.
-        if sent_index < n_repeat:
-
-            signal_types_order.append(2)
-
-        sent_index += 1
-
-    # Adds trailing signal after everything else is sent
-    signal_types_order.append(3)
-
-    ############################################
-    return all_signal_types, signal_types_order
-    ############################################
-
-#############################
-# END convert_bits_to_length
-#############################
-
-
-########################################################################################################################
-# convert_info_to_bits
+# send_signal
 ########################################################################################################################
 # Revision History:
 #   19/01/2016 AB - Created function
@@ -311,43 +250,20 @@ def send_signal(is_turned_on, mode, temperature, wind_speed, wind_direction):
 
     # Uses remote specific data and data_bytes information to get all sub-signals to create, and order in which to send
     #   them to get the full signal to send.
-    all_wave_lengths, wave_order = convert_bits_to_length(data_bytes)
+    all_wave_lengths, wave_order = signal_sender.convert_bits_to_length(data_bytes, one_bit, zero_bit, header_signal,
+                                                                        repeat_signal, trail_signal, n_repeat)
 
     # Creates pigpio interface to send infrared signal
     ir = signal_sender.PigpioInterface(21, 38000, 0.5)
 
-    # Clears all existing waves in the pigpio interface
-    ir.clear_waves()
-
-    # Creates all waves matching subsignals to send in pigpio
-    wave_ids = []
-    for one_wave_length in all_wave_lengths:
-
-        # Creates wave in pigpio and retrieves its corresponding id
-        wave_id = ir.make_wave(one_wave_length)
-
-        # If result is negative, an error occured (ids are >= 0), so stop execution and reports error.
-        if wave_id < 0:
-
-            ###############
-            return wave_id
-            ###############
-
-        # If result is positive, creation successfull, so add wave id to wave id list.
-        wave_ids.append(ir.make_wave(one_wave_length))
-
-    # Uses wave sending order to get wave id sending sequence
-    wave_id_order = [wave_ids[wave_index] for wave_index in wave_order]
-
-    # Sends the signal
-    send_status = ir.send_code(wave_id_order)
+    send_status = ir.send_code(all_wave_lengths, wave_order)
 
     ###################
     return send_status
     ###################
 
-###########################
-# END convert_info_to_bits
-###########################
+##################
+# END send_signal
+##################
 
 send_signal('on', 'heat', 25, 'auto', 'auto')

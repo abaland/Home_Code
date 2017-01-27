@@ -1,5 +1,5 @@
 """
-Strongly based on https://github.com/bschwind/ir-slinger/blob/master/pyslinger.py
+Based on https://github.com/bschwind/ir-slinger/blob/master/pyslinger.py
 
 This code handles sending messages using infrared signals with pigpio library.
 
@@ -21,11 +21,13 @@ Due to this, High/Low refers to the LED state ignoring the frequency/duty_cycle,
 from time import sleep
 import pigpio
 
+import general_utils
 
 # RAW IR ones and zeroes. Specify length for one and zero and simply bitbang the GPIO.
 # The default values are valid for one tested remote which didn't fit in NEC or RC-5 specifications.
 # It can also be used in case you don't want to bother with deciphering raw bytes from IR receiver:
 # i.e. instead of trying to figure out the protocol, simply define bit lengths and send them all here.
+
 
 ####################################################################################################################
 # PulseConverter
@@ -110,12 +112,12 @@ class PulseConverter:
     #
 
     ####################################################################################################################
-    # send_zero
+    # send_low
     ####################################################################################################################
     # Revision History :
     #   2017-01-22 AdBa : Function created
     ####################################################################################################################
-    def send_zero(self, duration):
+    def send_low(self, duration):
         """
         Adds "LOW" segment for a given duration to the full signal.
 
@@ -129,21 +131,21 @@ class PulseConverter:
         return
         #######
 
-    ################
-    # END send_zero
-    ################
+    ###############
+    # END send_low
+    ###############
 
     #
     #
     #
 
     ####################################################################################################################
-    # send_one
+    # send_high
     ####################################################################################################################
     # Revision History :
     #   2017-01-22 AdBa : Function created
     ####################################################################################################################
-    def send_one(self, duration):
+    def send_high(self, duration):
         """
         Adds "HIGH" segment for a given duration to the full signal.
 
@@ -180,7 +182,7 @@ class PulseConverter:
         #######
 
     ###############
-    # END send_one
+    # END send_high
     ###############
 
     #
@@ -214,11 +216,11 @@ class PulseConverter:
 
             if signal_type:
 
-                self.send_one(ir_length)
+                self.send_high(ir_length)
 
             else:
 
-                self.send_zero(ir_length)
+                self.send_low(ir_length)
 
             # Next signal will be the opposite of the current one (High -> Low or Low -> High)
             signal_type = not signal_type
@@ -236,13 +238,18 @@ class PulseConverter:
 #####################
 
 
+#
+#
+#
+
+
 ####################################################################################################################
-# SignalSendManager
+# PigpioInterface
 ####################################################################################################################
 # Revision History :
 #   2017-01-22 AdBa : Class created
 ####################################################################################################################
-class SignalSendManager:
+class PigpioInterface:
     """
     This class handles most interactions with the pigpio module, like initialization connexion to module,
     clearance of previous pigpio data, parametrization and start of signal to send, ...
@@ -274,6 +281,9 @@ class SignalSendManager:
         # Initializes High/Low durations to On/Off durations converted.
         self.pulse_converter = PulseConverter(gpio_pin, frequency, duty_cycle)
 
+        # List of created wave ids
+        self.all_wave_ids = []
+
     ###############
     # END __init__
     ###############
@@ -290,10 +300,17 @@ class SignalSendManager:
     ####################################################################################################################
     def clear_waves(self):
         """
+        Clears all registered waves in pigpio.
         """
 
-        # Makes sure all previous signal data is cleared from pigpio.
         self.pigpio.wave_clear()
+
+        # Resets internal parameter
+        self.all_wave_ids = []
+
+        #######
+        return
+        #######
 
     ##################
     # END clear_waves
@@ -310,20 +327,35 @@ class SignalSendManager:
     #   2017-01-25 AdBa : Function created
     ####################################################################################################################
     def make_wave(self, ir_all_lengths):
+        """
+        Creates a signal wave based on a sequence of ir lengths in pigpio library and returns its ids
+        after creation for future references.
 
-        # Configuration the signal parameters based on the input argument
+        INPUT:
+            ir_all_lengths (int[]) series of 'HIGH' 'LOW' lengths (microseconds) that compose the wave
+
+        OUTPUT:
+            (int) id of the created wave is >= 0, error code otherwise.
+        """
+
+        # Decomposes the ir lengths into a sequence of pulses of ON, OFF status for the LED.
         all_pulses = self.pulse_converter.process_code(ir_all_lengths)
+
+        # Assigns pulses to a new wave to create
         wave_config_status = self.pigpio.wave_add_generic(all_pulses)
+
+        # If assignment failed, reports error and return
         if wave_config_status < 0:
 
-            print("Error in adding wave!")
+            #######################################################################
+            return general_utils.log_error(-503, error_details=wave_config_status)
+            #######################################################################
 
-            ##########################
-            return wave_config_status
-            ##########################
-
-        # Creates signal wave based on parameters sent.
+        # Validates created wave and gets its corresponding id
         wave_id = self.pigpio.wave_create()
+
+        # Updates internal parameters
+        self.all_wave_ids.append(wave_id)
 
         ###############
         return wave_id
@@ -346,17 +378,26 @@ class SignalSendManager:
     ####################################################################################################################
     def send_code(self, all_wave_ids):
         """
-        Takes care of all interaction with pigpio library and sends infrared signal.
+        Sends an infrared signal using previously created wave, blocks until signal is sent, deletes all waves used in
+        pigpio and stops connection to pigpio library.
 
         INPUT:
-            ir_all_lengths (int[]) duration (microseconds) of the sequential High/Low states, starting with the length
-                of a "High" state.
+            all_wave_ids (int[]) list of wave ids to call sequentially, in order (repetition allowed)
 
         OUTPUT:
             (int) 0 if successfull, negative number otherwise
         """
 
-        print all_wave_ids
+        # Makes sure all wave ids to use for signal exist.
+        for one_wave_id in all_wave_ids:
+
+            if one_wave_id not in self.all_wave_ids:
+
+                #######################################################################
+                return general_utils.log_error(-504, error_details=one_wave_id)
+                #######################################################################
+
+        # Sends the signal using created wave ids in order.
         self.pigpio.wave_chain(all_wave_ids)
 
         # Pauses until the signal is sent.
@@ -364,19 +405,29 @@ class SignalSendManager:
 
             sleep(0.0000001)
 
+        # After signal has been sent, removes all waves created to send signal. (set function makes ids unique)
         for wave_id in set(all_wave_ids):
 
-            # After signal has been sent, removes the wave from pigpio.
             print("Deleting wave")
             self.pigpio.wave_delete(wave_id)
+
+            try:
+
+                # Remove wave id internally
+                self.all_wave_ids.remove(wave_id)
+
+            except ValueError:
+
+                # Could not remove wave id because it was already not there, so nothing to do. This should not happen.
+                pass
 
         # Closes connexion with daemon.
         print("Terminating pigpio")
         self.pigpio.stop()
 
-        #######
-        return
-        #######
+        #########
+        return 0
+        #########
 
     ################
     # END send_code
@@ -386,6 +437,6 @@ class SignalSendManager:
     #
     #
 
-########################
-# END SignalSendManager
-########################
+######################
+# END PigpioInterface
+######################

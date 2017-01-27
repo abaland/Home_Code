@@ -23,7 +23,8 @@ Checksum    : last byte, all bits.
 # Import global packages
 #########################
 import copy
-import signal_sender
+
+from python.global_libraries import signal_sender
 
 ####################
 # Global parameters
@@ -305,20 +306,45 @@ def send_signal(is_turned_on, mode, temperature, wind_speed, wind_direction):
         wind_direction {'auto', 'lowest', 'low', 'middle', 'high', 'highest', 'loop'}
     """
 
+    # Converts all options desired to the data bytes to send, in byte (8 bit-string) array form
     data_bytes = convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direction)
 
+    # Uses remote specific data and data_bytes information to get all sub-signals to create, and order in which to send
+    #   them to get the full signal to send.
     all_wave_lengths, wave_order = convert_bits_to_length(data_bytes)
 
-    ir = signal_sender.SignalSendManager(21, 38000, 0.5)
+    # Creates pigpio interface to send infrared signal
+    ir = signal_sender.PigpioInterface(21, 38000, 0.5)
 
-    wave_ids = []
+    # Clears all existing waves in the pigpio interface
     ir.clear_waves()
+
+    # Creates all waves matching subsignals to send in pigpio
+    wave_ids = []
     for one_wave_length in all_wave_lengths:
 
+        # Creates wave in pigpio and retrieves its corresponding id
+        wave_id = ir.make_wave(one_wave_length)
+
+        # If result is negative, an error occured (ids are >= 0), so stop execution and reports error.
+        if wave_id < 0:
+
+            ###############
+            return wave_id
+            ###############
+
+        # If result is positive, creation successfull, so add wave id to wave id list.
         wave_ids.append(ir.make_wave(one_wave_length))
 
-    ir.send_code([wave_ids[i] for i in wave_order])
+    # Uses wave sending order to get wave id sending sequence
+    wave_id_order = [wave_ids[wave_index] for wave_index in wave_order]
 
+    # Sends the signal
+    send_status = ir.send_code(wave_id_order)
+
+    ###################
+    return send_status
+    ###################
 
 ###########################
 # END convert_info_to_bits

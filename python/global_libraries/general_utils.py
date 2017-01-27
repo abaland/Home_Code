@@ -77,11 +77,13 @@ all_error_messages = {
     -423: 'No valid sensor could be found',
     -424: 'Missing measure from sensor',
     -425: 'Missing package for sensor.',
-    ##########
-    # IRSEND
-    ##########
+    ###########
+    # Infrared
+    ###########
     -501: 'Remote name is not in available remotes',
     -502: 'Button is not available for given remote.',
+    -503: 'Could not create wave with given pulses',
+    -504: 'Wave id to send is nost listed in available wave ids.',
     ##########
     # General
     ##########

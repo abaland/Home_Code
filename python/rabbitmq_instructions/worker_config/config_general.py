@@ -5,7 +5,7 @@ is_default = False
 config_version = 1
 
 worker_to_instruction = {
-    'living-room': ['remote_control']
+    'living-pi': ['remote_control']
 }
 
 instruction_to_module = {

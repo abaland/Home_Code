@@ -139,7 +139,7 @@ def convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direc
         wind_direction {'auto', 'lowest', 'low', 'middle', 'high', 'highest', 'loop'}
 
     OUTPUT:
-        ({'0','1'}[8][]) all data bytes matching the desired settings
+        ({'0','1'}[8][]|None) all data bytes matching the desired settings
     """
 
     # Initializes the bytes to send as the base signal.
@@ -156,9 +156,9 @@ def convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direc
 
     else:
 
-        #############
-        return False
-        #############
+        ######################
+        return None, 'on/off'
+        ######################
 
     # Updates values related to aircon mode (heat, cold, dry).
     if mode == 'heat':
@@ -175,20 +175,30 @@ def convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direc
 
     else:
 
-        #############
-        return False
-        #############
+        ###########################
+        return None, 'aircon_mode'
+        ###########################
 
     # Updates values related to aircon temperature (between 16 and 31 degrees).
+    try:
+
+        temperature = int(temperature)
+
+    except TypeError:
+
+        ##########################################
+        return None, 'temperature not an integer'
+        ##########################################
+
     if 15 < temperature < 32:
 
         temp_value = bin(temperature - 16)[2:].zfill(4)
 
     else:
 
-        #############
-        return False
-        #############
+        #####################################
+        return None, 'temperature not valid'
+        #####################################
 
     # Updates value related to wind speed.
     if wind_speed == 'low':
@@ -209,9 +219,9 @@ def convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direc
 
     else:
 
-        #############
-        return False
-        #############
+        ##########################
+        return None, 'wind_speed'
+        ##########################
 
     # Updates value related to wind direction.
     if wind_direction == 'lowest':
@@ -244,9 +254,9 @@ def convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direc
 
     else:
 
-        #############
-        return False
-        #############
+        ##############################
+        return None, 'wind_direction'
+        ##############################
 
     final_bytes[5] = final_bytes[5][:5] + on_value + final_bytes[5][6:]
     final_bytes[6] = final_bytes[6][:3] + mode_value[0] + final_bytes[6][5:]
@@ -256,9 +266,9 @@ def convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direc
     final_bytes[9] = final_bytes[9][:3] + direction_value + final_bytes[9][6:]
     final_bytes[17] = compute_checksum(final_bytes[:17])
 
-    ###################
-    return final_bytes
-    ###################
+    #########################
+    return final_bytes, None
+    #########################
 
 ###########################
 # END convert_info_to_bits
@@ -284,19 +294,27 @@ def send_signal(is_turned_on, mode, temperature, wind_speed, wind_direction):
     """
 
     # Converts all options desired to the data bytes to send, in byte (8 bit-string) array form
-    data_bytes = convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direction)
+    data_bytes, details = convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direction)
 
     if data_bytes is None:
 
-        details = '(%s, %s, %s, %s, %s)' % (is_turned_on, mode, temperature, wind_speed, wind_direction)
         ############################################################
         return general_utils.log_error(-505, error_details=details)
         ############################################################
+
+    data_bytes = ''.join(data_bytes)
 
     # Uses remote specific data and data_bytes information to get all sub-signals to create, and order in which to send
     #   them to get the full signal to send.
     all_wave_lengths, wave_order = signal_sender.convert_bits_to_length(data_bytes, one_bit, zero_bit, header_signal,
                                                                         repeat_signal, trail_signal, n_repeat)
+
+    if all_wave_lengths is None:
+
+        # Function failed, so wave_order contains failure error code
+        ##################
+        return wave_order
+        ##################
 
     # Creates pigpio interface to send infrared signal
     ir = signal_sender.PigpioInterface(21, 38000, 0.5)

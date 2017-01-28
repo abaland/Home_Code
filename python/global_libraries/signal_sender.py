@@ -274,7 +274,7 @@ class PigpioInterface:
         """
 
         # Initializes connexion to pigpio module.
-        self.pigpio = None
+        self.pigpio = pigpio.pi()
 
         # Sets pin mode to output.
         self.pigpio.set_mode(gpio_pin, pigpio.OUTPUT)
@@ -288,30 +288,6 @@ class PigpioInterface:
     ###############
     # END __init__
     ###############
-
-    #
-    #
-    #
-
-    ####################################################################################################################
-    # clear_waves
-    ####################################################################################################################
-    # Revision History :
-    #   2017-01-25 AdBa : Function created
-    #   2017-01-27 AdBa : Added internal parameter all_wave_ids
-    ####################################################################################################################
-    def clear_waves(self):
-        """
-        Clears all registered waves in pigpio.
-        """
-
-        #######
-        return
-        #######
-
-    ##################
-    # END clear_waves
-    ##################
 
     #
     #
@@ -479,7 +455,15 @@ def convert_bits_to_length(all_data_bytes, one_bit, zero_bit, header_signal, rep
     """
 
     # Starts by merging all the bytes together to facilitate the loop through bits to come
+    if not isinstance(all_data_bytes, basestring):
+
+        details = 'all_data_bytes is not a string : %s' % (all_data_bytes,)
+        ##################################################################
+        return None, general_utils.log_error(-506, error_details=details)
+        ##################################################################
+
     full_data_signal = ''.join(all_data_bytes)
+
     data_signal_as_length = []
     # Then each data bit is converted into an (On, Off) sequence.
     for data_bit in full_data_signal:

@@ -235,6 +235,12 @@ class PikaConnectorManager:
                 self.test_rabbitmq_node_activity()
                 continue
 
+            except pika.exceptions.ProbableAuthenticationError:
+
+                # Credentials given are wrong. Stop execution.
+                self.error_status = general_utils.log_error(-101, error_details=self.rabbit_server_parameters)
+                break
+
             except KeyError:
 
                 # Internal error in pika when connection drops between self.connection and self.channel assignments.

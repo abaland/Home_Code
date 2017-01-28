@@ -31,11 +31,12 @@ all_error_messages = {
     ##################
     # RabbitMQ server
     ##################
+    -101: 'Rabbit credentials wrong.',
     -106: 'Failed to acknowledge the message.',
     -108: 'Failed to stop consumption from bound queues.',
-    ###########
+    #######
     # LXML
-    ###########
+    #######
     -200: 'Failed to interpret worker response as xml tree.',
     -201: 'Response was not supposed to be received by the worker.',
     -202: 'Response was already received from that worker.',
@@ -85,6 +86,7 @@ all_error_messages = {
     -503: 'Could not create wave with given pulses.',
     -504: 'Wave id to send is nost listed in available wave ids.',
     -505: 'Argument for configuration is invalid.',
+    -506: 'Error in SignalSender.',
     ##########
     # General
     ##########

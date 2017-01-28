@@ -64,26 +64,27 @@ all_error_messages = {
     -410: 'Could not write file.',
     -411: 'Could not delete file.',
     -412: 'Missing/Wrong parameters value in config file.',
-    -413: 'Outlier filtered',
-    -414: 'Redundancy in sensors',
+    -413: 'Outlier filtered.',
+    -414: 'Redundancy in sensors.',
     -415: 'No sensors found in configuration file.',
     -416: 'Failed to parse heater information.',
     -417: 'Failed to control heaters.',
     -418: 'Could not load module.',
-    -419: 'Failed to connect to website',
+    -419: 'Failed to connect to website.',
     -420: 'Wrong warmup for sensor.',
-    -421: 'Could not read pin value',
-    -422: 'Could not set pin value',
-    -423: 'No valid sensor could be found',
-    -424: 'Missing measure from sensor',
+    -421: 'Could not read pin value.',
+    -422: 'Could not set pin value.',
+    -423: 'No valid sensor could be found.',
+    -424: 'Missing measure from sensor.',
     -425: 'Missing package for sensor.',
     ###########
     # Infrared
     ###########
-    -501: 'Remote name is not in available remotes',
-    -502: 'Button is not available for given remote.',
-    -503: 'Could not create wave with given pulses',
+    -501: 'Remote name is not in available remotes.',
+    -502: 'Too many/few arguments for remote information to send.',
+    -503: 'Could not create wave with given pulses.',
     -504: 'Wave id to send is nost listed in available wave ids.',
+    -505: 'Argument for configuration is invalid.',
     ##########
     # General
     ##########

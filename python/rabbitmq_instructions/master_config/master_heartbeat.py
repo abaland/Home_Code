@@ -108,9 +108,7 @@ def process_response(_, received_worker_message):
     timestamp = received_worker_message.get('timestamp')
     code_version = received_worker_message.get('version')
 
-    general_utils.log_message('CPU: %s%%. Timestamp: %s. Version: %s.' % (cpu_percentage,
-                                                                          timestamp,
-                                                                          code_version))
+    general_utils.log_message('CPU: %s%%. Timestamp: %s. Version: %s.' % (cpu_percentage, timestamp, code_version))
 
     #######
     return

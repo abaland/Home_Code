@@ -15,6 +15,7 @@ Finally, the signal concludes with a Trail (High, Low) of (440, 17100)
 # Import local packages
 ########################
 from python.global_libraries import signal_sender
+from python.global_libraries import general_utils
 
 ####################
 # Global parameters
@@ -74,6 +75,13 @@ def send_signal(remote_button):
     """
 
     data_bytes = all_codes.get(remote_button, None)
+
+    if data_bytes is None:
+
+        details = '%s' % (remote_button,)
+        ############################################################
+        return general_utils.log_error(-505, error_details=details)
+        ############################################################
 
     # Uses remote specific data and data_bytes information to get all sub-signals to create, and order in which to send
     #   them to get the full signal to send.

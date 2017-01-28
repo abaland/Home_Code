@@ -1,3 +1,6 @@
+########################
+# Import Global package
+########################
 import argparse
 
 
@@ -16,8 +19,8 @@ Remote_Name_To_Help = 'Remote to use.\n'
 argument_parser.add_argument('remote_name', action='store', type=str, help=Remote_Name_To_Help)
 
 # Framerate argument, integer
-Button_To_Press_Help = 'Button to press on remote.'
-argument_parser.add_argument('button', action='store', type=str, help=Button_To_Press_Help)
+Button_To_Press_Help = 'Button to press on remote or configuration to send through IR (for aircon).'
+argument_parser.add_argument('configuration', action='store', type=str, help=Button_To_Press_Help)
 
 # Timeout argument
 Timeout_Help = 'Number of seconds to wait for a response.\n'
@@ -47,7 +50,6 @@ def get_help_message(with_details=False):
 
     if with_details:
         
-        print('Uses irsend to send infrared signals.')
         argument_parser.print_help()
 
     #######
@@ -93,12 +95,12 @@ def get_message(rabbit_master_object, base_instruction_message, command_argument
 
     # Reads values to sends (combines defaults and user selections
     remote_to_use = parsed_command_arguments.remote_name
-    key_to_press = parsed_command_arguments.button
+    configuration_to_send = parsed_command_arguments.configuration
     remote_timeout = parsed_command_arguments.timeout
 
     # Creates camera instruction to send
     base_instruction_message.set('remote', remote_to_use)
-    base_instruction_message.set('button', key_to_press)
+    base_instruction_message.set('config', configuration_to_send)
     
     ####################################################################################
     return base_instruction_message, rabbit_master_object.parse_timeout(remote_timeout)

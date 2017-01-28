@@ -1,21 +1,33 @@
-#########################
-# Import Global Packages
-#########################
-from py_irsend import irsend
-import traceback  # Gets full information about unhandled exceptions
+#######################
+# Import Local package
+#######################
+from python.global_libraries import general_utils  # Generic functions
+from python.infrared_remote import aircon_driver
+from python.infrared_remote import bedroom_lights_driver
+from python.infrared_remote import living_lights_driver
+from python.infrared_remote import tv_remote_driver
+
 
 ###########################
 # Declare Global Variables
 ###########################
-from python.global_libraries import general_utils  # Generic functions
+target_to_driver = {
+    'aircon': aircon_driver,
+    'bed_light': bedroom_lights_driver,
+    'living_light': living_lights_driver,
+    'tv': tv_remote_driver
+}
 
 
 ####################################################################################################################
 # execute
 ####################################################################################################################
+# Revision History :
+#   2016-09-30 Adba : Function created
+####################################################################################################################
 def execute(_, instruction_as_xml, worker_base_response):
     """
-    Processes camera instruction
+    Processes infrared remote instruction
 
     INPUT:
          worker (Worker): worker instance
@@ -23,45 +35,42 @@ def execute(_, instruction_as_xml, worker_base_response):
          base_response (lxml.etree): base of worker response on which to build
 
     OUTPUT :
-         all_1wire_statuses (lxml.etree): worker response, with info about sensor on the one-wire bus
-
-    Revision History :
-        2016-09-30 Adba : Function created
+         (lxml.etree): worker response
     """
-    
+
     # Creates base response to be completed in instruction
     remote_control_response = worker_base_response
-    status_code = 1
 
-    # Gets value from message
+    # Gets name of remote to simulate.
     remote_to_use = instruction_as_xml.get('remote')
-    button_to_press = instruction_as_xml.get('button')
 
-    if remote_to_use is not None and button_to_press is not None:
+    # Retrieves appropriate driver using remote name.
+    appropriate_driver = target_to_driver.get(remote_to_use, None)
+    if appropriate_driver is not None:
 
+        # Retrieves the "button" to simulate (button name or full configuration information).
+        #   Example: for tv : 'Power', 'Mute', ....  for aircon : 'on,heat,25,strong,highest'
+        configuration_to_send = instruction_as_xml.get('config')
         try:
 
-            if remote_to_use not in irsend.list_remotes():
+            # Split the comma-separated info (only puts in array if button name)
+            configuration_splitted = configuration_to_send.split(',')
 
-                status_code = general_utils.log_error(-501, remote_to_use)
+            # Sends each element in the array as argument (button name or each of the full config parameter)
+            status_code = appropriate_driver.send_signal(*configuration_splitted)
 
-            elif button_to_press not in irsend.list_codes(remote_to_use):
+        except TypeError:
 
-                status_code = general_utils.log_error(-502, button_to_press)
+            # Failed to call function because number of arguments did not match
+            details = '(%s, %s)' % (remote_to_use, configuration_to_send)
+            status_code = general_utils.log_error(-502, error_details=details)
 
-            else:
+    else:
 
-                irsend.send_once(remote_to_use, [button_to_press])
-                status_code = 0
+        # Remote name did not exist in available remotes.
+        status_code = general_utils.log_error(-501, error_details=remote_to_use)
 
-        except Exception as unhandled_exception:
-
-            # Unforeseen exception has occured. Log it for analysis, with all information about where it happened
-            full_error_message = traceback.format_exc()
-            status_code = str(general_utils.log_error(-999,
-                                                      error_details=unhandled_exception,
-                                                      python_error_message=full_error_message))
-
+    # Puts status code in response.
     remote_control_response.set('status', str(status_code))
 
     ###############################

@@ -36,6 +36,7 @@ import copy
 # Import local Packages
 ########################
 from python.global_libraries import signal_sender
+from python.global_libraries import general_utils
 
 ####################
 # Global parameters
@@ -122,7 +123,8 @@ def compute_checksum(all_data_bytes):
 # convert_info_to_bits
 ########################################################################################################################
 # Revision History:
-#   19/01/2016 AB - Created function
+#   2017-01-19 AB - Created function
+#   2017-01-28 AB - Added Return None if not valid
 ########################################################################################################################
 def convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direction):
     """
@@ -144,78 +146,114 @@ def convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direc
     final_bytes = copy.deepcopy(base_signal)
 
     # Updates values related to on/off state.
-    value = '0'
     if is_turned_on == 'on':
 
-        value = '1'
+        on_value = '1'
 
-    final_bytes[5] = final_bytes[5][:5] + value + final_bytes[5][6:]
+    elif is_turned_on == 'off':
+
+        on_value = '0'
+
+    else:
+
+        #############
+        return False
+        #############
 
     # Updates values related to aircon mode (heat, cold, dry).
-    value = ['11', '11']
     if mode == 'heat':
 
-        value = ['10', '00']
+        mode_value = ['10', '00']
 
     elif mode == 'dry':
 
-        value = ['01', '10']
+        mode_value = ['01', '10']
 
-    final_bytes[6] = final_bytes[6][:3] + value[0] + final_bytes[6][5:]
-    final_bytes[8] = final_bytes[8][:1] + value[1] + final_bytes[8][3:]
+    elif mode == 'cold':
+
+        mode_value = ['11', '11']
+
+    else:
+
+        #############
+        return False
+        #############
 
     # Updates values related to aircon temperature (between 16 and 31 degrees).
-    value = '0110'
     if 15 < temperature < 32:
 
-        value = bin(temperature - 16)[2:].zfill(4)
+        temp_value = bin(temperature - 16)[2:].zfill(4)
 
-    final_bytes[7] = value + final_bytes[7][4:]
+    else:
+
+        #############
+        return False
+        #############
 
     # Updates value related to wind speed.
-    value = '00'
     if wind_speed == 'low':
 
-        value = '10'
+        speed_value = '10'
 
     elif wind_speed == 'middle':
 
-        value = '01'
+        speed_value = '01'
 
     elif wind_speed == 'high':
 
-        value = '11'
+        speed_value = '11'
 
-    final_bytes[9] = value + final_bytes[9][2:]
+    elif wind_speed == 'auto':
+
+        speed_value = '00'
+
+    else:
+
+        #############
+        return False
+        #############
 
     # Updates value related to wind direction.
-    value = '000'
     if wind_direction == 'lowest':
 
-        value = '100'
+        direction_value = '100'
 
     elif wind_direction == 'low':
 
-        value = '010'
+        direction_value = '010'
 
     elif wind_direction == 'middle':
 
-        value = '110'
+        direction_value = '110'
 
     elif wind_direction == 'high':
 
-        value = '001'
+        direction_value = '001'
 
     elif wind_direction == 'highest':
 
-        value = '011'
+        direction_value = '011'
 
     elif wind_direction == 'loop':
 
-        value = '111'
+        direction_value = '111'
 
-    final_bytes[9] = final_bytes[9][:3] + value + final_bytes[9][6:]
+    elif wind_direction == 'auto':
 
+        direction_value = '000'
+
+    else:
+
+        #############
+        return False
+        #############
+
+    final_bytes[5] = final_bytes[5][:5] + on_value + final_bytes[5][6:]
+    final_bytes[6] = final_bytes[6][:3] + mode_value[0] + final_bytes[6][5:]
+    final_bytes[8] = final_bytes[8][:1] + mode_value[1] + final_bytes[8][3:]
+    final_bytes[7] = temp_value + final_bytes[7][4:]
+    final_bytes[9] = speed_value + final_bytes[9][2:]
+    final_bytes[9] = final_bytes[9][:3] + direction_value + final_bytes[9][6:]
     final_bytes[17] = compute_checksum(final_bytes[:17])
 
     ###################
@@ -248,6 +286,13 @@ def send_signal(is_turned_on, mode, temperature, wind_speed, wind_direction):
     # Converts all options desired to the data bytes to send, in byte (8 bit-string) array form
     data_bytes = convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direction)
 
+    if data_bytes is None:
+
+        details = '(%s, %s, %s, %s, %s)' % (is_turned_on, mode, temperature, wind_speed, wind_direction)
+        ############################################################
+        return general_utils.log_error(-505, error_details=details)
+        ############################################################
+
     # Uses remote specific data and data_bytes information to get all sub-signals to create, and order in which to send
     #   them to get the full signal to send.
     all_wave_lengths, wave_order = signal_sender.convert_bits_to_length(data_bytes, one_bit, zero_bit, header_signal,
@@ -265,5 +310,3 @@ def send_signal(is_turned_on, mode, temperature, wind_speed, wind_direction):
 ##################
 # END send_signal
 ##################
-
-send_signal('on', 'heat', 25, 'auto', 'auto')

@@ -87,6 +87,7 @@ all_error_messages = {
     -504: 'Wave id to send is nost listed in available wave ids.',
     -505: 'Argument for configuration is invalid.',
     -506: 'Error in SignalSender.',
+    -507: 'Pigpio package error',
     ##########
     # General
     ##########

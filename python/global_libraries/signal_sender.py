@@ -326,7 +326,15 @@ class PigpioInterface:
             #######################################################################
 
         # Validates created wave and gets its corresponding id
-        wave_id = self.pigpio.wave_create()
+        try:
+
+            wave_id = self.pigpio.wave_create()
+
+        except pigpio.error as e:
+
+            ##########################################################################################
+            return general_utils.log_error(-507, error_details='wave_create', python_error_message=e)
+            ##########################################################################################
 
         # Updates internal parameters
         self.all_wave_ids.append(wave_id)

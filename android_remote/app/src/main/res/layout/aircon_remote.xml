@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.example.abaland.android_remote.MainActivity">
+
+    <Switch
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:id="@+id/Aircon_Power"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="38dp"
+            android:textOn="@string/on"
+            android:textOff="@string/off"
+            android:theme="@style/Base.Theme.AppCompat.DialogWhenLarge"/>
+
+    <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/Aircon_Power"
+            android:layout_marginTop="33dp"
+            android:id="@+id/seekBar"/>
+    <RadioGroup
+            android:id="@+id/Aircon_Mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/Aircon_Power"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="17dp" android:gravity="center">
+        <RadioButton
+                android:id="@+id/Aircon_Heater"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="@color/heater"
+                android:backgroundTint="@color/heater"
+                android:gravity="center_vertical|center_horizontal|center"/>
+        <RadioButton
+                android:id="@+id/Aircon_Dry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="@color/dry"/>
+        <RadioButton
+                android:id="@+id/Aircon_Cooler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="@color/cooler" android:translationX="50%"
+                android:layout_gravity="center_vertical|center_horizontal|center"
+                android:gravity="center_vertical|center_horizontal"/>
+    </RadioGroup>
+</RelativeLayout>

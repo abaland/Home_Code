@@ -24,4 +24,12 @@
     <string name="channeldown">Ch-</string>
     <string name="volumedown">Vol-</string>
     <string name="mute">Mute</string>
+    <string name="remote_ask">Choose a remote</string>
+    <string-array name="remote_list">
+        <item>Aircon living</item>
+        <item>Lights living</item>
+        <item>TV</item>
+    </string-array>
+    <string name="on">On</string>
+    <string name="off">Off</string>
 </resources>

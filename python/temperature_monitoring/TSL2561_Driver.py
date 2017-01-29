@@ -136,6 +136,11 @@ def get_measurements(address, _):
         # Something went wrong when retrieving the values. Log error.
         python.global_libraries.general_utils.log_error(-409, 'TSL2561', str(e))
 
+    except Exception as e:
+
+        # Something went wrong when retrieving values. Log error. Happened once with Exception 'Sensor is saturated'.
+        python.global_libraries.general_utils.log_error(-409, 'TSL2561', str(e))
+
     ##################
     return all_values
     ##################

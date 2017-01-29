@@ -485,7 +485,20 @@ def convert_bits_to_length(all_data_bytes, one_bit, zero_bit, header_signal, rep
             data_signal_as_length.extend(one_bit)
 
     # Creates all possible subsignals that can be sent through the full signal to transmit.
-    all_signal_types = [header_signal, data_signal_as_length, repeat_signal, trail_signal]
+    all_signal_types = []
+    if len(header_signal) > 0:
+
+        all_signal_types.append(header_signal)
+
+    all_signal_types.append(data_signal_as_length)
+
+    if len(repeat_signal) > 0:
+
+        all_signal_types.append(repeat_signal)
+
+    if len(trail_signal) > 0:
+
+        all_signal_types.append(trail_signal)
 
     # Initializes the repeat index value and starts looping
     sent_index = 0
@@ -493,20 +506,24 @@ def convert_bits_to_length(all_data_bytes, one_bit, zero_bit, header_signal, rep
     while sent_index <= n_repeat:
 
         # For every repeat, the signal first starts with the header part
-        signal_types_order.append(0)
+        if len(header_signal) > 0:
 
-        signal_types_order.append(1)
+            signal_types_order.append(all_signal_types.index(header_signal))
+
+        signal_types_order.append(all_signal_types.index(data_signal_as_length))
 
         # After the data bytes are all sent, the "repeat" information must be sent to signal the receiver the message
         #     will be repeated. If no repeat are necessary anymore, signal is complete.
-        if sent_index < n_repeat:
+        if sent_index < n_repeat and len(repeat_signal) > 0:
 
-            signal_types_order.append(2)
+            signal_types_order.append(all_signal_types.index(repeat_signal))
 
         sent_index += 1
 
     # Adds trailing signal after everything else is sent
-    signal_types_order.append(3)
+    if len(trail_signal) > 0:
+
+        signal_types_order.append(all_signal_types.index(trail_signal))
 
     ############################################
     return all_signal_types, signal_types_order

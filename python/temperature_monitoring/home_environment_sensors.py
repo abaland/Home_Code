@@ -929,10 +929,15 @@ def output_measures_to_web():
         for measurement in sensor_object['smoothed_average'].keys():
 
             # Gets value, and augments the string with '&fieldX=YY.YYY' , with X index and YY.YYY value. (ignore None)
-            measurement_value = float(sensor_object['smoothed_average'][measurement])
-            if measurement_value is not None:
+            try:
 
+                measurement_value = float(sensor_object['smoothed_average'][measurement])
                 all_fields_as_string += '&field%d=%0.3f' % (field_index, measurement_value)
+
+            except TypeError:
+
+                # Value was None, so could not be converted to float => ignore and move on to next measure.
+                pass
 
             # Increments field_index for following arguments
             field_index += 1

@@ -8,30 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.concurrent.TimeoutException;
-
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.Channel;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-
-    private ConnectionFactory factory = new ConnectionFactory();
-    private Connection connection;
-    private Channel channel;
     private HashMap<String, String> ButtonToInstructionMapping = new HashMap<>();
-
-    private String HostIp = "192.168.11.2";
-    private String RabbitUser = "username";
-    private String RabbitPassword = "password";
-    private String RabbitWorkerId = "living-room";
-    private String InstructionName = "remote_control";
-    private String RemoteName = "tv";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +53,6 @@ public class MainActivity extends AppCompatActivity {
         ButtonToInstructionMapping.put("Subs", "KEY_SUBTITLE");
         ButtonToInstructionMapping.put("Mute", "KEY_MUTE");
 
-        // Initializes connectionFactory parameters, to start connexions with server
-        factory.setHost(HostIp);
-        factory.setUsername(RabbitUser);
-        factory.setPassword(RabbitPassword);
     }
 
     @Override
@@ -100,28 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     * Converts the KeyToPressName into a XML-formatted instruction which presses that button
-     *
-     * @param KeyToPress Name of the key in the remote that must be pressed.
-     */
-    private String convertToXmlInstruction(String KeyToPress){
-
-        String Message_To_Send;
-
-        Message_To_Send = "<instruction" +
-                " type=\"" + InstructionName + "\"" +
-                " target=\"" + RabbitWorkerId + "\"" +
-                " remote=\"" + RemoteName + "\"" +
-                " button=\"" + KeyToPress + "\"" +
-                "/>";
-
-        ////////////////////////
-        return Message_To_Send;
-        ////////////////////////
-    }
-
-
-    /**
      * Applies appropriate function when button on GUI is clicked.
      *
      * Uses text on button and mapping created to get more information about what should be sent.
@@ -130,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
      */
     void onClickFunction(View v){
 
+        String RemoteName = "tv";
+
         // Casts button clicked as a Button instance, and gets its text content.
         Button clickedButton = (Button) v;
         String ButtonText = clickedButton.getText().toString();
@@ -137,89 +96,8 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(ButtonText);
         String KeyToPress = ButtonToInstructionMapping.get(ButtonText);
 
-        String MessageToSend = convertToXmlInstruction(KeyToPress);
-        publishMessage(MessageToSend);
-
-    }
-
-
-    /**
-     * Attempts to connect to the RabbitMQ server.
-     */
-    private void createRabbitChannel() {
-
-        // Attempts to connect to the server as long as the connection and channel could not be
-        // initialized
-        while (connection == null && channel == null) {
-
-            try {
-
-                // Initializes connection and channel with the RabbitMQ server.
-                connection = factory.newConnection();
-                channel = connection.createChannel();
-
-            } catch (IOException | TimeoutException e) {
-
-                // Connection failed. Prints exception, resets parameters, and waits before retry.
-                e.printStackTrace();
-
-                connection = null;
-                channel = null;
-
-                try {
-
-                    Thread.sleep(3000);
-
-                } catch (InterruptedException e1) {
-
-                    // Waiting phase was interrupted. Retry immediately
-                    e1.printStackTrace();
-                }
-            }
-        }
-    }
-
-
-    /**
-     * Sends message to workers through RabbitMQ.
-     *
-     * @param MessageToSend Message to send through RabbitMQ
-     */
-    private void publishMessage(final String MessageToSend) {
-
-        Thread publishThread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                // Resets parameters if the channel is closed.
-                if (channel != null && channel.isOpen()){
-
-                    connection = null;
-                    channel = null;
-
-                }
-
-                // Creates connexion with RabbitMQ server if it did not exist already.
-                createRabbitChannel();
-
-                // Sends message
-                try {
-                    System.out.println(MessageToSend);
-
-                    channel.confirmSelect();
-                    channel.basicPublish("ex", InstructionName, false, null, MessageToSend.getBytes());
-
-                } catch (IOException e) {
-
-                    System.out.println("Could not initiate connection.");
-                    e.printStackTrace();
-
-                }
-            }
-        });
-
-        publishThread.start();
+        Rabbit_Manager rabbit_manager = new Rabbit_Manager();
+        rabbit_manager.publishMessage(RemoteName, KeyToPress);
 
     }
 

@@ -20,6 +20,8 @@
 
 
     <include
-        layout="@layout/content_tv_remote"/>
+            layout="@layout/aircon_remote"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
 
 </android.support.design.widget.CoordinatorLayout>

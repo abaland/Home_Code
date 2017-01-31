@@ -25,11 +25,10 @@
     <string name="volumedown">Vol-</string>
     <string name="mute">Mute</string>
     <string name="remote_ask">Choose a remote</string>
-    <string-array name="remote_list">
-        <item>Aircon living</item>
-        <item>Lights living</item>
-        <item>TV</item>
-    </string-array>
     <string name="on">On</string>
     <string name="off">Off</string>
+    <string name="send">Send</string>
+    <string name="暖">暖</string>
+    <string name="湿">暖</string>
+    <string name="冷">暖</string>
 </resources>

@@ -13,5 +13,15 @@
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="Widget.AppCompat.SeekBar.Discrete_Modified" parent="Widget.AppCompat.SeekBar.Discrete">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:buttonTint">@color/dry</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:max">15</item>
+        <item name="android:thumb">@drawable/thumb</item>
+        <item name="android:tickMark">@drawable/tickmark</item>
+    </style>
 
 </resources>

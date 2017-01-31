@@ -1,0 +1,22 @@
+<resources>
+    <string-array name="remote_list">
+        <item>Aircon living</item>
+        <item>Lights living</item>
+        <item>TV</item>
+    </string-array>
+    <string-array name="wind_speed_list">
+        <item>Auto</item>
+        <item>Weak</item>
+        <item>Middle</item>
+        <item>Strong</item>
+    </string-array>
+    <string-array name="wind_direction_list">
+        <item>Auto</item>
+        <item>Loop</item>
+        <item>Lowest</item>
+        <item>Low</item>
+        <item>Middle</item>
+        <item>High</item>
+        <item>Highest</item>
+    </string-array>
+</resources>

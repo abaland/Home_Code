@@ -3,12 +3,12 @@
 This repository contains all codes related to monitoring and controlling my home environment with the help of Raspberry 
 Pis, which includes : 
 * Monitor temperature and luminosity;
-* Controls TV through android phone from anywhere in the house using a RabbitMQ server to send messages inside the 
+* Controls TV and aircon (also Infared controlled) through android phone from anywhere in the house using a RabbitMQ server to send messages inside the 
 network and a Raspberry Pis located next to the TV with an infrared emitter to actually send the instructions.
   
   Future plans : 
-  * Extend this to control the lights (also Infrared controlled) : missing android-part
-  * Extend this to control aircon system in the house : aircon remote control signal decryption (phase 1) finished.
+  * Extend this to control the lights (also Infrared controlled) : code written, not tested yet.
+  * Extend android interface with small features and switch between different controlled object.
   * Add iPhone control instead of Android-only : not started.
 
 * Ensures that hardware failure in the Raspberry will not result in data loss with daily automated backups to a mounted
@@ -27,13 +27,15 @@ The following sections detail a bit more the different folders in this repositor
 
 Creates the whole android-GUI to send instruction to a RabbitMQ server.
 
-Only contain the TV remote controls in the current phase. No work has been made on whether the connexion drops or 
+Only contain the aircon remote control in the current phase. No work has been made on whether the connexion drops or 
 anything so the app might crash easily.
 
 Future plans : 
-  * Add support for remotes other than the TV : not started.
+  * Add support for remotes other than the aircon : not started.
   * Improve code stability : not started.
   * Remove hard-coded parameters for RabbitMQ connection and replace it by a log-in screen : not started.
+  * Add preferences for interface (to remember latest config sent for aircon)
+  * Add theme for interface
 
 ### bash
 
@@ -52,7 +54,6 @@ Contains all configuration file use by the Pi for its various purposes.
 This includes : 
    * All .conf files used by lirc (Linux Infrared Remote Control) to send infra-red signals.
    * Configuration file to connect to RabbitMQ server.
-   * Configuration file listing sensor (temperature, luminosity, ...) connected to Pi, for environment monitoring.
 
 ### data
 
@@ -72,8 +73,14 @@ All python scripts use through this projects.
 Contains all relatively-general functions used by the other python scripts. This includes : 
 * Drivers for all of the supported sensors (luminosity, temperature) that have been implemented.
 * Code to handle interaction with RabbitMQ server (initiating connection, consuming, publishing, ...)
+* Code th handle creation of generic infrared signal using the pigpio library.
 * Some small fault-tolerant generic functions.
 * A logger function that log any warning/message to /var/log/syslog, /var/log/user.log and the command prompt.
+
+##### infrared_remote
+
+Contains python code to send aircon/tv/lights-relevant infrared command. Each script contains some hard-coded parameters
+that are hardware-dependent, and these parameters are used to obtain the full infrared signal to send.
 
 ##### instruction_gui
 
@@ -85,9 +92,6 @@ the expedition, reception and processing of messages was successfull.
 Contains various scripts that fit in one relatively small python file but did not deserve a folder. Includes : 
 * Script that goes through a Facebook-generated (.htm) message history (contain all of a person's conversation history) and return
 messages sent by a given individual and contain a given substring.
-* Script that converts raw infra-red signals received (sequence of pulse-lengths and space-lengths) into the binary
-signals that it should be interpreted as by the aircon. This is in order to analyze which settings of an aircon command 
-correspond to which part of the signal, in order to send custom signals.
 
 ##### rabbitmq_instructions
 

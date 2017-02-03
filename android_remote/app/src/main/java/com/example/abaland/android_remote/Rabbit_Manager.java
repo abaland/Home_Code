@@ -36,7 +36,7 @@ class Rabbit_Manager {
      * @param ConfigToSend Key that must be pressed
      */
     private String convertToXmlInstruction(String RemoteName, String ConfigToSend){
-        String RabbitWorkerId = "living-room";
+        String RabbitWorkerId = "living-pi";
 
         String Message_To_Send;
 

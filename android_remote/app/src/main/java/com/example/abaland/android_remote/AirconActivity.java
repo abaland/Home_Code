@@ -95,24 +95,24 @@ public class AirconActivity extends AppCompatActivity {
 
             case  0:
 
-                findViewById(R.id.Aircon_Heater).setSelected(true);
+                airconModeRadio.check(R.id.Aircon_Heater);
                 break;
 
             case 1:
 
-                findViewById(R.id.Aircon_Dry).setSelected(true);
+                airconModeRadio.check(R.id.Aircon_Dry);
                 break;
 
             case 2:
 
-                findViewById(R.id.Aircon_Cooler).setSelected(true);
+                airconModeRadio.check(R.id.Aircon_Cooler);
                 break;
 
         }
 
         // Sets progress bar for temperature (and related text). Converts from real [16, 31] range to GUI [0, 15].
         airconTemperatureSeekBar.setProgress(airconTemperature - 16);
-        airconTemperatureText.setText(String.format(Locale.US, "%d", airconTemperature - 16));
+        airconTemperatureText.setText(String.format(Locale.US, "%d", airconTemperature));
 
         // Assigns both spinners for fan speed/direction.
         fanSpeedSpinner.setSelection(fanSpeedIndex);
@@ -145,10 +145,28 @@ public class AirconActivity extends AppCompatActivity {
         airconModeRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             @Override
-            public void onCheckedChanged (RadioGroup group,int checkedId){
+            public void onCheckedChanged (RadioGroup group, int checkedId){
 
                 // Updates internal parameter
-                airconModeIndex = checkedId;
+                switch(checkedId) {
+
+                    case R.id.Aircon_Heater:
+
+                        airconModeIndex = 0;
+                        break;
+
+                    case R.id.Aircon_Dry:
+
+                        airconModeIndex = 1;
+                        break;
+
+                    case R.id.Aircon_Cooler:
+
+                        airconModeIndex = 2;
+                        break;
+
+                }
+
                 Log.v("Aircon", getConfigAsString());
 
             }

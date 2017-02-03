@@ -29,6 +29,6 @@
     <string name="off">Off</string>
     <string name="send">Send</string>
     <string name="暖">暖</string>
-    <string name="湿">暖</string>
-    <string name="冷">暖</string>
+    <string name="湿">湿</string>
+    <string name="冷">冷</string>
 </resources>

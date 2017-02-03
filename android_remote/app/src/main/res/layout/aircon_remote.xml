@@ -42,88 +42,83 @@
         android:layout_gravity="center"
         android:gravity="center">
 
-        <LinearLayout
+        <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+        <RadioButton
+                android:id="@+id/Aircon_Heater"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:buttonTint="@color/heater"
+        />
 
-            <RadioButton
-                    android:id="@+id/Aircon_Heater"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:buttonTint="@color/heater"
-            />
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/暖"
-                    android:textAppearance="@android:style/TextAppearance.Material"
-                    android:textSize="20sp"
-                    android:textColor="@color/heater"
-            />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:text="@string/暖"
+                android:textSize="20sp"
+                android:textAppearance="@android:style/TextAppearance.Material"
+                android:textColor="@color/heater"
+        />
 
-            <RadioButton
-                    android:id="@+id/Aircon_Dry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:buttonTint="@color/dry"
-            />
+        <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/湿"
-                    android:textAppearance="@android:style/TextAppearance.Material"
-                    android:textSize="20sp"
-                    android:textColor="@color/dry"
-            />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <RadioButton
+                android:id="@+id/Aircon_Dry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:buttonTint="@color/dry"
+        />
 
-            <RadioButton
-                    android:id="@+id/Aircon_Cooler"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:buttonTint="@color/cooler"
-            />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/湿"
+                android:textAppearance="@android:style/TextAppearance.Material"
+                android:textSize="20sp"
+                android:textColor="@color/dry"
+        />
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/冷"
-                    android:textAppearance="@android:style/TextAppearance.Material"
-                    android:textSize="20sp"
-                    android:textColor="@color/cooler"
-            />
+        <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
 
-        </LinearLayout>
+        <RadioButton
+                android:id="@+id/Aircon_Cooler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:buttonTint="@color/cooler"
+        />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/冷"
+                android:textAppearance="@android:style/TextAppearance.Material"
+                android:textSize="20sp"
+                android:textColor="@color/cooler"
+        />
+
+        <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
 
     </RadioGroup>
+
+
 
     <!-- Aircon temperature slider -->
     <LinearLayout
@@ -178,6 +173,8 @@
         />
 
     </LinearLayout>
+
+    <View android:layout_width="20dp" android:layout_height="20dp"/>
 
     <LinearLayout
             android:layout_width="match_parent"

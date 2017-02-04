@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         ButtonToInstructionMapping.put("Left", "KEY_LEFT");
         ButtonToInstructionMapping.put("Ok", "KEY_OK");
         ButtonToInstructionMapping.put("Right", "KEY_RIGHT");
-        ButtonToInstructionMapping.put("Bottom", "KEY_DOWN");
+        ButtonToInstructionMapping.put("Down", "KEY_DOWN");
         ButtonToInstructionMapping.put("1", "KEY_NUMERIC_1");
         ButtonToInstructionMapping.put("2", "KEY_NUMERIC_2");
         ButtonToInstructionMapping.put("3", "KEY_NUMERIC_3");

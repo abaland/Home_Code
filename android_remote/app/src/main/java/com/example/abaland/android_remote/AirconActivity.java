@@ -13,9 +13,6 @@ import android.widget.*;
 import java.util.HashMap;
 import java.util.Locale;
 
-import android.util.Log;
-
-
 public class AirconActivity extends AppCompatActivity {
 
     // GUI Objects
@@ -134,7 +131,6 @@ public class AirconActivity extends AppCompatActivity {
 
                 // Updates internal parameter
                 airconState = isChecked;
-                Log.v("Aircon", getConfigAsString());
 
             }
 
@@ -167,8 +163,6 @@ public class AirconActivity extends AppCompatActivity {
 
                 }
 
-                Log.v("Aircon", getConfigAsString());
-
             }
 
         });
@@ -188,7 +182,6 @@ public class AirconActivity extends AppCompatActivity {
 
                 // Updates internal parameter
                 airconTemperature = progress + 16;
-                Log.v("Aircon", getConfigAsString());
 
                 // Updates text GUI element with current temperature
                 airconTemperatureText.setText(String.valueOf(airconTemperature));
@@ -206,7 +199,7 @@ public class AirconActivity extends AppCompatActivity {
 
                 // Updates internal parameter
                 fanSpeedIndex = position;
-                Log.v("Aircon", getConfigAsString());
+
             }
 
             @Override
@@ -223,7 +216,7 @@ public class AirconActivity extends AppCompatActivity {
 
                 // Updates internal parameter
                 fanDirectionIndex = position;
-                Log.v("Aircon", getConfigAsString());
+
             }
 
             @Override
@@ -239,11 +232,10 @@ public class AirconActivity extends AppCompatActivity {
             public void onClick(View v){
 
                 String RemoteName = "aircon";
-                Log.v("Aircon", getConfigAsString());
 
                 // Casts button clicked as a Button instance, and gets its text content.
                 Rabbit_Manager rabbit_manager = new Rabbit_Manager();
-                rabbit_manager.publishMessage(RemoteName, getConfigAsString());
+                rabbit_manager.publishMessage(RemoteName, getConfigAsString(), AirconActivity.this);
 
             }
 
@@ -263,7 +255,6 @@ public class AirconActivity extends AppCompatActivity {
         ////////////////
         // Start added.
         ////////////////
-        Log.v("Aircon", getConfigAsString());
 
         // Initializes the mapping of index-to-value for the only hashmap existing
         airconStateMapping.put(false, "off");

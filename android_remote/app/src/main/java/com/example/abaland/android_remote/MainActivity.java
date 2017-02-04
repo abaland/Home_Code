@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         String KeyToPress = ButtonToInstructionMapping.get(ButtonText);
 
         Rabbit_Manager rabbit_manager = new Rabbit_Manager();
-        rabbit_manager.publishMessage(RemoteName, KeyToPress);
+        rabbit_manager.publishMessage(RemoteName, KeyToPress, MainActivity.this);
 
     }
 

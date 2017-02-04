@@ -4,6 +4,8 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
+import android.support.v7.app.AppCompatActivity;
+
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
@@ -27,6 +29,7 @@ class Rabbit_Manager {
         factory.setHost(HostIp);
         factory.setUsername(RabbitUser);
         factory.setPassword(RabbitPassword);
+
     }
 
     /**
@@ -36,6 +39,7 @@ class Rabbit_Manager {
      * @param ConfigToSend Key that must be pressed
      */
     private String convertToXmlInstruction(String RemoteName, String ConfigToSend){
+
         String RabbitWorkerId = "living-pi";
 
         String Message_To_Send;
@@ -50,44 +54,46 @@ class Rabbit_Manager {
         ////////////////////////
         return Message_To_Send;
         ////////////////////////
+
     }
 
 
 
     /**
      * Attempts to connect to the RabbitMQ server.
+     *
+     * @param context Activity that called the publishMessage function
+     * @return whether creation of channel was successfull or not.
      */
-    private void createRabbitChannel() {
+    private boolean createRabbitChannel(AppCompatActivity context) {
 
-        // Attempts to connect to the server as long as the connection and channel could not be
-        // initialized
-        while (connection == null && channel == null) {
+        // Attempts to connect to the server (only one attempt)
+        try {
 
-            try {
+            // Initializes connection and channel with the RabbitMQ server.
+            connection = factory.newConnection();
+            channel = connection.createChannel();
 
-                // Initializes connection and channel with the RabbitMQ server.
-                connection = factory.newConnection();
-                channel = connection.createChannel();
+            // Succeeded : return true.
+            /////////////
+            return true;
+            /////////////
 
-            } catch (IOException | TimeoutException e) {
+        } catch (IOException | TimeoutException e) {
 
-                // Connection failed. Prints exception, resets parameters, and waits before retry.
-                e.printStackTrace();
 
-                connection = null;
-                channel = null;
+            // Connection failed. Prints exception, resets parameters, and returns failure status.
+            new CustomLogger("Rabbit", "Could not create Rabbit channel : " + e.getMessage(), context, true);
 
-                try {
+            connection = null;
+            channel = null;
 
-                    Thread.sleep(3000);
+            //////////////
+            return false;
+            //////////////
 
-                } catch (InterruptedException e1) {
-
-                    // Waiting phase was interrupted. Retry immediately
-                    e1.printStackTrace();
-                }
-            }
         }
+
     }
 
 
@@ -96,8 +102,9 @@ class Rabbit_Manager {
      *
      * @param RemoteName Name of the remote according to rabbitmq
      * @param ConfigToSend Key that must be pressed
+     * @param context Activity that called the publishMessage function
      */
-    void publishMessage(String RemoteName, String ConfigToSend) {
+    void publishMessage(String RemoteName, String ConfigToSend, final AppCompatActivity context) {
 
         final String MessageToSend = convertToXmlInstruction(RemoteName, ConfigToSend);
 
@@ -115,22 +122,25 @@ class Rabbit_Manager {
                 }
 
                 // Creates connexion with RabbitMQ server if it did not exist already.
-                createRabbitChannel();
+                if (createRabbitChannel(context)) {
 
-                // Sends message
-                try {
-                    System.out.println(MessageToSend);
+                    // Sends message.
+                    try {
 
-                    channel.confirmSelect();
-                    channel.basicPublish("ex", InstructionName, false, null, MessageToSend.getBytes());
+                        channel.confirmSelect();
+                        channel.basicPublish("ex", InstructionName, false, null, MessageToSend.getBytes());
 
-                } catch (IOException e) {
+                    } catch (IOException e) {
 
-                    System.out.println("Could not initiate connection.");
-                    e.printStackTrace();
+                        // Failed to publish message. Log error and stops
+                        new CustomLogger("Rabbit", "Could not send rabbitmq message. Giving up : " + e.getMessage(), context, true);
+
+                    }
 
                 }
+
             }
+
         });
 
         publishThread.start();

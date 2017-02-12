@@ -23,6 +23,7 @@ import ConfigParser  # Reads configuration files for sensor plugged into Raspber
 import os  # Allows file creation/deletion (for output values)
 import time  # Measures when to print output, collect samples, ...
 import urllib2  # Connects to website to post measured data
+import traceback  # Catches unhandled errors to improve code
 
 import BME280_Driver  # BME280 Sensor. Extension to official Adafruit module
 import DHT11_Driver  # DHT11 Sensor
@@ -976,6 +977,7 @@ def main():
     """
 
     script_class_name = 'Home-Monitoring'
+    general_utils.setup_log_file('/var/log/home_monitoring.log', script_class_name)
 
     # Prints welcome message
     general_utils.get_welcome_end_message(script_class_name, is_start=True)
@@ -1057,4 +1059,13 @@ def main():
 ###########
 
 if __name__ == "__main__":
-    main()
+
+    # The code will stops but will log the error message to know what went wrong
+    try:
+
+        main()
+
+    except Exception as unhandled_exception:
+
+        error_details = traceback.format_exc(limit=None)
+        general_utils.log_error(-999, error_details=error_details, python_error_message=str(unhandled_exception))

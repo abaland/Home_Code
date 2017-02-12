@@ -5,11 +5,15 @@ from lxml import etree  # Converts some of the message (in a xml format) to a xm
 import os
 import syslog
 import time
+import logging
+import logging.handlers
 
 
 __author__ = 'Adrien Baland'
 __version__ = '1.0.2'
 
+
+custom_logger = None
 
 all_error_messages = {
     # Loading / Input interpretation
@@ -91,10 +95,117 @@ all_error_messages = {
     ##########
     # General
     ##########
+    -996: 'Custom logger did not have correct permissions.',
     -997: 'Failed to reboot worker.',
     -998: 'Interrupted by user.',
     -999: 'Others.'
 }
+
+
+########################################################################################################################
+# setup_log_file
+########################################################################################################################
+def setup_log_file(log_file_url, logger_name):
+    """
+    Sets up an custom log file (instead of default syslog) for error messages.
+
+    INPUT:
+        log_file_url (str) : Candidate url to use for custom log file
+    """
+
+    parent_folder = os.path.dirname(log_file_url)
+
+    # Creates necessary directories if they did not exist already
+    if not os.path.exists(parent_folder):
+
+        try:
+
+            # Creates directories recursively to reach desired address
+            os.makedirs(parent_folder)
+
+        except OSError as e:
+
+            # Could not create all directories, so stop code execution
+            ##############################################################
+            return log_error(-410, parent_folder, str(e))
+            ##############################################################
+
+    # Parent folder has been created or already existed. Checks if write permission for log file
+    if os.access(log_file_url, os.W_OK | os.X_OK):
+
+        # Permissions ok, assign the custom logger
+        global custom_logger
+        custom_logger = logging.getLogger(logger_name)
+        custom_logger.setLevel(logging.DEBUG)
+
+        # create console handler and set level to debug
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.DEBUG)
+
+        # create formatter
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+
+        # Add the log message handler to the logger
+        handler = logging.handlers.TimedRotatingFileHandler(log_file_url, when='D', interval=7, backupCount=5)
+        handler.setFormatter(formatter)
+        custom_logger.addHandler(handler)
+
+        #########
+        return 0
+        #########
+
+    # Permissions were not valid, so log error and give up (will be put in syslog)
+    #####################################
+    return log_error(-996, log_file_url)
+    #####################################
+
+#####################
+# END setup_log_file
+#####################
+
+
+########################################################################################################################
+# write_to_log
+########################################################################################################################
+def write_to_log(message, error_level):
+    """
+    Writes a message into the log with the appropriate level (info, error, warning).
+    If no custom logger have been setup, message is printed to syslog
+
+    INPUT:
+        message (str) : Message to log
+        error_level ({'info','error','warning'})
+    """
+
+    print(message)
+    if custom_logger is None:
+
+        syslog.syslog(message)
+
+    elif error_level == 'error':
+
+        custom_logger.error(message)
+
+    elif error_level == 'warning':
+
+        custom_logger.warning(message)
+
+    elif error_level == 'info':
+
+        custom_logger.info(message)
+
+    else:
+
+        # Unhandled case : go back to default syslog.
+        syslog.syslog(message)
+
+    #########
+    return 0
+    #########
+
+###################
+# END write_to_log
+###################
 
 
 ########################################################################################################################
@@ -112,9 +223,7 @@ def test_fatal_error(class_instance, class_title):
     if class_instance.error_status != 0:
 
         # Fatal error occurred
-        print('A fatal error has occured.')
-        syslog.syslog('A fatal error has occured')
-        
+        write_to_log('A fatal error has occured.', 'error')
         get_welcome_end_message(class_title, False)
         
         exit(1)
@@ -149,8 +258,7 @@ def get_welcome_end_message(class_title, is_start):
                                                             str(convert_localtime_to_string(time.localtime())),
                                                             str(__version__))
 
-    print(message_to_print)
-    syslog.syslog(str(message_to_print))
+    write_to_log(message_to_print, 'info')
 
     #######
     return
@@ -186,18 +294,15 @@ def log_error(error_code, error_details=None, python_error_message=None):
 
     base_error_message = all_error_messages.get(error_code, 'Unlisted error')
 
-    print('ERROR %d : %s.' % (error_code, base_error_message))
-    syslog.syslog('ERROR %d : %s.' % (error_code, base_error_message))
+    write_to_log('ERROR %d : %s.' % (error_code, base_error_message), 'error')
 
     if error_details is not None:
 
-        print(str(error_details) + '.')
-        syslog.syslog(str(error_details) + '.')
-    
+        write_to_log(str(error_details) + '.', 'error')
+
     if python_error_message is not None:
 
-        print(str(python_error_message))
-        syslog.syslog(str(python_error_message))
+        write_to_log(str(python_error_message), 'error')
 
     ##################
     return error_code
@@ -231,8 +336,7 @@ def log_message(message_to_log):
 
     if message_to_log is not None:
 
-        print(str(message_to_log))
-        syslog.syslog(str(message_to_log))
+        write_to_log(str(message_to_log), 'warning')
 
     #######
     return

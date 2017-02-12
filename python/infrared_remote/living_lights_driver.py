@@ -29,24 +29,24 @@ __author__ = 'Baland Adrien'
 # Signal parameters
 header_signal = []  # Header of signal, before any data bit (On, Off)
 
-one_bit = [1300, 400]  # Length for 1-data bit (On, Off)
-zero_bit = [400, 1300]  # Length for 0-data bit (Off)
+one_bit = [1300, 380]  # Length for 1-data bit (On, Off)
+zero_bit = [450, 1220]  # Length for 0-data bit (Off)
 
-n_repeat = 1  # Number of time the signal will be repeated. If > 0, repeat must be non-empty
-repeat_signal = [450, 22700]  # (On, Off) separating signal repetition.
-trail_signal = [450, 22700]  # (On, Off) to notify the end of the signal
+n_repeat = 3  # Number of time the signal will be repeated. If > 0, repeat must be non-empty
+repeat_signal = [460, 22700]  # (On, Off) separating signal repetition.
+trail_signal = [460, 22700]  # (On, Off) to notify the end of the signal
 
 all_codes = {
-    'Power': '11010000010',
+    'Power':   '11010000010',
     'Bright+': '11010000100',
     'Bright-': '11010010000',
-    'Yellow': '11010010100',
-    'White': '11010011000',
+    'Yellow':  '11010010100',
+    'White':   '11010011000',
     'Minimum': '11010001100',
     'Maximum': '11010001000',
-    'A': '11010011100',
-    'B': '11010010010',
-    'Mute': '11010010001'
+    'A':       '11010011100',
+    'B':       '11010010010',
+    'Mute':    '11010010001'
 }
 
 

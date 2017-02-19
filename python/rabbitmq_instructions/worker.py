@@ -718,6 +718,7 @@ class RabbitWorker:
 ####################################################################################################################
 # Revision History :
 #   2016-11-26 AB : Function created
+#   2017-02-17 AB - Added custom log file
 ####################################################################################################################
 def main(args):
     """
@@ -727,35 +728,38 @@ def main(args):
          args (str array) : command line arguments, should be [#workerId]
     """
 
-    class_name = 'Worker'
-    general_utils.get_welcome_end_message(class_name, True)
+    script_class_name = 'Worker'
+    general_utils.setup_log_file('/var/log/rabbitmq/worker.log', script_class_name)
+
+    # Prints welcome message
+    general_utils.get_welcome_end_message(script_class_name, True)
 
     # Creates worker and establishes connexion with the RabbitMQ server
     rabbit_worker_instance = RabbitWorker(rabbit_configuration_filename)
-    general_utils.test_fatal_error(rabbit_worker_instance, class_name)
+    general_utils.test_fatal_error(rabbit_worker_instance, script_class_name)
 
     # Sets the exchange to use for transactions
     rabbit_worker_instance.set_exchange('ex')
-    general_utils.test_fatal_error(rabbit_worker_instance, class_name)
+    general_utils.test_fatal_error(rabbit_worker_instance, script_class_name)
     
     # Reads the workerId provided. If none provided, there is nothing to do, so stop the code
     rabbit_worker_instance.parse_arguments(args)
-    general_utils.test_fatal_error(rabbit_worker_instance, class_name)
+    general_utils.test_fatal_error(rabbit_worker_instance, script_class_name)
 
     # Gets the keys for the relevant queues based on the workerId
     rabbit_worker_instance.get_valid_instructions()
     
     # Links the worker to all relevant queues
     rabbit_worker_instance.link_queue_to_worker()
-    general_utils.test_fatal_error(rabbit_worker_instance, class_name)
+    general_utils.test_fatal_error(rabbit_worker_instance, script_class_name)
 
     # Makes the worker start waiting for messages
     rabbit_worker_instance.pika_connector.start_consume()
 
     # If we reach this end, Worker stopped consuming. Either worker stopped, or an error occured
-    general_utils.test_fatal_error(rabbit_worker_instance, class_name)
+    general_utils.test_fatal_error(rabbit_worker_instance, script_class_name)
         
-    general_utils.get_welcome_end_message('Worker', False)
+    general_utils.get_welcome_end_message(script_class_name, False)
     exit(0)
 
 ####################################################################################################################

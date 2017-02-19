@@ -1,14 +1,28 @@
+########################
+# Import Local Packages
+########################
+
+from python.global_libraries import general_utils  # Prints starting/ending message as well as all errors messages
+
 #########################
 # Import global packages
 #########################
 
-from sense_hat import SenseHat  # Controls sensehat part on Raspberry
+try:
+
+    from sense_hat import SenseHat  # Controls sensehat part on Raspberry
+
+except ImportError as ex:
+
+    # If package not installed, log error and cancel tsl2561 object
+    SenseHat = None
+    error_details = 'Is sensehat package installed (pip)?'
+    general_utils.log_error(-425, error_details, ex)
 
 ########################
 # Import local packages
 ########################
 
-from python.global_libraries import general_utils  # Prints starting/ending message as well as all errors messages
 
 __author__ = 'Baland Adrien'
 
@@ -101,17 +115,19 @@ def get_measurements(address, temperature_correction):
         'pressure': None
     }
 
-    try:
-        # Gets all measurements from Sensehat, and applies correction
-        sense = SenseHat()
-        all_values['temperature'] = sense.get_temperature() + temperature_correction
-        all_values['humidity'] = sense.get_humidity()
-        all_values['pressure'] = sense.get_pressure()
+    if SenseHat is not None:
 
-    except Exception as e:
+        try:
+            # Gets all measurements from Sensehat, and applies correction
+            sense = SenseHat()
+            all_values['temperature'] = sense.get_temperature() + temperature_correction
+            all_values['humidity'] = sense.get_humidity()
+            all_values['pressure'] = sense.get_pressure()
 
-        # Something went wrong when retrieving the values. Log error.
-        general_utils.log_error(-409, 'Sensehat', str(e))
+        except Exception as e:
+
+            # Something went wrong when retrieving the values. Log error.
+            general_utils.log_error(-409, 'Sensehat', str(e))
 
     ##################
     return all_values

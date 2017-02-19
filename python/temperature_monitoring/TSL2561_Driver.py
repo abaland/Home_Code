@@ -2,19 +2,27 @@
 ########################
 # Import Local Packages
 ########################
-import python.global_libraries.general_utils
+from python.global_libraries import general_utils
 
 #########################
 # Import global packages
 #########################
 try:
-    import tsl2561  # If not install,
+    import tsl2561
 
-except ImportError:
+except ImportError as ex:
 
+    # If package not installed, log error and cancel tsl2561 object
     tsl2561 = None
-    python.global_libraries.general_utils.log_error(-425, 'TSL2561')
-    python.global_libraries.general_utils.log_message('Is tsl2561 package installed (pip)?')
+    error_details = 'Is TSL2561 package installed (pip)?'
+    general_utils.log_error(-425, error_details, ex)
+
+except SyntaxError as ex:
+
+    # If package exists but raises syntax error, first
+    tsl2561 = None
+    error_details = 'Check TSL2561 package and remove first import __future__ line'
+    general_utils.log_error(-425, error_details, ex)
 
 ########################
 # Import local packages
@@ -134,12 +142,12 @@ def get_measurements(address, _):
     except IOError as e:
 
         # Something went wrong when retrieving the values. Log error.
-        python.global_libraries.general_utils.log_error(-409, 'TSL2561', str(e))
+        general_utils.log_error(-409, 'TSL2561', str(e))
 
     except Exception as e:
 
         # Something went wrong when retrieving values. Log error. Happened once with Exception 'Sensor is saturated'.
-        python.global_libraries.general_utils.log_error(-409, 'TSL2561', str(e))
+        general_utils.log_error(-409, 'TSL2561', str(e))
 
     ##################
     return all_values

@@ -403,7 +403,7 @@ class PigpioInterface:
         # After signal has been sent, removes all waves created to send signal. (set function makes ids unique)
         for wave_id in set(self.all_wave_ids):
 
-            print("Deleting wave")
+            general_utils.log_message("Deleting wave")
             self.pigpio.wave_delete(wave_id)
 
             try:
@@ -417,7 +417,7 @@ class PigpioInterface:
                 pass
 
         # Closes connexion with daemon.
-        print("Terminating pigpio")
+        general_utils.log_message("Terminating pigpio")
         self.pigpio.stop()
 
         #########

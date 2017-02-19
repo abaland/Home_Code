@@ -81,7 +81,7 @@ all_error_messages = {
     -422: 'Could not set pin value.',
     -423: 'No valid sensor could be found.',
     -424: 'Missing measure from sensor.',
-    -425: 'Missing package for sensor.',
+    -425: 'Problem with sensor module.',
     ###########
     # Infrared
     ###########
@@ -95,6 +95,7 @@ all_error_messages = {
     ##########
     # General
     ##########
+    -995: 'Could not set up custom logger',
     -996: 'Custom logger did not have correct permissions.',
     -997: 'Failed to reboot worker.',
     -998: 'Interrupted by user.',
@@ -104,6 +105,10 @@ all_error_messages = {
 
 ########################################################################################################################
 # setup_log_file
+########################################################################################################################
+# Revision History:
+#    2017-02-10 AdBa: Created the function
+#    2017-02-17 AB - Changed permission check
 ########################################################################################################################
 def setup_log_file(log_file_url, logger_name):
     """
@@ -131,7 +136,7 @@ def setup_log_file(log_file_url, logger_name):
             ##############################################################
 
     # Parent folder has been created or already existed. Checks if write permission for log file
-    if os.access(log_file_url, os.W_OK | os.X_OK):
+    try:
 
         # Permissions ok, assign the custom logger
         global custom_logger
@@ -154,10 +159,12 @@ def setup_log_file(log_file_url, logger_name):
         return 0
         #########
 
-    # Permissions were not valid, so log error and give up (will be put in syslog)
-    #####################################
-    return log_error(-996, log_file_url)
-    #####################################
+    except IOError as e:
+
+        # Permissions were not valid, so log error and give up (will be put in syslog)
+        #############################################
+        return log_error(-996, log_file_url, str(e))
+        #############################################
 
 #####################
 # END setup_log_file
@@ -166,6 +173,9 @@ def setup_log_file(log_file_url, logger_name):
 
 ########################################################################################################################
 # write_to_log
+########################################################################################################################
+# Revision History:
+#    2017-02-10 AdBa: Created the function
 ########################################################################################################################
 def write_to_log(message, error_level):
     """
@@ -210,6 +220,9 @@ def write_to_log(message, error_level):
 
 ########################################################################################################################
 # test_fatal_error
+########################################################################################################################
+# Revision History:
+#    2016/07/29 AdBa: Created the function
 ########################################################################################################################
 def test_fatal_error(class_instance, class_title):
     """

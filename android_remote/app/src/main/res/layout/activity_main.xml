@@ -19,9 +19,14 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <include
-            layout="@layout/aircon_remote"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"/>
+    <ViewFlipper
+            android:id="@+id/view_flipper"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+        <include android:id="@+id/tv_view" layout="@layout/tv_remote"/>
+        <include android:id="@+id/aircon_view" layout="@layout/aircon_remote"/>
+
+    </ViewFlipper>
 
 </android.support.design.widget.CoordinatorLayout>

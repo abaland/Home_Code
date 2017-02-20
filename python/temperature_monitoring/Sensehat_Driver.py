@@ -19,10 +19,6 @@ except ImportError as ex:
     error_details = 'Is sensehat package installed (pip)?'
     general_utils.log_error(-425, error_details, ex)
 
-########################
-# Import local packages
-########################
-
 
 __author__ = 'Baland Adrien'
 

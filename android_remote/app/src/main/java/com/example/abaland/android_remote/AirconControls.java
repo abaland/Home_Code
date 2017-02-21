@@ -1,11 +1,5 @@
 package com.example.abaland.android_remote;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.*;
@@ -13,7 +7,9 @@ import android.widget.*;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class AirconActivity extends AppCompatActivity {
+class AirconControls{
+
+    private MainActivity activity;
 
     // GUI Objects
     private Switch airconStateSwitch;
@@ -33,10 +29,16 @@ public class AirconActivity extends AppCompatActivity {
 
     // Mapping from index to value.
     private HashMap<Boolean, String> airconStateMapping = new HashMap<>();
+
     private String[] airconModeMapping = {"heat", "dry", "cool"};
     private String[] fanSpeedMapping = {"auto", "weak", "middle", "strong"};
     private String[] fanDirectionMapping = {"auto", "loop", "lowest", "low", "middle", "high", "highest"};
 
+
+    AirconControls (MainActivity activity) {
+
+        this.activity = activity;
+    }
 
     /**
      * Querries all elements from aircon GUI to get related configuration as a string.
@@ -66,13 +68,13 @@ public class AirconActivity extends AppCompatActivity {
      */
     private void bindGUIToScript() {
 
-        airconStateSwitch = (Switch) findViewById(R.id.Aircon_Power);
-        airconModeRadio = (RadioGroup) findViewById(R.id.Aircon_Mode);
-        airconTemperatureSeekBar = (SeekBar) findViewById(R.id.Aircon_Temperature);
-        airconTemperatureText = (TextView) findViewById(R.id.Aircon_Temperature_Text);
-        fanSpeedSpinner = (Spinner) findViewById(R.id.Aircon_Speed);
-        fanDirectionSpinner = (Spinner) findViewById(R.id.Aircon_Direction);
-        sendButton = (Button) findViewById(R.id.Send_Aircon_Signal);
+        airconStateSwitch = (Switch) this.activity.findViewById(R.id.Aircon_Power);
+        airconModeRadio = (RadioGroup) this.activity.findViewById(R.id.Aircon_Mode);
+        airconTemperatureSeekBar = (SeekBar) this.activity.findViewById(R.id.Aircon_Temperature);
+        airconTemperatureText = (TextView) this.activity.findViewById(R.id.Aircon_Temperature_Text);
+        fanSpeedSpinner = (Spinner) this.activity.findViewById(R.id.Aircon_Speed);
+        fanDirectionSpinner = (Spinner) this.activity.findViewById(R.id.Aircon_Direction);
+        sendButton = (Button) this.activity.findViewById(R.id.Send_Aircon_Signal);
 
     }
 
@@ -232,10 +234,9 @@ public class AirconActivity extends AppCompatActivity {
             public void onClick(View v){
 
                 String RemoteName = "aircon";
+                MainActivity activity = AirconControls.this.activity;
 
-                // Casts button clicked as a Button instance, and gets its text content.
-                Rabbit_Manager rabbit_manager = new Rabbit_Manager();
-                rabbit_manager.publishMessage(RemoteName, getConfigAsString(), AirconActivity.this);
+                activity.rabbitManager.publishMessage(RemoteName, getConfigAsString(), activity);
 
             }
 
@@ -243,18 +244,7 @@ public class AirconActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.aircon_remote);
-
-
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-
-        ////////////////
-        // Start added.
-        ////////////////
+    void initialize() {
 
         // Initializes the mapping of index-to-value for the only hashmap existing
         airconStateMapping.put(false, "off");
@@ -268,36 +258,6 @@ public class AirconActivity extends AppCompatActivity {
 
         // Adds all listeners to GUI elements, to update internal parameters / take appropriate actions on change
         addGUIListeners();
-
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-
-            return true;
-
-        }
-
-        return super.onOptionsItemSelected(item);
 
     }
 

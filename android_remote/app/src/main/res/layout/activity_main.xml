@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:context="com.example.abaland.android_remote.MainActivity">
 
     <android.support.design.widget.AppBarLayout
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_width="match_parent"
+            android:layout_weight="0"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar"/>
+        <include android:id="@+id/toolbar" layout="@layout/toolbar"/>
 
     </android.support.design.widget.AppBarLayout>
 
+    <LinearLayout
+            android:baselineAligned="false"
+            android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1"
+        android:orientation="vertical">
 
-    <ViewFlipper
-            android:id="@+id/view_flipper"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+        <include layout="@layout/tv_remote" android:layout_width="match_parent" android:layout_height="match_parent"/>
+        <include layout="@layout/aircon_remote" android:layout_width="match_parent" android:layout_height="match_parent"/>
 
-        <include android:id="@+id/tv_view" layout="@layout/tv_remote"/>
-        <include android:id="@+id/aircon_view" layout="@layout/aircon_remote"/>
+    </LinearLayout>
 
-    </ViewFlipper>
-
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

@@ -1,7 +1,6 @@
 <resources>
     <string-array name="remote_list">
-        <item>Aircon living</item>
-        <item>Lights living</item>
+        <item>Aircon</item>
         <item>TV</item>
     </string-array>
     <string-array name="wind_speed_list">

@@ -32,6 +32,7 @@ class Rabbit_Manager {
 
     }
 
+
     /**
      * Converts the KeyToPressName into a XML-formatted instruction which presses that button
      *

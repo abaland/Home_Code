@@ -6,7 +6,6 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
@@ -30,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         // Initializes the mapping between text on the buttons and the instruction to send
         remoteToLayoutMapping.put("Aircon", R.id.aircon_layout);
         remoteToLayoutMapping.put("TV", R.id.tv_layout);
+        remoteToLayoutMapping.put("Lights", R.id.lights_layout);
 
         // Adds listener for the fan speed spinner
         remoteSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
-
 
 
     @Override
@@ -75,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
         // Set up tv remote control interface (currently invisible)
         TVControls tvControls = new TVControls(this);
         tvControls.initialize();
+
+        // Set up tv remote control interface (currently invisible)
+        LightsControls lightControls = new LightsControls(this);
+        lightControls.initialize();
 
         // Adds listener to remote spinner to choose switch between interfaces
         setupRemoteSpinner();
@@ -105,14 +108,16 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        Log.d("Test", "Main3");
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
             return true;
+
         }
 
         return super.onOptionsItemSelected(item);
+
     }
 
 }

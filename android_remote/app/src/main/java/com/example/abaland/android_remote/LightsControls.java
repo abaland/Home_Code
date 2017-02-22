@@ -6,20 +6,23 @@ import android.widget.Button;
 import java.util.HashMap;
 
 
-class TVControls {
+class LightsControls {
 
     private MainActivity activity;
 
     private HashMap<String, String> ButtonToInstructionMapping = new HashMap<>();
 
     private Button powerButton;
-    private Button volumeDownButton;
-    private Button volumeUpButton;
+    private Button brightnessDownButton;
+    private Button brightnessUpButton;
+    private Button brightnessMinButton;
+    private Button brightnessMaxButton;
 
 
-    TVControls (MainActivity activity) {
+    LightsControls(MainActivity activity) {
 
         this.activity = activity;
+
     }
 
     /**
@@ -39,7 +42,7 @@ class TVControls {
 
         String KeyToPress = ButtonToInstructionMapping.get(ButtonText);
 
-        MainActivity activity = TVControls.this.activity;
+        MainActivity activity = LightsControls.this.activity;
 
         activity.rabbitManager.publishMessage(RemoteName, KeyToPress, activity);
 
@@ -50,9 +53,11 @@ class TVControls {
      */
     private void bindGUIToScript() {
 
-        powerButton = (Button) this.activity.findViewById(R.id.tv_power);
-        volumeDownButton = (Button) this.activity.findViewById(R.id.volumedown);
-        volumeUpButton = (Button) this.activity.findViewById(R.id.volumeup);
+        powerButton = (Button) this.activity.findViewById(R.id.lights_power);
+        brightnessDownButton = (Button) this.activity.findViewById(R.id.darker);
+        brightnessUpButton = (Button) this.activity.findViewById(R.id.brighter);
+        brightnessMinButton = (Button) this.activity.findViewById(R.id.darkest);
+        brightnessMaxButton = (Button) this.activity.findViewById(R.id.brightest);
 
     }
 
@@ -68,14 +73,28 @@ class TVControls {
 
         });
 
-        volumeDownButton.setOnClickListener(new Button.OnClickListener() {
+        brightnessDownButton.setOnClickListener(new Button.OnClickListener() {
 
             @Override
             public void onClick(View v){onClickFunction(v);}
 
         });
 
-        volumeUpButton.setOnClickListener(new Button.OnClickListener() {
+        brightnessUpButton.setOnClickListener(new Button.OnClickListener() {
+
+            @Override
+            public void onClick(View v){onClickFunction(v);}
+
+        });
+
+        brightnessMinButton.setOnClickListener(new Button.OnClickListener() {
+
+            @Override
+            public void onClick(View v){onClickFunction(v);}
+
+        });
+
+        brightnessMaxButton.setOnClickListener(new Button.OnClickListener() {
 
             @Override
             public void onClick(View v){onClickFunction(v);}
@@ -87,9 +106,11 @@ class TVControls {
     void initialize() {
 
         // Initializes the mapping between text on the buttons and the instruction to send
-        ButtonToInstructionMapping.put("Power", "KEY_POWER");
-        ButtonToInstructionMapping.put("Vol+", "KEY_VOLUMEUP");
-        ButtonToInstructionMapping.put("Vol-", "KEY_VOLUMEDOWN");
+        ButtonToInstructionMapping.put("Power", "Power");
+        ButtonToInstructionMapping.put("Darker", "Bright-");
+        ButtonToInstructionMapping.put("Brighter", "Bright+");
+        ButtonToInstructionMapping.put("Darkest", "Minimum");
+        ButtonToInstructionMapping.put("Brightest", "Maximum");
 
         // Links all GUI items to the script
         bindGUIToScript();

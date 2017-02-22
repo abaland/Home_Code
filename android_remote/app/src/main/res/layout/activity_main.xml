@@ -20,11 +20,23 @@
 
     <LinearLayout
             android:baselineAligned="false"
-            android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1"
-        android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <include layout="@layout/tv_remote" android:layout_width="match_parent" android:layout_height="match_parent"/>
-        <include layout="@layout/aircon_remote" android:layout_width="match_parent" android:layout_height="match_parent"/>
+        <include
+                layout="@layout/aircon_remote"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        <include
+                layout="@layout/tv_remote"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        <include
+                layout="@layout/lights_remote"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
     </LinearLayout>
 

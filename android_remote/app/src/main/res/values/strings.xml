@@ -31,4 +31,8 @@
     <string name="暖">暖</string>
     <string name="湿">湿</string>
     <string name="冷">冷</string>
+    <string name="darker">Dark</string>
+    <string name="brighter">Bright</string>
+    <string name="brightest">Max</string>
+    <string name="darkest">Min</string>
 </resources>

@@ -31,12 +31,12 @@ except SyntaxError as ex:
 __author__ = 'Baland Adrien'
 
 
-########################################################################################################################
+####################################################################################################
 # FUNCTION (is_valid_address)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-11-04 AB - Function Created
-########################################################################################################################
+####################################################################################################
 def is_valid_address(sensor_address):
     """
     Tests whether provided address is a valid TSL2561 address for such sensors
@@ -83,12 +83,12 @@ def is_valid_address(sensor_address):
 #######################
 
 
-########################################################################################################################
+####################################################################################################
 # FUNCTION (get_measurement_types)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-11-05 AB - Function Created
-########################################################################################################################
+####################################################################################################
 def get_measurement_types():
     """
     Returns names of all type of measurement that can be collected from sensor.
@@ -108,19 +108,20 @@ def get_measurement_types():
 ############################
 
 
-####################################################################################################################
+####################################################################################################
 # Function(get_measurements)
-####################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-11-04 AB - Function Created
-########################################################################################################################
+####################################################################################################
 def get_measurements(address, _):
     """
     Measures and returns all available measurements for the room as a dictionnary.
 
     INPUT:
         address (None) address of sensehat (to ignore)
-        temperature_correction (float, unused) correction to apply to measurement value, to account for external effects
+        temperature_correction (float, unused) correction to apply to measurement value, to account 
+            for external effects
 
     RETURNS:
         (Dict) dictionnary as {'luminosity': value1}
@@ -146,7 +147,8 @@ def get_measurements(address, _):
 
     except Exception as e:
 
-        # Something went wrong when retrieving values. Log error. Happened once with Exception 'Sensor is saturated'.
+        # Something went wrong when retrieving values. Log error.
+        # NOTE : Happened once with Exception 'Sensor is saturated'.
         general_utils.log_error(-409, 'TSL2561', str(e))
 
     ##################

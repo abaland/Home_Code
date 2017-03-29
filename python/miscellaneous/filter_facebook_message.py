@@ -1,8 +1,8 @@
 """
-Given a history of messages as returned by Facebook (html-formatted), parses the HTML provided and returned all messages
-sent by a given user, which contain a given piece of text.
+Given a history of messages as returned by Facebook (html-formatted), parses the HTML provided and 
+returned all messages sent by a given user, which contain a given piece of text.
 
-This was built to avoid having to go through the full history of a conversation with someone manually.
+This was built to avoid having to go through full history of a conversation with someone manually.
 
 The message-structure has the shape
 
@@ -33,21 +33,21 @@ from cStringIO import StringIO
 # handles dates
 from datetime import datetime
 
-####################################################################################################################
+####################################################################################################
 # DEFAULTS
-####################################################################################################################
+####################################################################################################
 
 # Sets the user / pattern to filter inside the messages.
 user_to_filter = 'Username'
 message_content_filter = 'http'
 
-# Open the htm file provided by facebook containing the messages, and converts it to a tree-like object.
+# Open htm file provided by facebook containing the messages, and converts it to a tree-like object.
 data_file = open('messages.htm', 'r')
 magical_parser = etree.XMLParser(encoding='utf-8', recover=True)
 content_xml = etree.parse(StringIO(data_file.read()), magical_parser)
 data_file.close()
 
-# Dictionnary to sort the dates chronologically. Indexed by year, then month, then day, then time since epoch.
+# Dictionnary to sort dates chronologically. Indexed by year, month, day, then time since epoch.
 all_messages = {}
 
 # List of all messages where no times could be found.
@@ -57,12 +57,12 @@ untimed_messages = []
 epoch_time = datetime.utcfromtimestamp(0)
 
 
-####################################################################################################################
+####################################################################################################
 # add_message_to_list
-####################################################################################################################
+####################################################################################################
 # Revision History :
 #   2016-01-06 AdBa : Function created
-####################################################################################################################
+####################################################################################################
 def add_message_to_list(timestamp, message_text):
     """
     Adds the content of a message in its appropriate location in the message dictionnary structure.
@@ -117,8 +117,8 @@ for message in content_xml.iter('div'):
     # Initializes the date object.
     message_date_as_text = ''
 
-    # Tests if message comes from correct user. By going through the metadata (spans) until the "class=user" span is
-    #   found and the user matches the one to filter
+    # Tests if message comes from correct user. By going through metadata (spans) until "class=user"
+    #  span is found and the user matches the one to filter
     from_user = False
     for metadata_span in message.iter('span'):
 
@@ -136,7 +136,7 @@ for message in content_xml.iter('div'):
 
             message_date_as_text = metadata_span.text
 
-    # If message was from the relevant user, gets the <p> tag which follows the <div> tag being analyzed and read it
+    # If message was from relevant user, gets <p> tag following <div> tag being analyzed and read it
     if from_user:
 
         message_content = message.getnext().text
@@ -144,11 +144,12 @@ for message in content_xml.iter('div'):
         # If the message content includes the pattern to filter, add message to tree
         if message_content is not None and message_content_filter in message_content:
 
-            # Only add message to tree is the date could be parsed, otherwise put it in untimed structure
+            # Only add message to tree if date could be parsed, otherwise put in untimed structure
             if message_date_as_text != '':
 
                 # Converts timestamp to datetime.datetime object
-                message_date_object = datetime.strptime(message_date_as_text[:-7], '%A, %B %d, %Y at %I:%M%p')
+                message_date_object = datetime.strptime(message_date_as_text[:-7],
+                                                        '%A, %B %d, %Y at %I:%M%p')
 
                 # Adds message in appropriate location
                 add_message_to_list(message_date_object, message_content)
@@ -167,7 +168,8 @@ for year in sorted(all_messages.keys()):
 
             for time_since_epoch in sorted(all_messages[year][month][day].keys()):
 
-                print '%04d/%02d/%02d : %s' % (year, month, day, all_messages[year][month][day][time_since_epoch])
+                print '%04d/%02d/%02d : %s' % (year, month, day,
+                                               all_messages[year][month][day][time_since_epoch])
 
 # Outputs untimed messages
 print('========UNTIMED MESSAGES========')

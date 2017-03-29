@@ -19,12 +19,12 @@ target_to_driver = {
 }
 
 
-####################################################################################################################
+####################################################################################################
 # execute
-####################################################################################################################
+####################################################################################################
 # Revision History :
 #   2016-09-30 Adba : Function created
-####################################################################################################################
+####################################################################################################
 def execute(_, instruction_as_xml, worker_base_response):
     """
     Processes infrared remote instruction
@@ -56,7 +56,7 @@ def execute(_, instruction_as_xml, worker_base_response):
             # Split the comma-separated info (only puts in array if button name)
             configuration_splitted = configuration_to_send.split(',')
 
-            # Sends each element in the array as argument (button name or each of the full config parameter)
+            # Sends each element in array as argument (button name or each of full config parameter)
             status_code = appropriate_driver.send_signal(*configuration_splitted)
 
         except TypeError:

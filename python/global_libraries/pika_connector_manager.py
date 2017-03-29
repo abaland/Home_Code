@@ -101,17 +101,17 @@ class PikaConnectorManager:
             except ConfigParser.NoSectionError as e:
 
                 # File does not exist, or section (RabbitMQ) does not exist
-                self.error_status = general_utils.log_error(-1, python_error_message=e)
+                self.error_status = general_utils.log_error(-1, python_message=e)
 
             except ConfigParser.NoOptionError as e:
 
                 # Option does not exist
-                self.error_status = general_utils.log_error(-2, python_error_message=e)
+                self.error_status = general_utils.log_error(-2, python_message=e)
 
             except ValueError as e:
 
                 # Port error
-                self.error_status = general_utils.log_error(-3, python_error_message=e)
+                self.error_status = general_utils.log_error(-3, python_message=e)
 
         else:
 
@@ -626,14 +626,14 @@ class PikaConnectorManager:
         except pika.exceptions.ChannelClosed as e:
 
             general_utils.log_message('Connection dropped. Could not acknowledge message.')
-            general_utils.log_error(-106, python_error_message=str(e))
+            general_utils.log_error(-106, python_message=str(e))
             self.establish_rabbit_connection()
             self.caller_class.on_connection_recovery()
 
         except pika.exceptions.ConnectionClosed as e:
 
             general_utils.log_message('Connection dropped. Could not acknowledge message.')
-            general_utils.log_error(-106, python_error_message=str(e))
+            general_utils.log_error(-106, python_message=str(e))
             self.establish_rabbit_connection()
             self.caller_class.on_connection_recovery()
 
@@ -742,12 +742,12 @@ class PikaConnectorManager:
         except pika.exceptions.ChannelClosed as e:
 
             general_utils.log_message('Connection dropped while stopping consumption.')
-            self.error_status = general_utils.log_error(-108, python_error_message=str(e))
+            self.error_status = general_utils.log_error(-108, python_message=str(e))
 
         except pika.exceptions.ConnectionClosed as e:
 
             general_utils.log_message('Connection dropped while stopping consumption.')
-            self.error_status = general_utils.log_error(-108, python_error_message=str(e))
+            self.error_status = general_utils.log_error(-108, python_message=str(e))
 
         except KeyboardInterrupt:
     

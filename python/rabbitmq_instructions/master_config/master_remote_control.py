@@ -4,13 +4,13 @@
 import argparse
 
 
-####################################################################################################################
+####################################################################################################
 # DEFAULTS
-####################################################################################################################
+####################################################################################################
 
-####################################################################################################################
+####################################################################################################
 # INSTRUCTION PARSER
-####################################################################################################################
+####################################################################################################
 # Creates parser for all options in camera control
 argument_parser = argparse.ArgumentParser()
 
@@ -24,25 +24,27 @@ argument_parser.add_argument('configuration', action='store', type=str, help=But
 
 # Timeout argument
 Timeout_Help = 'Number of seconds to wait for a response.\n'
-argument_parser.add_argument('--timeout', '-t', action='store', nargs='?', type=int, help=Timeout_Help)
+argument_parser.add_argument('--timeout', '-t', action='store', nargs='?', type=int,
+                             help=Timeout_Help)
 
 #########################
 # END INSTRUCTION PARSER
 #########################
 
 
-####################################################################################################################
+####################################################################################################
 # get_help_message
-####################################################################################################################
+####################################################################################################
 # Revision History :
 #   2016-11-26 AdBa : Function created
-####################################################################################################################
+####################################################################################################
 def get_help_message(with_details=False):
     """
     Prints information message about instruction.
 
     INPUT:
-         with_details (Boolean) : whether only general information about instruction should be printed, or detailed.
+         with_details (Boolean) whether only general information about instruction should be 
+            printed, or detailed.
     """
 
     print('remote_control.')
@@ -61,24 +63,24 @@ def get_help_message(with_details=False):
 #######################
 
 
-####################################################################################################################
+####################################################################################################
 # get_message
-####################################################################################################################
+####################################################################################################
 # Revision History :
 #   2016-11-26 AdBa : Function created
-####################################################################################################################
+####################################################################################################
 def get_message(rabbit_master_object, base_instruction_message, command_arguments):
     """
     Sends a camera status request to the RabbitMQ server
 
     INPUT:
-         rabbit_master_object (Master) : the master controller object, sending instruction to the RabbitMQ server.
+         rabbit_master_object (Master) master controller, sending instruction to RabbitMQ server.
          instruction (str) : instruction to send camera
          my_time_out (str, opt) : timeout value
 
     OUTPUT:
-        message (lxml.etree): XML representation of instruction to send, as <camera instruction='...'>
-        timeout (float): the timeout value to apply
+        XML representation of instruction to send, as <camera instruction='...'>
+        timeout value to apply
     """
 
     try:
@@ -111,19 +113,20 @@ def get_message(rabbit_master_object, base_instruction_message, command_argument
 ##################
 
 
-####################################################################################################################
+####################################################################################################
 # process_response
-####################################################################################################################
+####################################################################################################
 # Revision History :
 #   2016-11-26 AdBa : Function created
-####################################################################################################################
+####################################################################################################
 def process_response(_, received_worker_message):
     """
     Processes camera report from a worker.
 
     INPUT:
          master (Master) : Unused here.
-         received_worker_message (lxml.etree object) : message from worker in the form <worker id=... status=...>
+         received_worker_message (lxml.etree object) message from worker as
+            <worker id=... status=...>
     """
     
     print('Remote control response received.')

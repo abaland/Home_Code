@@ -1,6 +1,6 @@
 """
-This module creates a master controller for a RabbitMQ-communication system. Given instructions, it will send them
-to a RabbitMQ server for dispatch, and listen to incoming response for a given time.
+This module creates a master controller for a RabbitMQ-communication system. Given instructions, it 
+will send them to a RabbitMQ server for dispatch, and listen to incoming response for a given time.
 """
 
 #########################
@@ -17,28 +17,28 @@ from lxml import etree  # Converts worker response element to a tree-like object
 ########################
 # Import Local Packages
 ########################
-from python.rabbitmq_instructions.master_config import master_commands  # Message generation/procession on Master-Side
+from python.rabbitmq_instructions.master_config import master_commands
 from python.rabbitmq_instructions.worker_config import config_general
 
-from python.global_libraries import general_utils  # Generic functions
-from python.global_libraries import pika_connector_manager  # Handles connection with RabbitMQ server
+from python.global_libraries import general_utils
+from python.global_libraries import pika_connector_manager
 
 ###########################
 # Declare Global Variables
 ###########################
-rabbit_configuration_filename = '/Users/abaland/IdeaProjects/Home_Code/configs/RabbitMQConfig.ini'  # Configuration
+rabbit_configuration_filename = '/Users/abaland/IdeaProjects/Home_Code/configs/RabbitMQConfig.ini'
 
-####################################################################################################################
+####################################################################################################
 # CODE START
-####################################################################################################################
+####################################################################################################
 
 
-####################################################################################################################
+####################################################################################################
 # version_check
-####################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-11-26 AB : Function created
-####################################################################################################################
+####################################################################################################
 def version_check(worker_message_tree):
     """
     Check version status report from worker and print warning if:
@@ -46,7 +46,8 @@ def version_check(worker_message_tree):
         (b) last warning was printed long ago
 
     INPUT:
-        worker_message_tree (lxml.etree) : worker response as <worker id=... status=[S|F] version=NUM>...
+        worker_message_tree (lxml.etree) worker response 
+            as <worker id=... status=[S|F] version=NUM>...
     """
 
     try:
@@ -62,7 +63,7 @@ def version_check(worker_message_tree):
     except ValueError as e:
 
         # Could not interpret version status integer.
-        general_utils.log_error(-200, python_error_message=e)
+        general_utils.log_error(-200, python_message=e)
 
     #######
     return
@@ -73,24 +74,24 @@ def version_check(worker_message_tree):
     ####################
 
 
-####################################################################################################################
+####################################################################################################
 # RabbitMaster
-####################################################################################################################
+####################################################################################################
 # Revision History :
 #   2016-11-26 AdBa : Class created
-####################################################################################################################
+####################################################################################################
 class RabbitMaster:
     """
     Master instance, with a RabbitMQ connection to the RabbitMQ server.
     A master sends instructions to Worker instances through RabbitMQ
     """
 
-    ####################################################################################################################
+    ################################################################################################
     # __init__
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def __init__(self, configuration_filename):
         """
         Creates a Master instance, which opens a RabbitMQ connection to the RabbitMQ server.
@@ -127,13 +128,13 @@ class RabbitMaster:
         self.response_received_checklist = {}
         self.total_response_received = 0
         
-        # Flag to allow the response queue queue to be deleted when the response timeout has elapsed.
+        # Flag to allow response queue queue to be deleted when the response timeout has elapsed.
         self.delete_queue_flag = False
 
         # Class Instance where Worker responses should be forwarded
         self.forward_response_target = None
         
-        # Parameters in addition to KeyboardInterrupt or timeout to stop listening for worker responses
+        # Parameters in addition to KeyboardInterrupt or timeout to stop listening for responses
         self.keep_listening_for_response = True
 
         # Whether to return the created object immediately or to switch to CL feed.
@@ -147,12 +148,12 @@ class RabbitMaster:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # set_exchange
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def set_exchange(self, exchange_name):
         """
         Sets exchange to be used by worker in its transactions with RabbitMQ server
@@ -178,16 +179,16 @@ class RabbitMaster:
     #
     #
     
-    ####################################################################################################################
+    ################################################################################################
     # get_instruction_to_worker
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def get_instruction_to_worker(self):
         """
-        Initiates the binding from instruction to workers that support them. This reverses the binding in
-            worker_to_instruction.
+        Initiates the binding from instruction to workers that support them. This reverses binding 
+            in worker_to_instruction.
         """
 
         # Gets the worker to instruction mapping, to reverse.
@@ -224,12 +225,12 @@ class RabbitMaster:
     #
     #
     
-    ####################################################################################################################
+    ################################################################################################
     # get_relevant_worker_list
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def get_relevant_worker_list(self, instruction_name):
         """
         Gets list of worker that are relevant for a given instruction
@@ -252,18 +253,18 @@ class RabbitMaster:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # get_end_timeout_summary
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def post_timeout_actions(self, temporary_queue_name):
         """
         Applies all relevant actions after timeout has been reached.
-        Starts by processing all messages that are still in the queue but that have not been processed yet.
-        When all received responses are processed, deletes temporary elements, to avoid receiving messages during the
-            post-processing, which would be unhandled.
+        Starts by processing all messages that are still in queue but have not been processed yet.
+        When all received responses are processed, deletes temporary elements, to avoid receiving 
+        messages during the post-processing, which would be unhandled.
         After queue has been deleted, print which responses were not received.
 
         INPUT:
@@ -276,8 +277,8 @@ class RabbitMaster:
         
             self.delete_queue_flag = False
 
-            # First set a delete_queue flag to True. If a message is in the response queue, function process_order will
-            # be called, settings the flag to false. Otherwise, the code exists the loop.
+            # First set a delete_queue flag to True. If a message is in response queue, function
+            # process_order will be called, settings flag to false. Otherwise, code exits loop.
             while not self.delete_queue_flag:
 
                 self.delete_queue_flag = True
@@ -301,7 +302,8 @@ class RabbitMaster:
                     
                     if self.forward_response_target is not None:
                         
-                        self.forward_response_target.add_response(self.sent_instruction_info[0], worker_id, None)
+                        self.forward_response_target.add_response(self.sent_instruction_info[0],
+                                                                  worker_id, None)
                                 
         # Deletes the temporary element that were created to receive responses
         self.pika_connector.remove_temporary_queue(temporary_queue_name)
@@ -322,24 +324,27 @@ class RabbitMaster:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # process_base_response
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def process_base_response(self, worker_message_string):
         """
         Processes the base-information from a worker response.
-        Takes out which worker responded, whether the response status is a success or a failure, and if there
-            worker version was up-to-date.
-        Returns the message in a tree form (lxml.etree) if response status was a success, otherwise returns None.
+        Takes out which worker responded, whether the response status is a success or a failure, and
+            if there worker version was up-to-date.
+        Returns the message in a tree form (lxml.etree) if response status was a success, otherwise 
+            returns None.
 
-        INPUT:
-            worker_message_string (str) : worker response as <worker id=... status=[S|F] version=NUM>...
+        INPUT
+            worker_message_string (str) worker response as 
+                <worker id=... status=[S|F] version=NUM>...
 
         OUTPUT:
-            (lxml.etree) : worker response as <worker id=... status=S version=NUM> if success, None otherwise
+            (lxml.etree) worker response as <worker id=... status=S version=NUM> if success, 
+                None otherwise
         """
 
         # Converts message to the lxml.etree format
@@ -350,7 +355,8 @@ class RabbitMaster:
 
             worker_id = worker_message_tree.get('id')
 
-            # Makes sure everything went ok with the response received. No duplicate response, expected response, ...
+            # Makes sure everything went ok with response received. No duplicate response,
+            # expected response, ...
             if worker_id is not None:
 
                 print('from worker ' + str(worker_id) + ' ..'),
@@ -363,7 +369,8 @@ class RabbitMaster:
                     worker_message_tree = None
                     general_utils.log_error(-201, error_details=str(worker_id))
 
-                # Duplicate response. Should not happen. Queues are worker-specific => message should be answered once
+                # Duplicate response. Should not happen. Queues are worker-specific => message
+                # should be answered once
                 elif self.response_received_checklist[worker_id]:
 
                     worker_message_tree = None
@@ -399,19 +406,19 @@ class RabbitMaster:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # process_response
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def process_response(self, _,  pika_method, message_properties, message_content):
         """
         Defines how to process the response emitted by a worker
-        First checks for the instruction the response corresponds to, then processes it appropriately
+        First checks for instruction the response corresponds to, then processes it appropriately
 
         INPUT:
-             channel (pika) : pika channel object. UNUSED because available in the Worker.pika_connector object
+             channel (pika) pika channel object. UNUSED because available in Worker.pika_connector
              pika_method (pika) : !!!!NO IDEA!!!!
              message_properties (pika Properties) : additional properties about the message received
              message_content (str) : response content
@@ -419,7 +426,7 @@ class RabbitMaster:
         
         print('\nReceived response..'),
 
-        # Response queue contained a message, so prevent the queue from being deleted as it might contain more.
+        # Response queue contained message, so prevent queue deletion as it might contain more.
         self.delete_queue_flag = False
 
         # Checks whether the instruction id matches the response id, to make sure response fits.
@@ -427,14 +434,15 @@ class RabbitMaster:
 
         if sent_instruction_id == message_properties.correlation_id:
     
-            # Checks the worker that sent the response, the success/failure report, and converts to tree structure
+            # Checks worker that sent response, success/failure report, and converts to tree
             worker_message_formatted = self.process_base_response(message_content)
                 
             # Response had a success status report, so process it appropriately
             if worker_message_formatted is not None:
 
                 # Finds appropriate response processing function in the master configuration folder
-                appropriate_module = master_commands.instruction_to_functions.get(sent_instruction_name, None)
+                appropriate_module = master_commands.instruction_to_functions.get(
+                    sent_instruction_name, None)
              
                 if appropriate_module is None:
     
@@ -451,7 +459,8 @@ class RabbitMaster:
                         if self.forward_response_target is not None:
                             
                             worker_id = worker_message_formatted.get('id')
-                            self.forward_response_target.add_response(sent_instruction_name, worker_id,
+                            self.forward_response_target.add_response(sent_instruction_name,
+                                                                      worker_id,
                                                                       worker_message_formatted)
                         
                     # Module does not contain a get_response function
@@ -474,21 +483,22 @@ class RabbitMaster:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # ask_worker
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
-    def ask_worker(self, instruction_name, message_to_send, response_timeout, checklist_override=None):
+    ################################################################################################
+    def ask_worker(self, instruction_name, message_to_send, response_timeout,
+                   checklist_override=None):
         """
         Sends a request to the RabbitMQ server with a given routing key.
         Waits for responses for a given amount of seconds.
 
         INPUT:
-            instruction_name (str) : routing key to use to transit the message (=instruction title for workers)
-            message_to_send (lxml.etree) : message to send workers, starting with <instruction type=...>
-            response_timeout (int>0): time to wait for a response from workers
+            instruction_name (str) routing key to transit message (=instruction title for workers)
+            message_to_send (lxml.etree) message to send, starting with <instruction type=...>
+            response_timeout (int>0) time to wait for a response from workers
         """
 
         # Declares the response queue. If it fails, stops execution.
@@ -504,18 +514,19 @@ class RabbitMaster:
         # When will the Master stop listening for responses
         timeout_timestamp = time.time() + response_timeout
 
-        # Gives unique id to the query (sent back by worker) to make sure response and instruction match
+        # Gives unique id to query (sent back by worker) to make sure response and instruction match
         self.sent_instruction_info = [instruction_name, str(uuid.uuid4())]
 
         # Sets generic info (command to send)
         message_headers = {'type': instruction_name}
 
-        message_properties = pika.BasicProperties(delivery_mode=2,  # Makes message persistent
-                                                  headers=message_headers,  # Instruction header
-                                                  reply_to=created_queue_name,  # Client queue in which to send answer
-                                                  correlation_id=self.sent_instruction_info[1])  # Request id
+        message_properties = \
+            pika.BasicProperties(delivery_mode=2,  # Makes message persistent
+                                 headers=message_headers,  # Instruction header
+                                 reply_to=created_queue_name,  # Client queue where to send answer
+                                 correlation_id=self.sent_instruction_info[1])  # Request id
 
-        # If no worker checklist is provided, uses the internal list (worker who support the request)
+        # If no worker checklist is provided, uses internal list (worker who support the request)
         if checklist_override is None:
     
             checklist_override = self.instruction_to_worker_list[instruction_name]
@@ -535,7 +546,8 @@ class RabbitMaster:
         message_to_send = etree.tostring(message_to_send)
 
         # Publishes the message to the server
-        self.pika_connector.publish_message(self.exchange_name, instruction_name, message_to_send, message_properties)
+        self.pika_connector.publish_message(self.exchange_name, instruction_name, message_to_send,
+                                            message_properties)
         
         # Checks if succeeded in publishing the message. Stop if it did not
         if self.pika_connector.error_status != 0:
@@ -546,10 +558,12 @@ class RabbitMaster:
             return
             #######
 
-        # Waits for a response until timeout / received all responses / user interruption, then delete the queue
+        # Waits for a response until timeout / received all responses / user interruption, then
+        # delete the queue
         try:
 
-            while self.keep_listening_for_response and self.total_response_received < total_response_to_receive and \
+            while self.keep_listening_for_response and \
+                            self.total_response_received < total_response_to_receive and \
                             time.time() < timeout_timestamp:
 
                 self.pika_connector.rabbit_connection.process_data_events()
@@ -576,22 +590,24 @@ class RabbitMaster:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # parse_timeout
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def parse_timeout(self, candidate_new_timeout=None):
         """
         Converts a timeout string to a number (float).
-        If an error occurs during the conversion or that no arguments are provided, returns the default timeout value.
+        If an error occurs during conversion or that no arguments are provided, returns default 
+        timeout value.
 
         INPUT:
-            candidate_new_timeout (str) : string representation of the timeout desired (float). Must be > 0
+            candidate_new_timeout (str) string representation of timeout desired (float). 
+                Must be > 0
 
         OUTPUT:
-            timeout (float) : the converted timeout if successfull, the default global timeout if failed.
+            converted timeout if successfull, default global timeout if failed.
         """
         
         # Default value
@@ -606,12 +622,12 @@ class RabbitMaster:
             # Value unconvertible to float. Not terminal (replace by default)
             except ValueError as e:
 
-                general_utils.log_error(-5, python_error_message=e)
+                general_utils.log_error(-5, python_message=e)
 
             # Value unconvertible to float. Not terminal (replace by default)
             except TypeError as e:
 
-                general_utils.log_error(-5, python_error_message=e)
+                general_utils.log_error(-5, python_message=e)
 
         # Negative or zero-value
         if response_wait_timeout <= 0:
@@ -631,12 +647,12 @@ class RabbitMaster:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # send_command
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def send_command(self, user_instruction_as_array):
         """
         Sends instruction to the RabbitMQ server, in order of appearance in the input.
@@ -662,10 +678,11 @@ class RabbitMaster:
             return
             #######
 
-        # Retrieves the instruction-dependent function to obtain message to send worker with instruction
-        appropriate_module = master_commands.instruction_to_functions.get(user_instruction_as_array[0], None)
+        # Retrieves instruction-dependent function to obtain message to send worker with instruction
+        appropriate_module = master_commands.instruction_to_functions.get(
+            user_instruction_as_array[0], None)
 
-        # Checks that the function actually exists (otherwise, instruction probably invalid), so skip command
+        # Checks if function actually exists (otherwise, instruction invalid, so skip command)
         if appropriate_module is None:
 
             general_utils.log_error(-9, error_details=str(user_instruction_as_array[0]))
@@ -675,16 +692,17 @@ class RabbitMaster:
             #######
 
         base_instruction_message = etree.Element('instruction', type=user_instruction_as_array[0])
-        # Calls appropriate function to get message to send to the RabbitMQ server in addition to the instruction
+        # Calls relevant function to get message to send RabbitMQ server in addition to instruction
         try:
 
-            message_to_send, response_wait_timeout = appropriate_module.get_message(self, base_instruction_message,
-                                                                                    user_instruction_as_array[1:])
+            message_to_send, response_wait_timeout = \
+                appropriate_module.get_message(self, base_instruction_message,
+                                               user_instruction_as_array[1:])
 
         except TypeError as e:
 
             # Too many arguments for a given instruction. Skip command
-            general_utils.log_error(-10, error_details=str(user_instruction_as_array), python_error_message=str(e))
+            general_utils.log_error(-10, str(user_instruction_as_array), str(e))
 
             #######
             return
@@ -693,7 +711,7 @@ class RabbitMaster:
         except ValueError as e:
 
             # Wrong argument sent
-            general_utils.log_error(-13, error_details=str(user_instruction_as_array), python_error_message=str(e))
+            general_utils.log_error(-13, str(user_instruction_as_array), str(e))
 
             #######
             return
@@ -702,7 +720,7 @@ class RabbitMaster:
         except AttributeError as e:
 
             # Module does not contain required functions
-            general_utils.log_error(-14, error_details=str(user_instruction_as_array), python_error_message=str(e))
+            general_utils.log_error(-14, str(user_instruction_as_array), str(e))
 
             #######
             return
@@ -723,18 +741,18 @@ class RabbitMaster:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # process_live_commands
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def process_live_commands(self, user_instruction_as_array):
         """
         Processes instruction taken from a live feed (from either GUI or ccommand line).
 
         INPUT:
-            user_instruction_as_array (str[]) : all elements to send to the worker, before being processed
+            user_instruction_as_array (str[]) all elements to send to worker, before being processed
         """
 
         # Instruction to apply
@@ -766,8 +784,8 @@ class RabbitMaster:
         #######
         # HELP
         #######
-        # Tests for meta-instruction help. Contains no argument (summary of all instruction), or instruction name
-        #   (detailed information about given instruction)
+        # Tests for meta-instruction help. Contains no argument (summary of all instruction), or
+        # instruction name (detailed information about given instruction)
         if sent_instruction_name == 'help':
 
             if len(user_instruction_as_array) == 1:
@@ -777,7 +795,8 @@ class RabbitMaster:
 
                     try:
 
-                        master_commands.instruction_to_functions[instruction_name].get_help_message(False)
+                        master_commands.instruction_to_functions[instruction_name]\
+                            .get_help_message(False)
                         print('')
 
                     except AttributeError:
@@ -793,7 +812,8 @@ class RabbitMaster:
 
                     try:
 
-                        master_commands.instruction_to_functions[instruction_name].get_help_message(True)
+                        master_commands.instruction_to_functions[instruction_name]\
+                            .get_help_message(True)
 
                     except AttributeError:
 
@@ -831,20 +851,20 @@ class RabbitMaster:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # listen_to_live_commands
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016/11/26 AdBa : Created the function
-    ####################################################################################################################
+    ################################################################################################
     def listen_to_live_commands(self):
         """
-        Starts listening to a live instruction feed (in command line) and sends them to be processed.
+        Starts listening to live instruction feed (in command line) and sends them to be processed.
         """
         
         print('\n\nNow listening to command line inputs.\n'
-              'Enter "exit" to stop the code, "timeout (number)" to set default timeout value, "help", "help (str)" or '
-              'a valid instruction')
+              'Enter "exit" to stop the code, "timeout (number)" to set default timeout value, '
+              '"help", "help (str)" or a valid instruction')
 
         # Apply the "wait for instruction -> execute" sequence until the user types exit
         while True:
@@ -893,12 +913,12 @@ class RabbitMaster:
     # END listen_to_live_commands
     ##############################
 
-    ####################################################################################################################
+    ################################################################################################
     # parse_arguments
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016/11/26 AdBa : Created the function
-    ####################################################################################################################
+    ################################################################################################
     def parse_arguments(self, command_line_arguments):
         """
         Parses all command lines arguments and processes them appropriatly
@@ -907,20 +927,19 @@ class RabbitMaster:
             command_line_arguments (str list)
         """
 
-        # Creates a parser and sets its accepted arguments. 'c' flag is set to append because a user writing
-        # [-c time -c print x -c time] should execute three commands in a row, and not just the last one
+        # Creates a parser and sets its accepted arguments.
         argument_parser = argparse.ArgumentParser()
         argument_parser.add_argument('-gui', action='store_true')
 
         # Parses the arguments
         print('Reading arguments..'),
-        parsed_arguments, to_ignore_arguments = argument_parser.parse_known_args(command_line_arguments)
+        parsed_arguments, to_ignore = argument_parser.parse_known_args(command_line_arguments)
         print ('Done.')
 
         # If unhandled arguments exist, ignore them but print warning.
-        if len(to_ignore_arguments) > 0:
+        if len(to_ignore) > 0:
 
-            general_utils.log_error(-4, error_details=str(to_ignore_arguments))
+            general_utils.log_error(-4, error_details=str(to_ignore))
 
         # Starts the live command line feed if GUI option is not enabled
         if not parsed_arguments.gui:
@@ -939,15 +958,16 @@ class RabbitMaster:
     #
     #
     
-    ####################################################################################################################
+    ################################################################################################
     # on_connection_recovery
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def on_connection_recovery(self):
         """
-        Recreates all elements that need to be recreated when connection to RabbitMQ server was lost and is recovered.
+        Recreates all elements that need to be recreated when connection to RabbitMQ server was lost
+         and is recovered.
         """
     
         # Redeclares exchange
@@ -970,21 +990,18 @@ class RabbitMaster:
 ###################
 
 
-########################################################################################################################
+####################################################################################################
 # main
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-11-26 AB : Function created
-####################################################################################################################
+####################################################################################################
 def main(args):
     """
-    Sends instructions to a RabbitMQ server, for dispatch to workers. Available flags are :
-        -timeout (str) : Global timeout value (seconds) that overrides the default (1s).
-        -c : instruction to send. Commands with response have an optional timeout overriding the global value
-        -input : switch to live instruction feed after all the -c flag commands have been processed
+    Sends instructions to a RabbitMQ server, for dispatch to workers.
 
     INPUT:
-         args (str list) : the command lines arguments, excluding the first one (containing program name)
+         args (str[]) command lines arguments, excluding the first one (containing program name)
 
     OUTPUT :
          master (Master) : the master instance.
@@ -1004,7 +1021,6 @@ def main(args):
     # Creates mapping from instruction names to the worker that support them
     rabbit_master_instance.get_instruction_to_worker()
 
-    # Checks if request name is valid, and adds relevant parameters (the current time for the 'time' request)
     rabbit_master_instance.parse_arguments(args)
 
     print('Master initialization complete.')

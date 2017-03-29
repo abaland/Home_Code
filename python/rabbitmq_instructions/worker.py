@@ -1,7 +1,7 @@
 """
-This module creates worker for a RabbitMQ-communication system. Given a specific id, it will receive id-related
-instruction to execute sequentially from a RabbitMQ-server, process those reques, and eventually send response if it
-is necessary.
+This module creates worker for a RabbitMQ-communication system. Given a specific id, it receives 
+id-related instruction to execute sequentially from a RabbitMQ-server, process those reques, and 
+eventually send response if it is necessary.
 """
 
 #########################
@@ -21,38 +21,39 @@ from lxml import etree  # Converts some of the message (in a xml format) to a xm
 ########################
 # Import Local Packages
 ########################
-from python.global_libraries import general_utils  # Generic functions + Logs errors / messages in console and syslog
-from python.global_libraries import pika_connector_manager  # Handles connection with RabbitMQ server
+from python.global_libraries import general_utils
+from python.global_libraries import pika_connector_manager
 from worker_config import config_general
 
 ###########################
 # Declare Global Variables
 ###########################
-rabbit_configuration_filename = '/home/pi/Home_Code/configs/RabbitMQConfig.ini'  # Configuration file
+rabbit_configuration_filename = '/home/pi/Home_Code/configs/RabbitMQConfig.ini'  # Config file
 
-####################################################################################################################
+####################################################################################################
 # CODE START
-####################################################################################################################
+####################################################################################################
 
 
-####################################################################################################################
+####################################################################################################
 # RabbitWorker
-####################################################################################################################
+####################################################################################################
 # Revision History :
 #   2016-11-26 AdBa : Class created
-####################################################################################################################
+####################################################################################################
 class RabbitWorker:
 
-    ####################################################################################################################
+    ################################################################################################
     # __init__
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def __init__(self, configuration_filename):
         """
         Creates a Worker instance, which opens a RabbitMQ connection to the RabbitMQ server.
-        A worker always listens to 'update' instructions and listen to other instructions depending on its id
+        A worker always listens to 'update' instructions and listen to other instructions depending 
+            on its id
 
         INPUT:
             configuration_filename (str) : path to the RabbitMQ configuration file
@@ -63,26 +64,27 @@ class RabbitWorker:
         self.pika_connector.load_config(configuration_filename)
         self.pika_connector.establish_rabbit_connection()
         
-        # Working status. If 0 : everything is fine. Otherwise, contains code for fatal error that occured
+        # Working status. 0 : everything is fine. Other: contains code for fatal error that occured
         self.error_status = self.pika_connector.error_status
         
         # Name of exchange to use to communicate with RabbitMQ server
         self.exchange_name = ''
         
-        # Worked name/id. Determines which queue the worker listens to and is submitted in the worker responses
+        # Worked name/id. Determines which queue are listened to
         self.worker_id = ''
         
-        # Keys that a worker listens to. Update and heartbeat are always there, since they allow worker to signal they
-        # exist and to update their configurations
+        # Keys that worker listens to. Update and heartbeat are always there, since they allow
+        # worker to signal they exist and to update their configurations
         self.accepted_keys = ['update', 'heartbeat']
         
         # Whether to restart worker after config update. False = No restart. True = restart.
         # Warning : requires a "run script on restart" with /etc/rc.local)
         self.restart_flag = False
         
-        # Sandbox for worker config modules to store values. Due to reload of configuration that reloads modules from
-        #   scratch, there is a need for a parameters that memorizes values inside a worker through reload. To avoid
-        #   conflict between module, each key in the sand_box should match the instruction name.
+        # Sandbox for worker config modules to store values. Due to reload of config that reloads
+        # modules from scratch, there is a need for a parameters that memorizes values inside a
+        # worker through reload. To avoid conflict between module, each key in sand_box should match
+        # instruction name.
         # Example : worker.sand_box['remote'] = [1,2,3]
         self.sand_box = {}
         
@@ -94,15 +96,16 @@ class RabbitWorker:
     #
     #
         
-    ####################################################################################################################
+    ################################################################################################
     # on_connection_recovery
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def on_connection_recovery(self):
         """
-        Recreates all elements that need to be recreated when connection to RabbitMQ server was lost and is recovered.
+        Recreates all elements that need to be recreated when connection to RabbitMQ server was lost
+            and is recovered.
         """
         
         # Redeclares exchange
@@ -122,12 +125,12 @@ class RabbitWorker:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # set_exchange
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def set_exchange(self, exchange_name):
         """
         Sets exchange to be used by worker in its transactions with RabbitMQ server
@@ -149,17 +152,18 @@ class RabbitWorker:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # make_base_response
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def make_base_response(self):
         """
-        Creates the common base for all worker response, whatever the instruction. This base has the form
-            <worker id='workerId' status='F' version=[0|1|2]>.
-        All responses from worker have this as root, with 'S' status instead in case of success, 'F' if failure
+        Creates the common base for all worker response, whatever the instruction. This base has 
+        form <worker id='workerId' status='F' version=[0|1|2]>.
+        All responses from worker have this as root, with 'S' status instead in case of success, 'F'
+            if failure
         Version attribute is 0 if all versions are up-to-date, 1 or 2 otherwise.
         
         INPUT:
@@ -169,12 +173,10 @@ class RabbitWorker:
             worker_based_response (etree Element) : root element for future worker responses
         """
         
-        worker_based_response = etree.Element('worker',
-                                              id=str(self.worker_id),
-                                              status='1',
-                                              timestamp=general_utils.convert_localtime_to_string(time.localtime()),
-                                              version=str(general_utils.__version__),
-                                              cpu=str(psutil.cpu_percent()))
+        worker_based_response = \
+            etree.Element('worker', id=str(self.worker_id), status='1',
+                          timestamp=general_utils.convert_localtime_to_string(time.localtime()),
+                          version=str(general_utils.__version__), cpu=str(psutil.cpu_percent()))
         
         #############################
         return worker_based_response
@@ -188,33 +190,34 @@ class RabbitWorker:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # update_config
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def update_config(self, message_as_xml, worker_base_response):
         """
-        Updates configuration folder when Master Controller calls for an update. This overwrites the whole config
-        folder.
+        Updates configuration folder when Master Controller calls for an update. This overwrites 
+        whole config folder.
 
         INPUT:
             body (str) : workerConfiguration folder content in a xml-format
 
         OUTPUT:
-            config_update_status (str) : config update status report in the form <worker id=... status=...>
+            config_update_status (str) : config update status report in form <worker id=... 
+                status=...>
         """
 
-        # Initializes the update status report to Failure (changed to Success only at the end, if everything succeeded)
+        # Starts update status to Failure (changed to Success only at end, if everything succeeded)
         configuration_updated_status = worker_base_response
 
         self.restart_flag = True
         
-        # The message could be interpreted as a XML tree, so delete the configuration folder and replace it
+        # Message could be interpreted as a XML tree, so delete configuration folder and replace it
         shutil.rmtree(message_as_xml.get('to_delete'), True)
 
-        # Creates config folder. If an error occurs, delete whole folder to avoid partial configurations
+        # Creates config folder. If error occurs, delete whole folder to avoid partial config
         try:
 
             for directory_to_create in message_as_xml.iter('dir'):
@@ -231,7 +234,8 @@ class RabbitWorker:
                 
             for file_to_create in message_as_xml.iter('file'):
 
-                with open(file_to_create.get('parent') + '/' + file_to_create.get('name'), 'w') as file_object:
+                file_url = file_to_create.get('parent') + '/' + file_to_create.get('name')
+                with open(file_url, 'w') as file_object:
 
                     if file_to_create.text is not None:
                         
@@ -243,7 +247,7 @@ class RabbitWorker:
         # Error occured while adding files / directories in the configuration folder.
         except OSError as e:
 
-            self.error_status = general_utils.log_error(-306, python_error_message=str(e))
+            self.error_status = general_utils.log_error(-306, python_message=str(e))
             general_utils.log_message('Aborting configuration update.')
 
         ####################################
@@ -258,19 +262,19 @@ class RabbitWorker:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # send_response
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def send_response(self, in_properties, response_to_send):
         """
         Sends response to RabbitMQ server.
 
         INPUT:
-             in_properties (pika properties) : properties received in the callback function used by Pika
-             response_to_send (str) : response content
+             in_properties (pika properties) properties received in callback function used by Pika
+             response_to_send (str) response content
         """
         
         # Sends a response if the RabbitMQ message contains information about where to send it.
@@ -278,10 +282,11 @@ class RabbitWorker:
         if in_properties.reply_to is not None:
 
             out_properties = pika.BasicProperties(delivery_mode=2,  # Make message persistent
-                                                  correlation_id=in_properties.correlation_id)  # Links response+message
+                                                  correlation_id=in_properties.correlation_id)
                 
             # Publishes message
-            self.pika_connector.publish_message('', in_properties.reply_to, response_to_send, out_properties)
+            self.pika_connector.publish_message('', in_properties.reply_to, response_to_send,
+                                                out_properties)
                                             
         #######
         return
@@ -295,12 +300,12 @@ class RabbitWorker:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # get_response
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def get_response(self, instruction_name, message_to_process):
         """
         Executes appropriate instruction, gets an answer, and returns it
@@ -310,7 +315,7 @@ class RabbitWorker:
             message_to_process (lxml.etree): message received through RabbitMQ
 
         OUTPUT:
-            response_to_send (lxml.etree) : response to send the RabbitMQ server (before string conversion)
+            (lxml.etree) response to send RabbitMQ server (before string conversion)
         """
         
         response_to_send = self.make_base_response()
@@ -342,7 +347,7 @@ class RabbitWorker:
             # Get appropriate module from the configuration folder to compute a response
             appropriate_module = config_general.instruction_to_module.get(instruction_name, None)
     
-            # Calls the module execute function and returns its output (should be the response to send)
+            # Calls module execute function and returns its output (should be the response to send)
             if appropriate_module is not None:
 
                 response_to_send = appropriate_module.execute(self,
@@ -366,12 +371,12 @@ class RabbitWorker:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # apply_reboot
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def apply_reboot(self, pika_method):
         """
         Processes how worker should reboot and terminates/closes relevant processes
@@ -402,15 +407,16 @@ class RabbitWorker:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # must_be_filtered
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def must_be_filtered(self, message_as_xml):
         """
-        Checks if received instruction possesses a 'target' attribute, and if so, checks if the worker is in the target.
+        Checks if received instruction possesses a 'target' attribute, and if so, checks if worker 
+        is in the target.
         If target exists but worker is not in it, Returns True
 
         INPUT:
@@ -446,24 +452,25 @@ class RabbitWorker:
     #
     #
     
-    ####################################################################################################################
+    ################################################################################################
     # process_order
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def process_order(self, _, pika_method, in_properties, message_received):
         """
         Defines how to process order from the master program.
-        If the request has a timeout and the reception occurs too late : acknowledges messages and stops.
-        Calls the appropriate instruction, sends an answer (optional + timeoutcheck) and acknowledges message afterwards
+        If request has timeout and the reception occurs too late : acknowledges messages and stops.
+        Calls appropriate instruction, sends an answer (optional + timeoutcheck) and acknowledges 
+        message afterwards
         The whole code might be restarted if the instruction processed required it
 
-        INPUT:
-             channel (pika object) : pika channel object. UNUSED Because available in the Worker.pika_connector object
-             pika_method (pika object) : !!!!NO IDEA!!!!
-             in_properties (pika Properties) : additional properties about the message received
-             message_received (str) : message content
+        INPUT
+             channel (pika object) pika channel object. UNUSED because in Worker.pika_connector
+             pika_method (pika object) !!!!NO IDEA!!!!
+             in_properties (pika Properties) additional properties about the message received
+             message_received (str) message content
         """
         
         try:
@@ -490,7 +497,7 @@ class RabbitWorker:
 
         except KeyError as e:
             
-            general_utils.log_error(-302, python_error_message=str(e))
+            general_utils.log_error(-302, python_message=str(e))
             self.pika_connector.acknowledge_message(pika_method)
 
             #######
@@ -504,7 +511,7 @@ class RabbitWorker:
             return
             #######
 
-        # Acknowledges message has been received and goes back to listening if no reboot required, restart otherwise.
+        # Acknowledges message and goes back to listening if no reboot required, restart otherwise.
         if self.restart_flag:
 
             self.apply_reboot(pika_method)
@@ -524,12 +531,12 @@ class RabbitWorker:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # get_queue_name
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def get_queue_name(self, instruction_name):
         """
         Returns name of the queue to declare based on worker id and key to follow
@@ -555,21 +562,21 @@ class RabbitWorker:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # link_queue_to_worker
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def link_queue_to_worker(self):
         """
-        Declare queues in the system and makes the worker listen to message coming from these queues.
-        Queues are durable, meaning they survive through crashes of RabbitMQ server and of the Worker
+        Declare queues in system and makes the worker listen to message coming from these queues.
+        Queues are durable, meaning they survive through crashes of RabbitMQ server and of Worker
         """
         
         # Adds the queues using the pikaConnectorManager.
-        self.pika_connector.declare_permanent_queues(self.accepted_keys, self.exchange_name, self.get_queue_name,
-                                                     self.process_order)
+        self.pika_connector.declare_permanent_queues(self.accepted_keys, self.exchange_name,
+                                                     self.get_queue_name, self.process_order)
 
         #######
         return
@@ -582,22 +589,22 @@ class RabbitWorker:
     #
     #
     #
-    ####################################################################################################################
+    ################################################################################################
     # get_valid_instructions
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def get_valid_instructions(self):
         """
         Extracts appropriate routing keys (= instruction to obey to) given a worker ID.
         Keeps the default instructions in case of failure (heartbeat + update)
         """
 
-        # Uses the configuration folder to get the mapping between workers and relevant instructions.
+        # Uses configuration folder to get mapping between workers and relevant instructions.
         # Gets the worker-relevant instructions using the worker ID
         print('Getting supported instruction..'),
-        worker_specific_instructions = config_general.worker_to_instruction.get(str(self.worker_id), [])
+        worker_specific_instructions = config_general.worker_to_instruction.get(self.worker_id, [])
         print ('Done.')
         
         # Appends all the obtained valid instructions to the internal list
@@ -620,12 +627,12 @@ class RabbitWorker:
     #
     #
     
-    ####################################################################################################################
+    ################################################################################################
     # update_listened_queues
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def update_listened_queues(self):
         
         old_instruction = set(self.accepted_keys)
@@ -637,8 +644,8 @@ class RabbitWorker:
         to_remove_keys = list(old_instruction.difference(new_instructions))
         to_add_keys = list(new_instructions.difference(old_instruction))
 
-        # Accepted keys must be updated BEFORE updating queues, because ConnectionException will recreate ALL queues
-        #   => up-to-date accepted_keys required
+        # Accepted keys must be updated BEFORE updating queues, because ConnectionException will
+        # recreate ALL queues => up-to-date accepted_keys required
         self.accepted_keys = list(new_instructions)
 
         # Remove not-listened-to-anymore instructions
@@ -648,8 +655,8 @@ class RabbitWorker:
             self.pika_connector.delete_permanent_queue(queue_name)
 
         # Adds the queues using the pikaConnectorManager.
-        self.pika_connector.declare_permanent_queues(to_add_keys, self.exchange_name, self.get_queue_name,
-                                                     self.process_order)
+        self.pika_connector.declare_permanent_queues(to_add_keys, self.exchange_name,
+                                                     self.get_queue_name, self.process_order)
 
         #######
         return
@@ -663,12 +670,12 @@ class RabbitWorker:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # parse_arguments
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AB : Function created
-    ####################################################################################################################
+    ################################################################################################
     def parse_arguments(self, command_line_arguments):
         """
         Parse arguments from the command line to detect the worker id to use
@@ -683,13 +690,13 @@ class RabbitWorker:
     
         # Parses the arguments. Currently just the first positional argument
         print('Reading arguments..'),
-        parsed_arguments, to_ignore_arguments = argument_parser.parse_known_args(command_line_arguments)
+        parsed_arguments, to_ignore = argument_parser.parse_known_args(command_line_arguments)
         print ('Done.')
     
         # If unhandled arguments exist, ignore them but print warning.
-        if len(to_ignore_arguments) > 0:
+        if len(to_ignore) > 0:
             
-            general_utils.log_error(-4, error_details=str(to_ignore_arguments))
+            general_utils.log_error(-4, error_details=str(to_ignore))
             
         # Either assigns the given workerID, or stops because no workerID were given.
         if parsed_arguments.workerID is None:
@@ -713,16 +720,16 @@ class RabbitWorker:
 ###################
 
 
-####################################################################################################################
+####################################################################################################
 # main
-####################################################################################################################
+####################################################################################################
 # Revision History :
 #   2016-11-26 AB : Function created
 #   2017-02-17 AB - Added custom log file
-####################################################################################################################
+####################################################################################################
 def main(args):
     """
-    Creates a worker and assigns him to the relevant queues depending on its workerId (command line argument)
+    Creates worker and assigns him to relevant queues depending on workerId (command line argument)
 
     INPUT:
          args (str array) : command line arguments, should be [#workerId]
@@ -762,9 +769,9 @@ def main(args):
     general_utils.get_welcome_end_message(script_class_name, False)
     exit(0)
 
-####################################################################################################################
+####################################################################################################
 # END main
-####################################################################################################################
+####################################################################################################
 
 if __name__ == "__main__":
 
@@ -774,6 +781,6 @@ if __name__ == "__main__":
 
     except Exception as unhandled_exception:
     
-        # Unforeseen exception has occured. Log it for analysis, with all information about where it happened
+        # Unforeseen exception occured. Log it for analysis, with all info about where it happened
         full_error_message = traceback.format_exc()
-        general_utils.log_error(-999, error_details=unhandled_exception, python_error_message=full_error_message)
+        general_utils.log_error(-999, unhandled_exception, full_error_message)

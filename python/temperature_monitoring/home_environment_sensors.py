@@ -3,16 +3,17 @@ Monitor different variables from sensor connected to the Raspberry Pi.
 
 Every t intervals of time, collect measures from all samples.
 Every n*t intervals of time, outputs average of collected measures.
-To reduce variation in output, output is smoothed by outputting the average of the last k sample-averages.
+To reduce variation in output, output is smoothed by outputting average of last k sample-averages.
 
 Example:
-     If t = 5, n = 3, k = 3 and that the first 4 sequences of collected samples are [19, 20, 21], [21, 22, 21], [21, 20,
-     21], [21, 24, 24].
-     The sample averages are 20, 21.33, 20.66 and 23, and the values exported 20, 20.66, 20.66, 21.66
+     If t = 5, n = 3, k = 3 and that the first 4 sequences of collected samples are [19, 20, 21], 
+     [21, 22, 21], [21, 20, 21], [21, 24, 24].
+     Sample averages are 20, 21.33, 20.66 and 23, and the values exported 20, 20.66, 20.66, 21.66
 
 NOTES:
-    (1) For unknown reason, calling Sensehat then DHT11 does not work (only 38/40 bits get read). Calling DHT11 then
-        Sensehat works without problem. Other sensors not tested, but to be safe, put Sensehat at the end of config.
+    (1) For unknown reason, calling Sensehat then DHT11 does not work (only 38/40 bits get read). 
+    Calling DHT11 then Sensehat works without problem. Other sensors not tested, but to be safe, put
+     Sensehat at the end of config.
 """
 
 #########################
@@ -43,17 +44,17 @@ __author__ = 'Baland Adrien'  # That's me, yeay.
 # Declare global variables
 ###########################
 
-# Location of the configuration file in Raspberry, with information for each connected sensor, thingspeak, ...
+# Location of configuration file in Raspberry, with information for each sensor, thingspeak, ...
 config_file_url = '/home/pi/Home_Code/configs/SensorConfig.ini'
 
 # Defaults parameters if missing in config file.
 sample_interval = 5  # Seconds to wait between two successive sensor reads
-n_sample_for_average = 6  # Number of successive samples taken before they are averaged and an output is made
-n_average_for_smooth = 5  # Number of successive averaged samples used for smoothing (value printed)
+n_sample_for_average = 6  # Number of samples taken before they are averaged and output is made
+n_average_for_smooth = 5  # Number of averaged samples used for smoothing (value printed)
 
 thingspeak_url = None  # Address where to post data online if thingspeak_key present in config file.
 
-list_all_output_directories = []  # List of all output directories to use, to avoid redundancy between sensors
+list_all_output_directories = []  # List of output directories to use, to avoid redundancy
 
 # Mapping from all supported sensor types to their respective driver module.
 sensor_to_driver = {
@@ -72,36 +73,37 @@ all_sensors = [
     {
         'name': 'sensor_name',  # additional info about sensor (e.g. where it is)
         'type': 'BME280',  # Sensor type. One of BME280, DS18B20, Sensehat, DHT11
-        'address': 0x76,  # Sensor address, (I2C for BME280, 1wire for DS18B20, GPIO Pin for DHT11, None for Sensehat)
-        'correction': 0.0,  # Correction for sensor (only applied for temperature now, might be changed later)
+        'address': 0x76,  # Sensor address. BME280: I2C, DS18B20: 1wire, DHT11: GPIO, Sensehat: None
+        'correction': 0.0,  # Sensor correction (only for temperature now, might be changed later)
         'warmup': 0.0,  # Time necessary for a sensor to warmup (measures ignored during warmup)
         'last_failed_measure_time': 0.0,  # Last time a sensor measurement could not be made
         'output_directory': '/home/pi/...',  # Where to create .dat files with measure values,
-        'samples_to_average': {},  # list of samples for all available measurements, before they are averaged
-        'n_last_averages': {},  # list of previous measurements averages, to be averaged for output (smoothing),
+        'samples_to_average': {},  # Samples for available measurements, before being averaged
+        'n_last_averages': {},  # Previous measurements averages, to averaged for output (smoothing)
         'smoothed_average': {}  # Last smoothed average measurements.
     }
 ]
 
 
-########################################################################################################################
+####################################################################################################
 # Function (convert_localtime_to_string)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-10-27 AB - Function Created
-########################################################################################################################
+####################################################################################################
 def convert_localtime_to_string(stamp):
     """
     Converts a time.localtime() object to a string formatted as YYY-MM-DD hh:mm:ss
 
-    INPUT:
+    INPUT
         Stamp : time.localtime object to convert
 
-    RETURNS:
+    OUTPUT
         (str) string-formatted timestamp
     """
 
-    formatted_stamp = '%02d-%02d-%02d %02d:%02d:%02d' % (stamp[0], stamp[1], stamp[2], stamp[3], stamp[4], stamp[5])
+    formatted_stamp = '%02d-%02d-%02d %02d:%02d:%02d' % (stamp[0], stamp[1], stamp[2], stamp[3], 
+                                                         stamp[4], stamp[5])
 
     #######################
     return formatted_stamp
@@ -112,23 +114,23 @@ def convert_localtime_to_string(stamp):
 ##################################
 
 
-########################################################################################################################
+####################################################################################################
 # Function (parse_sensor_config)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-10-27 AB - Function Created
 #   2016-11-05 AB - Added SenseHat + Made function more general
-########################################################################################################################
-def parse_sensor_config(parsed_configuration, sensor_name, sensor_type):
+####################################################################################################
+def parse_sensor_config(parsed_config, sensor_name, sensor_type):
     """
     Parses information for a given sensor from the configuration file.
     
-    INPUT:
-        parsed_configuration (ConfigParser object) : configuration parsed by ConfigParser
+    INPUT
+        parsed_config (ConfigParser object) : configuration parsed by ConfigParser
         sensor_name (str) : name of the sensor to parse (SensorX with X integer)
         sensor_type (str) : type of the sensor to parse
         
-    RETURNS:
+    OUTPUT
         (int) 0 if sensor was parsed normally, negative number if parsing reached fatal error
     """
 
@@ -147,7 +149,7 @@ def parse_sensor_config(parsed_configuration, sensor_name, sensor_type):
         sensor_address = None
 
     # Otherwise, address is a required parameter
-    elif not parsed_configuration.has_option(sensor_name, 'address'):
+    elif not parsed_config.has_option(sensor_name, 'address'):
 
         # No address could be found, log an error and stop parsing for that sensor.
         #################################################
@@ -157,10 +159,11 @@ def parse_sensor_config(parsed_configuration, sensor_name, sensor_type):
     else:
 
         # Parse the address as a string (checked later)
-        sensor_address = parsed_configuration.get(sensor_name, 'address')
+        sensor_address = parsed_config.get(sensor_name, 'address')
 
-    # Tests whether the address provided is valid using the appropriate drivers and converts to appropriate format
-    valid_address, converted_address = sensor_to_driver.get(sensor_type).is_valid_address(sensor_address)
+    # Tests if address provided is valid using relevant drivers and converts to appropriate format
+    valid_address, converted_address = sensor_to_driver.get(sensor_type)\
+        .is_valid_address(sensor_address)
 
     # Reports problem with address in case it is invalid
     if not valid_address:
@@ -174,28 +177,27 @@ def parse_sensor_config(parsed_configuration, sensor_name, sensor_type):
     ####################################
     # Temperature correction (optional)
     ####################################
-    if parsed_configuration.has_option(sensor_name, 'correction'):
+    if parsed_config.has_option(sensor_name, 'correction'):
 
         try:
 
             # Gets temperature correction to apply (integer of float)
-            temperature_correction = parsed_configuration.getfloat(sensor_name, 'correction')
+            temperature_correction = parsed_config.getfloat(sensor_name, 'correction')
 
         except ValueError as e:
 
             # Correction parameter value could not be interpreted, log error but uses 0.0 default.
-            details = '(' + sensor_name + ', ' + parsed_configuration.get(sensor_name, 'correction') + ')'
+            details = '(%s, %s)' % (sensor_name, parsed_config.get(sensor_name, 'correction'))
             general_utils.log_error(-405, details, e)
 
     ################################
     # Sensor warmup time (optional)
-    ################################
-    if parsed_configuration.has_option(sensor_name, 'warmup'):
+    if parsed_config.has_option(sensor_name, 'warmup'):
 
         try:
 
             # Gets time required for sensor to warmup (positive integer or float)
-            candidate_sensor_warmup = parsed_configuration.getfloat(sensor_name, 'warmup')
+            candidate_sensor_warmup = parsed_config.getfloat(sensor_name, 'warmup')
 
             if candidate_sensor_warmup >= 0.0:
 
@@ -205,21 +207,19 @@ def parse_sensor_config(parsed_configuration, sensor_name, sensor_type):
             else:
 
                 # Warmup parameter value was negative, log error and uses 0.0 default.
-                details = '(' + sensor_name + ', ' + parsed_configuration.get(sensor_name, 'warmup') + ')'
+                details = '(%s, %s)' % (sensor_name, parsed_config.get(sensor_name, 'warmup'))
                 general_utils.log_error(-420, details)
 
         except ValueError as e:
 
             # Correction parameter value could not be interpreted, log error but uses 0.0 default.
-            details = '(' + sensor_name + ', ' + parsed_configuration.get(sensor_name, 'warmup') + ')'
+            details = '(' + sensor_name + ', ' + parsed_config.get(sensor_name, 'warmup') + ')'
             general_utils.log_error(-420, details, e)
 
-    ###############################################################
     # Output directory (to be combined later with location).
-    ###############################################################
-    if parsed_configuration.has_option(sensor_name, 'output_directory'):
+    if parsed_config.has_option(sensor_name, 'output_directory'):
 
-        output_directory = parsed_configuration.get(sensor_name, 'output_directory')
+        output_directory = parsed_config.get(sensor_name, 'output_directory')
 
     else:
 
@@ -228,10 +228,9 @@ def parse_sensor_config(parsed_configuration, sensor_name, sensor_type):
 
     ##################
     # Sensor location
-    ##################
-    if parsed_configuration.has_option(sensor_name, 'location'):
+    if parsed_config.has_option(sensor_name, 'location'):
 
-        sensor_location = parsed_configuration.get(sensor_name, 'location')
+        sensor_location = parsed_config.get(sensor_name, 'location')
 
     else:
 
@@ -240,7 +239,6 @@ def parse_sensor_config(parsed_configuration, sensor_name, sensor_type):
 
     ############################
     #  Parsing done : now apply
-    ############################
     # Combines output_directory and sensor_location to get actual directory where output is made
     if output_directory.endswith('/'):
 
@@ -259,16 +257,16 @@ def parse_sensor_config(parsed_configuration, sensor_name, sensor_type):
     # Only adds sensor if its unique identifiers (output_directory) have not been added before
     if output_directory not in list_all_output_directories:
 
-        # Gets list of all different measures that the sensor can colllect, to initialze dictionnaries
+        # Gets list of all different measures sensor can colllect, to initialze dictionnaries
         all_measurement_types = sensor_to_driver.get(sensor_type).get_measurement_types()
 
         # Initializes list for collected samples (before average)
         sample_to_average_init = {measurement: [] for measurement in all_measurement_types}
 
-        # Initializes list for computed average (before smoothing). This starts an array with n None entries for each
-        # measurement type
-        n_last_averages_init = {measurement: [None for _ in range(n_average_for_smooth)] for measurement in
-                                all_measurement_types}
+        # Initializes list for computed average (before smoothing). This starts an array with n None
+        #  entries for eachmeasurement type
+        n_last_averages_init = {measurement: [None for _ in range(n_average_for_smooth)] for 
+                                measurement in all_measurement_types}
 
         # Initializes list for computed smoothed average
         smoothed_average = {measurement: 0.0 for measurement in all_measurement_types}
@@ -308,26 +306,27 @@ def parse_sensor_config(parsed_configuration, sensor_name, sensor_type):
 ##########################
 
 
-########################################################################################################################
+####################################################################################################
 # Function (read_configuration)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-10-27 AB - Function Created
 #   2016-11-02 AB - Added heater configuration parsing
 #   1016-11-05 AB - Remove heater configuration (not relevant at home).
-########################################################################################################################
+####################################################################################################
 def read_configuration(config_filename):
     """
-    Reads configuration file containing all sensor/heater information and updates internal parameters accordingly.
+    Reads configuration file containing all sensor/heater information and updates internal 
+    parameters accordingly.
     Parameters include:
-        General parameters (time between measurements, number of measurements for average, smoothing)
-        Sensor parameters (location, output, correction, ...)
+        General params (time between measurements, number of measurements for average, smoothing)
+        Sensor params (location, output, correction, ...)
 
-    INPUT:
+    INPUT
         config_filename (str) name of configuration file
         
     OUTPUT:
-        error_code (int) 0 if no fatal problem while reading configuration file, negative integer otherwise
+        error_code (int) 0 if no fatal error while reading config file, negative integer otherwise
     """
 
     # Deletes example sensor from code (in global variable)
@@ -373,14 +372,14 @@ def read_configuration(config_filename):
 
                     # Value was number, but not positive
                     value_from_config = parsed_config.get('General', 'sample_interval')
-                    details = 'Value must be positive (%s, %s).' % ('sample_interval', value_from_config)
+                    details = 'sample_interval must be positive (%s).' % (value_from_config,)
                     general_utils.log_error(-412, details)
 
             except ValueError as e:
 
                 # Value was not a number
                 value_from_config = parsed_config.get('General', 'sample_interval')
-                details = 'Value must be a number (%s, %s).' % ('sample_interval', value_from_config)
+                details = 'sample_interval must be a number (%s).' % (value_from_config,)
                 general_utils.log_error(-412, details, str(e))
 
         else:
@@ -396,7 +395,8 @@ def read_configuration(config_filename):
             try:
 
                 # Reads value from config file.
-                candidate_n_sample_for_average = parsed_config.getint('General', 'n_sample_for_average')
+                candidate_n_sample_for_average = parsed_config.getint('General', 
+                                                                      'n_sample_for_average')
 
                 # Tests if value in configuration is valid (positive integer)
                 if candidate_n_sample_for_average > 0:
@@ -408,14 +408,14 @@ def read_configuration(config_filename):
 
                     # Value was integer, but not positive
                     value_from_config = parsed_config.get('General', 'n_sample_for_average')
-                    details = 'Value must be positive integer (%s, %s).' % ('n_sample_for_average', value_from_config)
+                    details = 'n_sample_for_average not positive int (%s).' % (value_from_config,)
                     general_utils.log_error(-412, details)
 
             except ValueError as e:
 
                 # Value was not an integer
                 value_from_config = parsed_config.get('General', 'n_sample_for_average')
-                details = 'Value must be integer (%s, %s).' % ('n_sample_for_average', value_from_config)
+                details = 'n_sample_for_average not int (%s).' % (value_from_config,)
                 general_utils.log_error(-412, details, str(e))
 
         else:
@@ -431,7 +431,8 @@ def read_configuration(config_filename):
             try:
 
                 # Reads value from config file
-                candidate_n_average_for_smooth = parsed_config.getint('General', 'n_average_for_smooth')
+                candidate_n_average_for_smooth = parsed_config.getint('General', 
+                                                                      'n_average_for_smooth')
 
                 # Tests if value in configuration is valid (positive integer)
                 if candidate_n_average_for_smooth > 0:
@@ -443,14 +444,14 @@ def read_configuration(config_filename):
 
                     # Value was integer, but not positive
                     value_from_config = parsed_config.get('General', 'n_average_for_smooth')
-                    details = 'Value must be positive integer (%s, %s).' % ('n_average_for_smooth', value_from_config)
+                    details = 'n_average_for_smooth not positive int (%s).' % (value_from_config,)
                     general_utils.log_error(-412, details)
 
             except ValueError as e:
 
                 # Value was not an integer
                 value_from_config = parsed_config.get('General', 'n_average_for_smooth')
-                details = 'Value must be integer (%s, %s).' % ('n_average_for_smooth', value_from_config)
+                details = 'n_average_for_smooth not int (%s).' % (value_from_config,)
                 general_utils.log_error(-412, details, str(e))
 
         else:
@@ -463,7 +464,7 @@ def read_configuration(config_filename):
         ################################
         if parsed_config.has_option('General', 'thingspeak_key'):
 
-            # Configuration file only contains API key, so after it is parsed, merged it with base url.
+            # Configuration file only contains API key, so after parsing, merged it with base url.
             global thingspeak_url
             thingspeak_key = parsed_config.get('General', 'thingspeak_key')
             thingspeak_url = 'https://api.thingspeak.com/update?api_key=%s' % thingspeak_key
@@ -476,7 +477,7 @@ def read_configuration(config_filename):
 
         sensor_name = 'Sensor' + str(sensor_index)
 
-        # Check whether the sensor exist. Assumes config file has sensor listed as 'Sensor17, 'Sensor2', 'Sensor3', ...
+        # Check if sensor exist. Assumes config file has sensor listed as 'Sensor17, 'Sensor2', ...
         if parsed_config.has_section(sensor_name):
 
             # Check whether the sensor has the fundamental characteristics (type and address)
@@ -531,18 +532,18 @@ def read_configuration(config_filename):
 #########################
 
 
-########################################################################################################################
+####################################################################################################
 # Function (initialize_data_files)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-10-27 AB - Function Created
-########################################################################################################################
+####################################################################################################
 def initialize_data_files():
     """
     Initializes all required folders to export measurements from sensor.
     
-    RETURNS:
-        error_code (int) 0 if no fatal problem while initializing output folders, negative integer otherwise
+    OUTPUT
+        (int) 0 if no fatal problem while initializing output folders, negative integer otherwise
     """
 
     # For each i2c sensor registered
@@ -574,13 +575,13 @@ def initialize_data_files():
 ############################
 
 
-########################################################################################################################
+####################################################################################################
 # Function (read_sensor_values)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-10-27 AB - Function Created
 #   2016-10-28 AB - Added filter for outliers and warmup phase
-########################################################################################################################
+####################################################################################################
 def read_sensor_values():
     """
     Collects sample from all registered sensors.
@@ -594,28 +595,31 @@ def read_sensor_values():
 
         try:
 
-            # Fetched the relevant module depending on sensor type and calls its get_measurements function.
+            # Fetch sensor-relevant module and calls its get_measurements function.
             appropriate_driver = sensor_to_driver.get(sensor_object['type'])
-            all_values = appropriate_driver.get_measurements(sensor_address, sensor_object['correction'])
+            all_values = appropriate_driver.get_measurements(sensor_address,
+                                                             sensor_object['correction'])
 
             # Ignore value if sensor is in a warm-up phase.
             current_time = time.time()
-            in_warmup = current_time < sensor_object['last_failed_measure_time'] + sensor_object['warmup']
+            in_warmup = current_time < sensor_object['last_failed_measure_time'] + \
+                sensor_object['warmup']
 
             # Only adds if value must not be filtered
             if not in_warmup:
 
-                # Adds every type of measurement collected by the sensor. (Temperature, Humidity, Pressure, ...)
+                # Adds all measurement collected by sensor. (Temperature, Humidity, Pressure, ...)
                 for measurement in all_values.keys():
 
                     # Only adds measure if it succeedeed
                     if all_values[measurement] is not None:
 
-                        sensor_object['samples_to_average'][measurement].append(all_values[measurement])
+                        sensor_object['samples_to_average'][measurement].append(
+                            all_values[measurement])
 
         except IOError as e:
 
-            # Measuring sensor failed => Assume disconnection and assume warm-up must take place again
+            # Measuring sensor failed => Assume disconnection, so warm-up must take place again
             sensor_object['last_failed_measure_time'] = time.time()
 
             details = '(' + sensor_name + ', ' + hex(sensor_address) + ')'
@@ -623,8 +627,8 @@ def read_sensor_values():
 
         except ImportError as e:
 
-            # NOTE : This error would be linked to core files missing instead, so reboot might be necessary.
-            # Measuring sensor failed => Assume disconnection and assume warm-up must take place again
+            # NOTE : This error is linked to core files missing, so reboot might be necessary.
+            # Measuring sensor failed => Assume disconnection, so warm-up must take place again
             sensor_object['last_failed_measure_time'] = time.time()
 
             details = '(' + sensor_name + ', ' + hex(sensor_address) + ')'
@@ -639,13 +643,13 @@ def read_sensor_values():
 #########################
 
 
-########################################################################################################################
+####################################################################################################
 # Function (remove_obsolete_data)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-10-27 AB - Function Created
 #   2016-11-05 AB - Generalized function (measure-independent)
-########################################################################################################################
+####################################################################################################
 def remove_obsolete_data():
     """
     Removes data from more than N averaged samples ago (if it exists).
@@ -660,7 +664,7 @@ def remove_obsolete_data():
             # Removes oldest value for all types of measurements.
             for measurement in sensor_object['n_last_averages'].keys():
 
-                # Removes very first (oldest) average in memory, to keep constant number of entries in smoothing array).
+                # Removes oldest average in memory, to keep constant number of entries in array
                 sensor_object['n_last_averages'][measurement].pop(0)
 
         except IndexError:
@@ -678,18 +682,18 @@ def remove_obsolete_data():
 ###########################
 
 
-########################################################################################################################
+####################################################################################################
 # Function (output_data)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-10-27 AB - Function Created
 #   2016-11-05 AB - Generalized function (measure-independent)
-########################################################################################################################
+####################################################################################################
 def output_data(sensor_dictionnary_object):
     """
     Creates .dat files for data to output for a given sensor, and write said output in these files.
     
-    INPUT:
+    INPUT
         sensor_dictionnary_object {Dict} information about a sensor, as shown in global variables
     """
 
@@ -712,20 +716,20 @@ def output_data(sensor_dictionnary_object):
 ##################
 
 
-########################################################################################################################
+####################################################################################################
 # Function (delete_output_files)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-10-27 AB - Function Created
 #   2016-11-05 AB - Generalized function (measure-independent)
-########################################################################################################################
+####################################################################################################
 def delete_output_files(sensor_dictionnary_object):
     """
     Deletes .dat files that were created by this script.
-    Used when failing to get value from the sensors => avoid having a file that gives the impression that code is still
-    working fine
+    Used when failing to get value from the sensors => avoid having a file that gives impression 
+    that code is still working fine
     
-    INPUT:
+    INPUT
         sensor_dictionnary_object {Dict} information about a sensor, as shown in global variables
     """
 
@@ -747,21 +751,21 @@ def delete_output_files(sensor_dictionnary_object):
 ##########################
 
 
-########################################################################################################################
+####################################################################################################
 # Function (average_ignore_none)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-10-27 AB - Function Created
-########################################################################################################################
+####################################################################################################
 def average_ignore_none(array_with_none):
     """
-    Computes the average of an array that may contain None entries, by filtering these entries then averaging on the
-    residue.
+    Computes average of an array that may contain None entries, by filtering these entries then 
+    averaging on the residue.
     
-    INPUT:
+    INPUT
         array_with_none ((float|int|None)[]) : array of values for average computation
         
-    RETURNS:
+    OUTPUT
         (float) : average value in array, discarding None values
     """
 
@@ -795,19 +799,19 @@ def average_ignore_none(array_with_none):
 ##########################
 
 
-########################################################################################################################
+####################################################################################################
 # Function (average_sensor_measures)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-10-27 AB - Function Created
 #   2016-11-05 AB - Generalized function (measure-independent)
-########################################################################################################################
+####################################################################################################
 def average_sensor_measures(sensor_dictionnary_object):
     """
-    Averages successive sample values into on intermediary average, smoothes it using previous averages, then outputs
-    it
+    Averages successive sample values into on intermediary average, smoothes it using previous 
+    averages, then outputs it
 
-    INPUT:
+    INPUT
         sensor_dictionnary_object {Dict} information about a sensor, as shown in global variables
     """
 
@@ -865,16 +869,16 @@ def average_sensor_measures(sensor_dictionnary_object):
 ##############################
 
 
-########################################################################################################################
+####################################################################################################
 # Function (post_collection_actions)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-10-27 AB - Function Created
-########################################################################################################################
+####################################################################################################
 def post_collection_actions():
     """
-    Applies post-sample-collection actions. If samples successfully collected, averages, smoothes, and prints them. If
-    samples failed to be collected, deletes all output_files to show failure.
+    Applies post-sample-collection actions. If samples successfully collected, averages, smoothes, 
+    and prints them. If samples failed to be collected, deletes all output_files to show failure.
 
     """
 
@@ -883,7 +887,7 @@ def post_collection_actions():
 
         print("== Sensor %s ==" % sensor_object["name"])
 
-        # Only computes/print smoothed average if values have been retrieved in the last sample_collection
+        # Only computes/print smoothed average if last sample_collection was successfull
         first_key = sensor_object['samples_to_average'].keys()[0]
         if len(sensor_object['samples_to_average'][first_key]) > 0:
 
@@ -913,9 +917,9 @@ def post_collection_actions():
 ##############################
 
 
-####################################################################################################################
+####################################################################################################
 # Function(output_measures_to_web)
-####################################################################################################################
+####################################################################################################
 def output_measures_to_web():
     """
     Exports all smoothes averages collected from each sensor to thingspeak website.
@@ -929,7 +933,7 @@ def output_measures_to_web():
 
         for measurement in sensor_object['smoothed_average'].keys():
 
-            # Gets value, and augments the string with '&fieldX=YY.YYY' , with X index and YY.YYY value. (ignore None)
+            # Augments string with '&fieldX=YY.YYY', with X index and YY.YYY values. (ignore None)
             try:
 
                 measurement_value = float(sensor_object['smoothed_average'][measurement])
@@ -937,7 +941,7 @@ def output_measures_to_web():
 
             except TypeError:
 
-                # Value was None, so could not be converted to float => ignore and move on to next measure.
+                # None Value, so could not be converted to float => ignore and skip to next measure
                 pass
 
             # Increments field_index for following arguments
@@ -965,13 +969,13 @@ def output_measures_to_web():
 #############################
 
 
-########################################################################################################################
+####################################################################################################
 # Function(main)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-11-02 AB - Function Created
 #   2017-02-10 AB - Added custom log file
-########################################################################################################################
+####################################################################################################
 def main():
     """
     Monitors constantly temperature in the room and print out measurements at regular intervals.
@@ -1026,7 +1030,8 @@ def main():
         sample_collection_end_time = sample_collection_start_time + total_waiting_time
 
         # Time to print in the output (average of start and end)
-        sample_collection_half_time = time.localtime(0.5 * (sample_collection_start_time + sample_collection_end_time))
+        sample_collection_half_time = time.localtime(0.5 * (sample_collection_start_time +
+                                                            sample_collection_end_time))
 
         # Loop while sample time is within the same minute
         while time.time() < sample_collection_end_time:
@@ -1069,4 +1074,4 @@ if __name__ == "__main__":
     except Exception as unhandled_exception:
 
         error_details = traceback.format_exc(limit=None)
-        general_utils.log_error(-999, error_details=error_details, python_error_message=str(unhandled_exception))
+        general_utils.log_error(-999, error_details, str(unhandled_exception))

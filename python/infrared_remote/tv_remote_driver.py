@@ -1,13 +1,14 @@
 """
-This driver takes cares of storing information about and sending infrared signals to control my tv remote.
+This driver takes cares of storing information about and sending infrared signals to control my tv 
+    remote.
 
 First, a dictionnary of the different commands is available, which linked to the data bits to send.
-Then, when a button must be simulated, these databits are converted to IR lengths to send, expanded on with headers and
-trailing signals, and finally sent.
+Then, when a button must be simulated, these databits are converted to IR lengths to send, expanded 
+on with headers and trailing signals, and finally sent.
 
 == Signals ==
 A signal is started by a Header (High, Low) of (3400, 1700)
-Follows the data bits where each 1 is a (High, Low) of (430, 1250) and each 0 is a (High, Low) of (430, 410)
+Follows data bits where each 1 is (High, Low) of (430, 1250) and each 0 is (High, Low) of (430, 410)
 Finally, the signal concludes with a Trail (High, Low) of (440, 17100)
 """
 
@@ -60,12 +61,12 @@ all_codes = {
 }
 
 
-########################################################################################################################
+####################################################################################################
 # send_signal
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2017-01-27 AB - Created function
-########################################################################################################################
+####################################################################################################
 def send_signal(remote_button):
     """
     Sends infrared signal to air conditioning system with given options.
@@ -83,10 +84,11 @@ def send_signal(remote_button):
         return general_utils.log_error(-505, error_details=details)
         ############################################################
 
-    # Uses remote specific data and data_bytes information to get all sub-signals to create, and order in which to send
-    #   them to get the full signal to send.
-    all_wave_lengths, wave_order = signal_sender.convert_bits_to_length(data_bytes, one_bit, zero_bit, header_signal,
-                                                                        repeat_signal, trail_signal, n_repeat)
+    # Uses remote specific data and data_bytes information to get all sub-signals to create, and
+    # order in which to send them to get the full signal to send.
+    all_wave_lengths, wave_order = \
+        signal_sender.convert_bits_to_length(data_bytes, one_bit, zero_bit, header_signal,
+                                             repeat_signal, trail_signal, n_repeat)
 
     # Creates pigpio interface to send infrared signal
     ir = signal_sender.PigpioInterface(21, 38000, 0.5)

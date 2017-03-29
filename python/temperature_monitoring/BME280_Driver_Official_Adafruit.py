@@ -58,8 +58,8 @@ class BME280(object):
         if mode not in [BME280_OSAMPLE_1, BME280_OSAMPLE_2, BME280_OSAMPLE_4,
                         BME280_OSAMPLE_8, BME280_OSAMPLE_16]:
             raise ValueError(
-                'Unexpected mode value {0}.  Set mode to one of BME280_ULTRALOWPOWER, BME280_STANDARD, BME280_HIGHRES, '
-                'or BME280_ULTRAHIGHRES'.format(mode))
+                'Unexpected mode value {0}.  Set mode to one of BME280_ULTRALOWPOWER, BME280_'
+                'STANDARD, BME280_HIGHRES, or BME280_ULTRAHIGHRES'.format(mode))
         self._mode = mode
         # Create I2C device.
         if i2c is None:
@@ -98,8 +98,7 @@ class BME280(object):
 
         h5 = self._device.readS8(BME280_REGISTER_DIG_H6)
         h5 = (h5 << 24) >> 20
-        self.dig_H5 = h5 | (
-        self._device.readU8(BME280_REGISTER_DIG_H5) >> 4 & 0x0F)
+        self.dig_H5 = h5 | (self._device.readU8(BME280_REGISTER_DIG_H5) >> 4 & 0x0F)
 
         """
         print '0xE4 = {0:2x}'.format (self._device.readU8 (BME280_REGISTER_DIG_H4))
@@ -150,11 +149,11 @@ class BME280(object):
     def read_temperature(self):
         """Gets the compensated temperature in degrees celsius."""
         # float in Python is double precision
-        UT = float(self.read_raw_temp())
+        ut = float(self.read_raw_temp())
 
-        var1 = (UT / 16384.0 - self.dig_T1 / 1024.0) * float(self.dig_T2)
-        var2 = ((UT / 131072.0 - self.dig_T1 / 8192.0) * (
-        UT / 131072.0 - self.dig_T1 / 8192.0)) * float(self.dig_T3)
+        var1 = (ut / 16384.0 - self.dig_T1 / 1024.0) * float(self.dig_T2)
+        var2 = ((ut / 131072.0 - self.dig_T1 / 8192.0) * (ut / 131072.0 - self.dig_T1 / 8192.0)) * \
+            float(self.dig_T3)
         self.t_fine = int(var1 + var2)
         temp = (var1 + var2) / 5120.0
         return temp

@@ -1,23 +1,25 @@
 """
-This driver help converting the desired settng for the air conditioning ystem in my house to the appropriate signal
-length to send through infrared, and takes care of sending these signals.
+This driver help converting desired settng for air conditioning system in my house to appropriate 
+signal length to send through infrared, and takes care of sending these signals.
 
-After examination of the receiver signals (with convert_aircon_ir.py code) on many tests configuration. The following
-conclusions were taken.
+After examination of the receiver signals (with convert_aircon_ir.py code) on many tests 
+configuration. The following conclusions were taken.
 
 == Signals ==
 A signal is started by a Header (High, Low) of (3400, 1750)
-Follows the data bits where each 1 is a (High, Low) of (450, 1300) and each 0 is a (High, Low) of (450, 420)
-Follows the repetition signal  (High, Low) of (440, 17100)
-Follows the same data bits as before
+Follows data bits where each 1 is (High, Low) of (450, 1300) and each 0 is (High, Low) of (450, 420)
+Follows repetition signal  (High, Low) of (440, 17100)
+Follows same data bits as before
 Finally, the signal concludes with a Trail (High, Low) of (440, 17100)
 
 == Configuration ==
 Off, On     : 6-th byte,  6th bit     : 0=Off,    1=On
 Temperature : 8-th byte,  1st-4th bit : 0000=16,  1000=17,  0100=18,  0010=20,  0001=24,  1111=31
 Wind speed  : 10-th byte, 1st-2nd bit : 00=auto,  10=low,  01=middle,  11=high
-Wind direct : 10-th byte, 4th-6th bit : 000=auto, 100=lowest,  010=low,  110=center,  001=high,  101=highest,  111=loop
-Sound       : 10-th byte, 7th-8th bit : 10=1beep,  01 = 2 beeps.  (THIS ONE IS NOT SURE). MAYBE 0 STOPS SOUNDS
+Wind direct : 10-th byte, 4th-6th bit : 000=auto, 100=lowest,  010=low,  110=center,  001=high, 
+    101=highest,  111=loop
+Sound       : 10-th byte, 7th-8th bit : 10=1beep,  01 = 2 beeps.  (THIS ONE IS NOT SURE). MAYBE 0
+    STOPS SOUNDS
 Mode        :
     (1) 7-th byte, 4th-5th bit : 10=heater, 11=cooler, 01=dryer
     (2) 9th byte, 2th-3rd bit : 00=heater, 11=cooler, 10=dryer
@@ -78,12 +80,12 @@ base_signal = [
 ]
 
 
-########################################################################################################################
+####################################################################################################
 # compute_checksum
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   19/01/2016 AB - Created function
-########################################################################################################################
+####################################################################################################
 def compute_checksum(all_data_bytes):
     """
     Computes the final byte to send, which contains the checksum of all data bytes.
@@ -99,7 +101,7 @@ def compute_checksum(all_data_bytes):
     all_bytes_sum = 0
     for data_byte in all_data_bytes:
 
-        # Reverse the byte to fit the standard binary format. Bytes to send are written as (1, 2, 4, 8, ...)
+        # Reverse byte to fit standard binary format. Bytes to send are written as (1, 2, 4, 8, ...)
         reverse_byte = data_byte[::-1]
 
         all_bytes_sum += int(reverse_byte, 2)
@@ -107,7 +109,7 @@ def compute_checksum(all_data_bytes):
     # Only keep the 8 lowest signicant bits to make the checksum byte.
     all_bytes_sum %= 256
 
-    # Converts the resulting integer to binary, and reverts the string, to fit the format (1, 2, 4, 8, ...)
+    # Converts resulting integer to binary, and reverts string, to fit format (1, 2, 4, 8, ...)
     checksum = bin(all_bytes_sum)[2:].zfill(8)
 
     ######################
@@ -119,17 +121,17 @@ def compute_checksum(all_data_bytes):
 #######################
 
 
-########################################################################################################################
+####################################################################################################
 # convert_info_to_bits
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2017-01-19 AB - Created function
 #   2017-01-28 AB - Added Return None if not valid
-########################################################################################################################
+####################################################################################################
 def convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direction):
     """
-    Converts the information to send the aircon from human-readable (turned on in heater mode at 26 degree) to the byte
-    version to be interpreted by the aircon receiver.
+    Converts the information to send the aircon from human-readable (turned on in heater mode at 26 
+    degree) to the byte version to be interpreted by the aircon receiver.
 
     INPUT:
         is_turned_on {'on', 'off'} whether aircon is on or off
@@ -275,12 +277,12 @@ def convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direc
 ###########################
 
 
-########################################################################################################################
+####################################################################################################
 # send_signal
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   19/01/2016 AB - Created function
-########################################################################################################################
+####################################################################################################
 def send_signal(is_turned_on, mode, temperature, wind_speed, wind_direction):
     """
     Sends infrared signal to air conditioning system with given options.
@@ -294,7 +296,8 @@ def send_signal(is_turned_on, mode, temperature, wind_speed, wind_direction):
     """
 
     # Converts all options desired to the data bytes to send, in byte (8 bit-string) array form
-    data_bytes, details = convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direction)
+    data_bytes, details = convert_info_to_bits(is_turned_on, mode, temperature, wind_speed,
+                                               wind_direction)
 
     if data_bytes is None:
 
@@ -304,10 +307,11 @@ def send_signal(is_turned_on, mode, temperature, wind_speed, wind_direction):
 
     data_bytes = ''.join(data_bytes)
 
-    # Uses remote specific data and data_bytes information to get all sub-signals to create, and order in which to send
-    #   them to get the full signal to send.
-    all_wave_lengths, wave_order = signal_sender.convert_bits_to_length(data_bytes, one_bit, zero_bit, header_signal,
-                                                                        repeat_signal, trail_signal, n_repeat)
+    # Uses remote specific data and data_bytes information to get all sub-signals to create, and
+    # order in which to send them to get the full signal to send.
+    all_wave_lengths, wave_order = \
+        signal_sender.convert_bits_to_length(data_bytes, one_bit, zero_bit, header_signal,
+                                             repeat_signal, trail_signal, n_repeat)
 
     if all_wave_lengths is None:
 

@@ -11,7 +11,7 @@ import RPi.GPIO as GPIO  # Controls and reads GPIO Pins
 # Import local packages
 ########################
 
-from python.global_libraries import general_utils  # Prints starting/ending message as well as all errors messages
+from python.global_libraries import general_utils
 
 __author__ = 'Baland Adrien'
 
@@ -21,12 +21,12 @@ __author__ = 'Baland Adrien'
 pin_gpio_id = -1  # Pin to which DHT11 Sensor is connected.
 
 
-########################################################################################################################
+####################################################################################################
 # FUNCTION (is_valid_address)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-11-04 AB - Function Created
-########################################################################################################################
+####################################################################################################
 def is_valid_address(sensor_address):
     """
     Tests whether provided address is a valid DHT11 address.
@@ -74,12 +74,12 @@ def is_valid_address(sensor_address):
 #######################
 
 
-########################################################################################################################
+####################################################################################################
 # FUNCTION (get_measurement_types)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-11-05 AB - Function Created
-########################################################################################################################
+####################################################################################################
 def get_measurement_types():
     """
     Returns names of all type of measurement that can be collected from sensor.
@@ -99,14 +99,14 @@ def get_measurement_types():
 ############################
 
 
-####################################################################################################################
+####################################################################################################
 # Function(collect_pin_values)
-####################################################################################################################
+####################################################################################################
 def collect_pin_values():
     """
-    Collect data from DHT11 sensor. Measures as often as possible the state (LOW/HIGH) of the pin to measure.
-    The following starting sequence (HIGH, LOW, HIGH) is ignore, as it precedes the sensor data response (announces that
-    response will follow).
+    Collect data from DHT11 sensor. Measures as often as possible state (LOW/HIGH) of pin to measure
+    The following starting sequence (HIGH, LOW, HIGH) is ignored, as it precedes sensor data 
+    response (announces that response will follow).
     Collections stop when measurements stay to HIGH for a long enough time.
 
     INPUT:
@@ -129,7 +129,7 @@ def collect_pin_values():
         while GPIO.input(pin_gpio_id) and n_same_value_count < n_same_value_break:
             n_same_value_count += 1
 
-        # Wait for DHT to pull pin HIGH (next LOW will signal the start of data bits) => Skips all low
+        # Wait for DHT to pull pin HIGH (next LOW will signal start of data bits) => Skips all low
         n_same_value_count = 0
         while not GPIO.input(pin_gpio_id) and n_same_value_count < n_same_value_break:
             n_same_value_count += 1
@@ -151,7 +151,8 @@ def collect_pin_values():
     # Starts collection
     ####################
 
-    # While measurements are not stable (max_unchanged_count times the same value), reads value and appends it
+    # While measurements are not stable (max_unchanged_count times the same value), reads value and
+    # appends it
     n_same_value_count = 0
     while True:
 
@@ -192,14 +193,15 @@ def collect_pin_values():
 #########################
 
 
-####################################################################################################################
+####################################################################################################
 # Function(get_high_voltage_counts)
-####################################################################################################################
+####################################################################################################
 def get_high_voltage_counts(data):
     """
-    Converts array of 1 and 0 into an array of how many successive times 1 appear, e.g. [1, 1, 0, 1, 0, 1] => [2, 1, 1].
-    Since only high-voltage are relevant for DHT11 (short-signal = 0-bit, long-signal = 1-bit, only the number of times
-    a 1 was measured in a row is relevant.
+    Converts array of 1 and 0 into an array of how many successive times 1 appear, e.g. [1, 1, 0, 1,
+        0, 1] => [2, 1, 1].
+    Since only high-voltage are relevant for DHT11 (short-signal = 0-bit, long-signal = 1-bit, only 
+    the number of times a 1 was measured in a row is relevant.
 
     INPUT
         data (int[]): array of 0 and 1 to aggregate
@@ -242,14 +244,14 @@ def get_high_voltage_counts(data):
 ##############################
 
 
-####################################################################################################################
+####################################################################################################
 # Function(get_data_bits)
-####################################################################################################################
+####################################################################################################
 def get_data_bits(all_high_voltage_counts):
     """
-    Converts sequence of consecutive-1 counts into an array of corresponding data bit values (0 or 1).
-    HIGH signal for a long time means 1-bit, for a short time means 0-bit. If we assume each sample was collected at
-    equal interval, we consider HIGH-voltage with high count as 1, and low count as 0.
+    Converts sequence of consecutive-1 counts into array of corresponding data bit values (0 or 1).
+    HIGH signal for a long time means 1-bit, for a short time means 0-bit. If each sample was 
+    collected at equal interval, we consider HIGH-voltage with high count as 1, and low count as 0.
 
     INPUT:
         high_voltage_length (int[]) : HIGH voltage consecutive counts.
@@ -290,9 +292,9 @@ def get_data_bits(all_high_voltage_counts):
 #####################
 
 
-####################################################################################################################
+####################################################################################################
 # Function(send_and_sleep)
-####################################################################################################################
+####################################################################################################
 def send_and_sleep(output, sleep_time):
     """
     Sets output value and waits for a given amount of time.
@@ -331,9 +333,9 @@ def send_and_sleep(output, sleep_time):
 #####################
 
 
-####################################################################################################################
+####################################################################################################
 # Function(convert_data_bits)
-####################################################################################################################
+####################################################################################################
 def convert_data_bits(all_data_bits):
     """
     Converts the sequence of 40 databits into 5 bytes (integer).
@@ -354,7 +356,7 @@ def convert_data_bits(all_data_bits):
         # Shifts all bits in the currently constructed byte by 1 to the left.  00010100 => 00101000
         one_byte <<= 1
 
-        # If the current bit to process is one, update the left-most bit in the in-construction byte!
+        # If current bit to process is one, update the left-most bit in the in-construction byte!
         if all_data_bits[i]:
 
             one_byte |= 1
@@ -363,7 +365,7 @@ def convert_data_bits(all_data_bits):
 
             one_byte |= 0
 
-        # If 8 bits have been processed, the full byte was reconstructed, so save it, and start with a new byte
+        # If 8 bits processed, full byte was reconstructed, so save it, and start with a new byte
         if (i + 1) % 8 == 0:
 
             all_bytes.append(one_byte)
@@ -378,12 +380,12 @@ def convert_data_bits(all_data_bits):
 ##############################
 
 
-####################################################################################################################
+####################################################################################################
 # Function(compute_checksum)
-####################################################################################################################
+####################################################################################################
 def compute_checksum(all_bytes):
     """
-    Computes the checksum of the first four data bytes emitted by the DHT11 sensor. This checksum is computed as
+    Computes checksum of the four data bytes emitted by DHT11 sensor. This checksum is computed as
     the sum of all four bytes with a 0xFF mask.
 
     INPUT:
@@ -404,26 +406,27 @@ def compute_checksum(all_bytes):
 #######################
 
 
-####################################################################################################################
+####################################################################################################
 # Function(get_measurements)
-####################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-11-04 AB - Function Created
-########################################################################################################################
+####################################################################################################
 def get_measurements(address, temperature_correction):
     """
     Measures and returns all available measurements for the room as a dictionnary.
 
     INPUT:
         address (None) address of DHT11 sensor (GPIO pin)
-        temperature_correction (float) correction to apply to measurement value, to account for external effects.
+        temperature_correction (float) correction to apply to measurement value, to account for 
+            external effects.
 
 
     RETURNS:
         (Dict) dictionnary as {'temperature': value}
     """
 
-    max_number_retry = 3  # Number of times script will try to get data from sensor in case of failure
+    max_number_retry = 3  # Times script will try to get data from sensor in case of failure
 
     all_values = {
         'temperature': None,
@@ -446,7 +449,7 @@ def get_measurements(address, temperature_correction):
         # Set pin high for 500ms (makes sure everything is freed)
         send_and_sleep(GPIO.HIGH, 0.5)
 
-        # MCU sends out start signal and pull down voltage for at least 18milliseconds (initial phase)
+        # MCU sends start signal and pull down voltage for at least 18milliseconds (initial phase)
         send_and_sleep(GPIO.LOW, 0.020)
 
         # Change to input using pull up (prepares for response from sensor)
@@ -458,7 +461,7 @@ def get_measurements(address, temperature_correction):
         # parse lengths of all data pull up periods
         high_voltage_counts = get_high_voltage_counts(all_voltage_measurements)
 
-        # Tests if exactly 40-bits of data were parsed (otherwise, no point in trying to convert them)
+        # Tests if exactly 40-bits of data parsed (otherwise, no point in trying to convert them)
         if len(high_voltage_counts) == 40:
 
             # Get all 40 data bits value (0 or 1)
@@ -488,7 +491,7 @@ def get_measurements(address, temperature_correction):
 
         else:
 
-            # Log errors if failed to get exactly 40 data bits from sensor (only log error after n failures)
+            # Log errors if failed to get 40 data bits from sensor (only log error after n failures)
             if index_retry == max_number_retry:
 
                 general_utils.log_error(-409, 'Not 40 data bits for DHT11')

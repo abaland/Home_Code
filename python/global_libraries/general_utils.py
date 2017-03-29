@@ -25,11 +25,11 @@ all_error_messages = {
     -7: 'No commands were provided and no flag for live commands was found. Nothing to do.',
     -8: 'Encountered an empty instruction. Ignoring',
     -9: 'Encountered an non-valid instruction. Ignoring. ',
-    -10: 'Encountered more/less arguments than required for an instruction. Skipping the instruction.',
+    -10: 'Encountered more/less arguments than required for instruction. Skipping the instruction.',
     -11: 'No instruction given. To quit the code, type "exit"',
     -12: 'Exactly one value (float/int) must be given after the timeout instruction',
     -13: 'Inappropriate arguments for instruction to send.',
-    -14: 'Loaded module does not have required base instructions (get_message, process_response, help_message)',
+    -14: 'Module missing required base instructions (get_message, process_response, help_message)',
     -15: 'No worker Id given in argument',
     ##################
     # RabbitMQ server
@@ -48,8 +48,8 @@ all_error_messages = {
     ################################
     -301: 'Timeout value header could not be interpreted. Ignoring.',
     -302: 'Could not interpret the instruction received. Skipping instruction.',
-    -303: 'Received non-default instruction although configuration is still default. Skipping instruction',
-    -304: 'No module could be found to process the instruction. Maybe the config version is not latest.',
+    -303: 'Received non-default instruction although default configuration. Skipping instruction',
+    -304: 'No module could be found for instruction. Maybe the config version is not latest.',
     -305: 'Failed to interpret new configuration. Aborting update.',
     -306: 'Failed to create files/folder for the worker configuration folder',
     ###########
@@ -102,13 +102,13 @@ all_error_messages = {
 }
 
 
-########################################################################################################################
+####################################################################################################
 # setup_log_file
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #    2017-02-10 AdBa: Created the function
 #    2017-02-17 AB - Changed permission check
-########################################################################################################################
+####################################################################################################
 def setup_log_file(log_file_url, logger_name):
     """
     Sets up an custom log file (instead of default syslog) for error messages.
@@ -150,7 +150,8 @@ def setup_log_file(log_file_url, logger_name):
         formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
         # Add the log message handler to the logger
-        handler = logging.handlers.TimedRotatingFileHandler(log_file_url, when='D', interval=7, backupCount=5)
+        handler = logging.handlers.TimedRotatingFileHandler(log_file_url, when='D', interval=7,
+                                                            backupCount=5)
         handler.setFormatter(formatter)
         custom_logger.addHandler(handler)
 
@@ -170,12 +171,12 @@ def setup_log_file(log_file_url, logger_name):
 #####################
 
 
-########################################################################################################################
+####################################################################################################
 # write_to_log
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #    2017-02-10 AdBa: Created the function
-########################################################################################################################
+####################################################################################################
 def write_to_log(message, error_level):
     """
     Writes a message into the log with the appropriate level (info, error, warning).
@@ -217,12 +218,12 @@ def write_to_log(message, error_level):
 ###################
 
 
-########################################################################################################################
+####################################################################################################
 # test_fatal_error
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #    2016/07/29 AdBa: Created the function
-########################################################################################################################
+####################################################################################################
 def test_fatal_error(class_instance, class_title):
     """
     Tests whether a fatal error has occurred and exits code if it has.
@@ -250,12 +251,12 @@ def test_fatal_error(class_instance, class_title):
 #######################
 
 
-########################################################################################################################
+####################################################################################################
 # get_welcome_end_message
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #    2016/11/26 AdBa: Created the function
-########################################################################################################################
+####################################################################################################
 def get_welcome_end_message(class_title, is_start):
     """
     Prints introductory message or termination messagefor the code
@@ -264,10 +265,11 @@ def get_welcome_end_message(class_title, is_start):
         class_title (str) : name of the class using this function. (Worker / Master / ...)
         class_title (bool) : whether the message is welcoming or terminating.
     """
-    
+
+    time_as_string = str(convert_localtime_to_string(time.localtime()))
     message_to_print = 'Starting ' if is_start else 'Ending '
     message_to_print += 'code %s. UTC %s. Version %s.\n' % (str(class_title),
-                                                            str(convert_localtime_to_string(time.localtime())),
+                                                            time_as_string,
                                                             str(__version__))
 
     write_to_log(message_to_print, 'info')
@@ -281,20 +283,20 @@ def get_welcome_end_message(class_title, is_start):
 ###########################
 
 
-########################################################################################################################
+####################################################################################################
 # get_error_message
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #    2016/07/29 AdBa: Created the function
-########################################################################################################################
-def log_error(error_code, error_details=None, python_error_message=None):
+####################################################################################################
+def log_error(error_code, error_details=None, python_message=None):
     """
     Print an appropriate error message given a code
 
     INPUT:
     code (int) : the error number
     details (str) : details to complement the generic error message.
-    error_message (str) : Explanation on why the error occured. Usually holds the python exception messages
+    error_message (str) : Explanation on why error occured. Usually holds python exception messages
 
     OUTPUT:
     code (int) : code given as input.
@@ -312,9 +314,9 @@ def log_error(error_code, error_details=None, python_error_message=None):
 
         write_to_log(str(error_details) + '.', 'error')
 
-    if python_error_message is not None:
+    if python_message is not None:
 
-        write_to_log(str(python_error_message), 'error')
+        write_to_log(str(python_message), 'error')
 
     ##################
     return error_code
@@ -325,12 +327,12 @@ def log_error(error_code, error_details=None, python_error_message=None):
 ########################
 
 
-########################################################################################################################
+####################################################################################################
 # log_message
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #    2016/11/26 AdBa: Created the function
-########################################################################################################################
+####################################################################################################
 def log_message(message_to_log):
     """
     Print provided message to syslog
@@ -359,12 +361,12 @@ def log_message(message_to_log):
 ##################
 
 
-####################################################################################################################
+####################################################################################################
 # convert_message_to_xml
-####################################################################################################################
+####################################################################################################
 # Revision History:
 #    2016/11/26 AdBa: Created the function
-####################################################################################################################
+####################################################################################################
 def convert_message_to_xml(xml_message_as_string):
     """
     Attemps to converts a XML-formatted message from a string to an lxml.etree object
@@ -373,7 +375,8 @@ def convert_message_to_xml(xml_message_as_string):
         xml_message_as_string (str) : an XML object formatted as a string
 
     OUTPUT:
-        (lxml.etree|None) the same XML object formatted as a lxml.etree. None if an error occured during conversion.
+        (lxml.etree|None) same XML object formatted as lxml.etree. None if error occured during 
+            conversion.
     """
 
     from lxml import etree  # Converts some of the message (in a xml format) to a xml-like object
@@ -387,12 +390,12 @@ def convert_message_to_xml(xml_message_as_string):
     # The response string had a wrong format.
     except ValueError as e:
 
-        log_error(-200, error_details=str(xml_message_as_string), python_error_message=e)
+        log_error(-200, error_details=str(xml_message_as_string), python_message=e)
 
     # The response string did not follow the XML syntax.
     except etree.XMLSyntaxError as e:
 
-        log_error(-200, error_details=str(xml_message_as_string), python_error_message=e)
+        log_error(-200, error_details=str(xml_message_as_string), python_message=e)
 
     ###########################
     return worker_message_tree
@@ -403,12 +406,12 @@ def convert_message_to_xml(xml_message_as_string):
 #############################
 
 
-########################################################################################################################
+####################################################################################################
 # Function (convert_localtime_to_string)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #    2016/11/26 AdBa: Created the function
-########################################################################################################################
+####################################################################################################
 def convert_localtime_to_string(stamp, date_time_separator=' '):
     """
     Converts a time.localtime() object to a string formatted as YYY-MM-DD hh:mm:ss
@@ -438,12 +441,12 @@ def convert_localtime_to_string(stamp, date_time_separator=' '):
 ##################################
 
 
-########################################################################################################################
+####################################################################################################
 # Function (delete_os_file)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #    2016/11/26 AdBa: Created the function
-########################################################################################################################
+####################################################################################################
 def delete_os_file(file_name):
     """
     Deletes file on OS filesystem.
@@ -476,12 +479,12 @@ def delete_os_file(file_name):
 #####################
 
 
-########################################################################################################################
+####################################################################################################
 # Function (create_os_file)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #    2016/11/26 AdBa: Created the function
-########################################################################################################################
+####################################################################################################
 def create_os_file(file_name, file_content):
     """
     Creates and initializes file on OS filesystem.

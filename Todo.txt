@@ -1,0 +1,1 @@
+Specify "except Exception as e" in TSL2561_Driver, for "Sensor saturated" exception.

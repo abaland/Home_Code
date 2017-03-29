@@ -333,7 +333,7 @@ class PigpioInterface:
         except pigpio.error as e:
 
             ##########################################################################################
-            return general_utils.log_error(-507, error_details='wave_create', python_error_message=e)
+            return general_utils.log_error(-507, error_details='wave_create', python_message=e)
             ##########################################################################################
 
         # Updates internal parameters

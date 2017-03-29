@@ -2,18 +2,18 @@
 # Import local packages
 ########################
 
-import BME280_Driver_Official_Adafruit  # Official BME280_Driver module, on which this module relies.
-import python.global_libraries.general_utils  # Prints starting/ending message as well as all errors messages
+import BME280_Driver_Official_Adafruit  # Official BME280_Driver module, on which this relies.
+import python.global_libraries.general_utils
 
 __author__ = 'Baland Adrien'
 
 
-########################################################################################################################
+####################################################################################################
 # FUNCTION (is_valid_address)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-11-04 AB - Function Created
-########################################################################################################################
+####################################################################################################
 def is_valid_address(sensor_address):
     """
     Tests whether provided address is a valid BME280 address for such sensors
@@ -60,12 +60,12 @@ def is_valid_address(sensor_address):
 #######################
 
 
-########################################################################################################################
+####################################################################################################
 # FUNCTION (get_measurement_types)
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-11-05 AB - Function Created
-########################################################################################################################
+####################################################################################################
 def get_measurement_types():
     """
     Returns names of all type of measurement that can be collected from sensor.
@@ -85,19 +85,20 @@ def get_measurement_types():
 ############################
 
 
-####################################################################################################################
+####################################################################################################
 # Function(get_measurements)
-####################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-11-04 AB - Function Created
-########################################################################################################################
+####################################################################################################
 def get_measurements(address, temperature_correction):
     """
     Measures and returns all available measurements for the room as a dictionnary.
 
     INPUT:
         address (None) address of one-wire sensor
-        temperature_correction (float) correction to apply to measurement value, to account for external effects.
+        temperature_correction (float) correction to apply to measurement value, to account for 
+            external effects.
 
 
     RETURNS:
@@ -133,7 +134,8 @@ def get_measurements(address, temperature_correction):
     except TypeError as e:
 
         # Something went wrong when retrieving the values. Log error.
-        python.global_libraries.general_utils.log_error(-409, 'Failed to get measures from BME280. %s' % str(e))
+        details = 'Failed to get measures from BME280. %s' % str(e)
+        python.global_libraries.general_utils.log_error(-409, details)
 
     ##################
     return all_values

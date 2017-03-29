@@ -1,7 +1,6 @@
 #########################
 # Import Global Packages
 #########################
-from lxml import etree  # Converts some of the message (in a xml format) to a xml-like object
 import os
 import syslog
 import time
@@ -376,6 +375,8 @@ def convert_message_to_xml(xml_message_as_string):
     OUTPUT:
         (lxml.etree|None) the same XML object formatted as a lxml.etree. None if an error occured during conversion.
     """
+
+    from lxml import etree  # Converts some of the message (in a xml format) to a xml-like object
 
     worker_message_tree = None
 

@@ -6,39 +6,39 @@
 # GLOBAL PACKAGES
 ##################
 import Tkinter as Tk  # GUI Packages
-import threading  # Handles multi-threading in the code (send RabbitMQ request, check GUI updates, ...)
+import threading  # Handles multi-threading in code (send RabbitMQ request, check GUI updates, ...)
 
 ########################
 # Import Local Packages
 ########################
 
-from python.rabbitmq_instructions import master as master_script  # code for Rabbit Master Controller
-from python.global_libraries import general_utils  # Main script to print welcome/ending messages and log errors
+from python.rabbitmq_instructions import master as master_script
+from python.global_libraries import general_utils
 import tkinter_remote_control_tv
 
-########################################################################################################################
+####################################################################################################
 # CODE START
-########################################################################################################################
+####################################################################################################
 
 
-####################################################################################################################
+####################################################################################################
 # TkinterMaster
-####################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-11-26 AB - Class Created
-####################################################################################################################
+####################################################################################################
 class TkinterMaster:
 
     #
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # __init__
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB - Function Created
-    ####################################################################################################################
+    ################################################################################################
     def __init__(self, root_window, rabbit_master_object):
 
         # The GUI itself.
@@ -49,7 +49,7 @@ class TkinterMaster:
 
         # Master Controller script
         self.rabbit_master = rabbit_master_object  # Makes a reference to the Master Controller
-        self.rabbit_master.forward_response_target = self  # Makes a reference to the GUI inside the Master Controller.
+        self.rabbit_master.forward_response_target = self  # Makes reference to GUI inside Master
         
         # Instructions that can be sent to worker. Read by ConfigParser
         self.all_supported_remotes = ['tv', 'aircon']  # List of all possible remote controls
@@ -74,35 +74,37 @@ class TkinterMaster:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # set_remote_menu
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB - Function Created
-    ####################################################################################################################
+    ################################################################################################
     def set_remote_menu(self):
         """
         Initializes first main frame on the GUI, containing instructions that can be sent to worker.
-        This frame is composed of N radio buttons as rows, where each instruction is one such button.
+        This frame is composed of N radio buttons as rows, where each instruction is one such button
 
         OUTPUT:
-            status (int) 0 if no fatal error occured when creating instruction menu, negative number otherwise.
+            status (int) 0 if no fatal error occured when creating instruction menu, 
+                negative number otherwise.
         """
 
-        # In the general GUI grid, only one row is used, containing instruction frame + updatable content frame
-        # So set this row to expand to fill the GUI size.
+        # In general GUI grid, only one row is used, containing instruction frame + updatable
+        # content frame, so set this row to expand to fill the GUI size.
         Tk.Grid.rowconfigure(self.root_window, 0, weight=0)
         for i in range(len(self.all_supported_remotes)):
 
             Tk.Grid.columnconfigure(self.root_window, i, weight=1)
 
-        # For each instruction, creates a radio button, locate it in appropriate spot (i-th row, first column) and makes
-        # it fill its parent row
+        # For each instruction, creates a radio button, locate it in appropriate spot (i-th row,
+        # first column) and makes it fill its parent row
         i = 0
         for remote_name in self.all_supported_remotes:
 
             Tk.Radiobutton(self.root_window, text=remote_name, indicatoron=0,
-                           variable=self.chosen_remote, value=remote_name, command=self.update_value, padx=5)\
+                           variable=self.chosen_remote, value=remote_name,
+                           command=self.update_value, padx=5)\
                 .grid(row=0, column=i, rowspan=1, columnspan=1, sticky='NWSE')
 
             i += 1
@@ -111,20 +113,20 @@ class TkinterMaster:
         return 0
         #########
 
-    ###########################
+    ######################
     # END set_remote_menu
-    ###########################
+    ######################
 
     #
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # start_setup
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB - Function Created
-    ####################################################################################################################
+    ################################################################################################
     def start_setup(self, window_width, window_height):
         """
         Initializes GUI window entirely.
@@ -157,7 +159,8 @@ class TkinterMaster:
         Tk.Grid.rowconfigure(self.root_window, 1, weight=1)
         self.updatable_frame.grid(row=1, column=0, rowspan=1, columnspan=2, sticky='NWSE')
 
-        # Initializes the instruction chosen to be the first one, and calls appropriate functions in how to handle that
+        # Initializes instruction chosen to be first one, and calls appropriate functions in how to
+        # handle that
         self.chosen_remote.set('tv')
         self.update_value()
         
@@ -176,18 +179,19 @@ class TkinterMaster:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # clear_updatable_frame
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB - Function Created
-    ####################################################################################################################
+    ################################################################################################
     def clear_updatable_frame(self):
         """
         Clears contents of the updatable frame
         """
     
-        # Resets GUI frame of the 'response-holder' part (instruction has changed => responses have new structure)
+        # Resets GUI frame of 'response-holder' part (instruction has changed => responses have new
+        # structure)
         for updatable_frame_content in self.updatable_frame.winfo_children():
 
             # Destroy child of the frame to reset one by one
@@ -201,17 +205,17 @@ class TkinterMaster:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # update_value
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB - Function Created
-    ####################################################################################################################
+    ################################################################################################
     def update_value(self):
         """
-        Calls relevant submodule given a chosen instruction to send to workers via RabbitMQ. Fetches the appropriate
-        module inside the configuration folder, and calls required function in said module to (1) send instructions
-        (2) receive responses (3) apply GUI changes based on response.
+        Calls relevant submodule given a chosen instruction to send to workers via RabbitMQ. Fetches
+         appropriate module inside configuration folder, and calls required function in module to 
+         (1) send instructions (2) receive responses (3) apply GUI changes based on response.
 
         """
 
@@ -236,17 +240,19 @@ class TkinterMaster:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # add_response
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB - Function Created
-    ####################################################################################################################
+    ################################################################################################
     def add_response(self, instruction_name, worker_id, worker_response):
         """
         Processes response from a worker internally.
-        This does NOT update GUI because it is called as a subthread (Tkinter only modifies GUI through main thread).
-        Given the response, worker id, and instruction name, fetches relevant module and updates internal parameters
+        This does NOT update GUI because it is called as a subthread (Tkinter only modifies GUI 
+        through main thread).
+        Given the response, worker id, and instruction name, fetches relevant module and updates 
+        internal parameters
         appropriatly.
 
         INPUT:
@@ -273,18 +279,19 @@ class TkinterMaster:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # send_request_slave
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB - Function Created
-    ####################################################################################################################
+    ################################################################################################
     def send_request_slave(self, arguments_as_array):
         """
         Starts sending the same request periodically (status request) to workers via RabbitMQ.
 
         INPUT:
-            Arguments_As_Array (str[]) list of arguments to send RabbitMQ worker, e.g; ['heartbeat', '--timeout', '10']
+            arguments_as_array (str[]) list of arguments to send RabbitMQ worker, e.g; 
+                ['heartbeat', '--timeout', '10']
         """
 
         # Sends command to RabbitMQ Master Controller script
@@ -303,18 +310,20 @@ class TkinterMaster:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # send_request
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB - Function Created
-    ####################################################################################################################
+    ################################################################################################
     def send_request(self, argument_as_array):
         """
-        Starts subthread which will send the same request periodically (status request) to workers via RabbitMQ.
+        Starts subthread which will send the same request periodically (status request) to workers 
+            via RabbitMQ.
 
         INPUT:
-            Arguments_As_Array (str[]) list of arguments to send RabbitMQ worker, e.g; ['heartbeat', 'timeout', '10']
+            Arguments_As_Array (str[]) list of arguments to send RabbitMQ worker, e.g; ['heartbeat',
+             'timeout', '10']
         """
 
         # Starts subthread that repeatedly ask master to send a request to worker
@@ -326,23 +335,24 @@ class TkinterMaster:
         return
         #######
 
-    ############################
+    ###################
     # END send_request
-    ############################
+    ###################
         
     #
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # terminate
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AB - Function Created
-    ####################################################################################################################
+    ################################################################################################
     def terminate(self):
         """
-        Sets all necessary flags in the code to tell all threads that the GUI window was closed (code can stop)
+        Sets all necessary flags in code to tell all threads that GUI window was closed (code can 
+            stop)
         """
 
         # Tells master controller script to stop listening for responses
@@ -361,12 +371,12 @@ class TkinterMaster:
 ####################
 
 
-####################################################################################################################
+####################################################################################################
 # main
-####################################################################################################################
+####################################################################################################
 # Revision History:
 #   2016-11-26 AB - Function Created
-####################################################################################################################
+####################################################################################################
 def main():
     """
     Starts Tkinter GUI

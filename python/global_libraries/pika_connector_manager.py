@@ -17,35 +17,35 @@ import pika.exceptions
 import general_utils
 
 
-####################################################################################################################
+####################################################################################################
 # CODE START
-####################################################################################################################
+####################################################################################################
 
 
-####################################################################################################################
+####################################################################################################
 # PikaConnectorManager
-####################################################################################################################
+####################################################################################################
 # Revision History :
 #   2016-11-26 AdBa : Class created
-####################################################################################################################
+####################################################################################################
 class PikaConnectorManager:
     """
     Applies most RabbitMQ server interactions for Worker/Master instances.
-    These interactions include queue declaration, RabbitMQ configuration loading, starting connexion,
-        publishing messages, ...
+    These interactions include queue declaration, RabbitMQ configuration loading, starting 
+        connexion, publishing messages, ...
     Keeps track of the interaction with RabbitMQ server using a status parameters
     """
 
-    ####################################################################################################################
+    ################################################################################################
     # __init__
-    ####################################################################################################################
+    ################################################################################################
     def __init__(self, caller_class):
         
         # Binding to what element called the PikaConnectorManager (Master or Worker instance)
         self.caller_class = caller_class
         
         # Parameters for the RabbitMQ connection. Stored for potential future reuse (reconnection)
-        self.rabbit_server_parameters = {}
+        self.server_parameters = {}
         
         # Connection/Channel with the RabbitMQ server (pika elements)
         self.rabbit_connection = None
@@ -61,13 +61,13 @@ class PikaConnectorManager:
     #
     #
     #
-    
-    ####################################################################################################################
+
+    ################################################################################################
     # load_config
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def load_config(self, configuration_filename):
         """
         Loads a configuration file of RabbitMQ credentials and extracts them
@@ -82,18 +82,18 @@ class PikaConnectorManager:
             try:
 
                 # Creates configuration parser and starts parsing configuration file.
-                rabbit_configuration = ConfigParser.RawConfigParser()
-                rabbit_configuration.read(configuration_filename)
+                rabbit_config = ConfigParser.RawConfigParser()
+                rabbit_config.read(configuration_filename)
 
                 # Extracts credentials for connection and server information
-                self.rabbit_server_parameters['user'] = rabbit_configuration.get('RabbitMQ', 'user')
-                self.rabbit_server_parameters['password'] = rabbit_configuration.get('RabbitMQ', 'password')
-                self.rabbit_server_parameters['host'] = rabbit_configuration.get('RabbitMQ', 'host')
-                self.rabbit_server_parameters['port'] = rabbit_configuration.getint('RabbitMQ', 'port')
+                self.server_parameters['user'] = rabbit_config.get('RabbitMQ', 'user')
+                self.server_parameters['password'] = rabbit_config.get('RabbitMQ', 'password')
+                self.server_parameters['host'] = rabbit_config.get('RabbitMQ', 'host')
+                self.server_parameters['port'] = rabbit_config.getint('RabbitMQ', 'port')
 
                 # Port used exclusively to test if a RabbitMQ node exists.
-                self.rabbit_server_parameters['management_port'] = rabbit_configuration.getint('RabbitMQ',
-                                                                                               'management_port')
+                self.server_parameters['management_port'] = rabbit_config.getint('RabbitMQ',
+                                                                                 'management_port')
 
                 # Successully parsed configuration.
                 general_utils.log_message('Rabbit configuration loaded.')
@@ -129,23 +129,24 @@ class PikaConnectorManager:
     #
     #
     #
-    
-    ####################################################################################################################
+
+    ################################################################################################
     # test_rabbitmq_node_activity
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def test_rabbitmq_node_activity(self):
         """
         Checks whether the RabbitMQ server is alive or not.
-        This assumes that the management plug-in is enabled. If it is, http://rabbit_server_ip:15672 is reachable.
+        This assumes that management plug-in is enabled. If it is, http://rabbit_server_ip:15672 is 
+            reachable.
         This blocks until the server is detected.
         """
 
         # Gets URL to which a connexion must be attempted
-        rabbit_server_ip = self.rabbit_server_parameters['host']
-        rabbit_server_port = self.rabbit_server_parameters['management_port']
+        rabbit_server_ip = self.server_parameters['host']
+        rabbit_server_port = self.server_parameters['management_port']
         rabbitmq_url = 'http://%s:%s' % (str(rabbit_server_ip), str(rabbit_server_port))
 
         # Creates the connexion and a channel, then returns it
@@ -154,7 +155,8 @@ class PikaConnectorManager:
     
             try:
 
-                # Attempts connexion to the webpage (with timeout, to make sure we can log failed attempts)
+                # Attempts connexion to webpage (with timeout, to make sure we can log failed
+                #   attempts)
                 urllib2.urlopen(rabbitmq_url, timeout=3)
 
                 # Successfully connected, leave the loop.
@@ -180,15 +182,16 @@ class PikaConnectorManager:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # establish_rabbit_connection
-    ####################################################################################################################
+    ################################################################################################
     # Revision History:
     #   2016-11-26 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def establish_rabbit_connection(self):
         """
-        Establishes a connexion to the RabbitMQ server. Connexion/channel available in the pika_connector_manager.
+        Establishes a connexion to the RabbitMQ server. Connexion/channel available in 
+            pika_connector_manager.
         """
 
         # Makes sure the configuration could be parsed (only dependency of this function)
@@ -199,15 +202,15 @@ class PikaConnectorManager:
             #######
         
         # Sets the connexion parameters to established the connexion with server
-        rabbit_user_credentials = pika.PlainCredentials(self.rabbit_server_parameters['user'],
-                                                        self.rabbit_server_parameters['password'])
-        rabbit_parameters = pika.ConnectionParameters(self.rabbit_server_parameters['host'],
-                                                      self.rabbit_server_parameters['port'],
+        rabbit_user_credentials = pika.PlainCredentials(self.server_parameters['user'],
+                                                        self.server_parameters['password'])
+        rabbit_parameters = pika.ConnectionParameters(self.server_parameters['host'],
+                                                      self.server_parameters['port'],
                                                       '/',
                                                       rabbit_user_credentials)
 
         # Creates loop that blocks code until RabbitMQ server is detected (checks management page).
-        # NOTE : added because pika.BlockingConnection seems to not timeout after a few attempts => Code blocked.
+        # NOTE : added because pika.BlockingConnection blocks after few attempts => Code blocked.
         self.test_rabbitmq_node_activity()
         
         # Creates the connexion and a channel, then returns
@@ -238,12 +241,13 @@ class PikaConnectorManager:
             except pika.exceptions.ProbableAuthenticationError:
 
                 # Credentials given are wrong. Stop execution.
-                self.error_status = general_utils.log_error(-101, error_details=self.rabbit_server_parameters)
+                self.error_status = general_utils.log_error(-101, self.server_parameters)
                 break
 
             except KeyError:
 
-                # Internal error in pika when connection drops between self.connection and self.channel assignments.
+                # Internal error in pika when connection drops between self.connection and
+                # self.channel assignments.
                 self.test_rabbitmq_node_activity()
                 continue
         
@@ -259,12 +263,12 @@ class PikaConnectorManager:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # declare_exchange
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def declare_exchange(self, exchange_name):
         """
         Declares an exchange in the RabbitMQ system.
@@ -277,7 +281,8 @@ class PikaConnectorManager:
         while declare_failed:
             try:
 
-                self.rabbit_channel.exchange_declare(exchange=exchange_name, exchange_type='direct', durable=True)
+                self.rabbit_channel.exchange_declare(exchange=exchange_name, exchange_type='direct',
+                                                     durable=True)
 
                 # Successfully declared the exchange
                 general_utils.log_message('Exchange %s successfully created.' % (exchange_name,))
@@ -285,17 +290,19 @@ class PikaConnectorManager:
     
             except pika.exceptions.ConnectionClosed:
         
-                # If connection failed, recreate it and retry declaration (exchange_declare is made early stage, so
-                #   do not call .on_recover
-                general_utils.log_message('Connection dropped. Could not declare exchange %s' % (exchange_name,))
+                # If connection failed, recreate it and retry declaration (exchange_declare is made
+                # early stage, so do not call .on_recover
+                general_utils.log_message(
+                    'Connection dropped. Could not declare exchange %s' % (exchange_name,))
                 self.establish_rabbit_connection()
                 continue
     
             except pika.exceptions.ChannelClosed:
 
-                # If connection failed, recreate it and retry declaration (exchange_declare is made early stage, so
-                #   do not call .on_recover
-                general_utils.log_message('Connection dropped. Could not declare exchange %s' % (exchange_name,))
+                # If connection failed, recreate it and retry declaration (exchange_declare is made
+                # early stage, so do not call .on_recover
+                general_utils.log_message(
+                    'Connection dropped. Could not declare exchange %s' % (exchange_name,))
                 self.establish_rabbit_connection()
                 continue
 
@@ -311,21 +318,21 @@ class PikaConnectorManager:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # publish_message
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def publish_message(self, exchange_name, routing_key, message_content, message_properties):
         """
         Publishes a message to the RabbitMQ server
 
         INPUT:
-            exchange_name (str) : name of the exchange to use for the message
-            routing_key (str) : routing key to use to transit the message (=instruction title for workers)
-            message_content (str) : message to send
-            message_properties (pika BasicProperties) : properties of the message to send
+            exchange_name (str) name of the exchange to use for the message
+            routing_key (str) routing key to use to transit message (=instruction title for workers)
+            message_content (str) message to send
+            message_properties (pika BasicProperties) properties of the message to send
         """
 
         publish_failed = True
@@ -338,21 +345,26 @@ class PikaConnectorManager:
                                                   body=message_content,
                                                   properties=message_properties)
 
-                general_utils.log_message('Sent message starting with ' + str(message_content[:200]) + '.')
+                general_utils.log_message(
+                    'Sent message starting with ' + str(message_content[:200]) + '.')
                 publish_failed = False
     
             except pika.exceptions.ConnectionClosed:
         
-                # If connection failed, queue gets deleted automatically (channel is deleted) => calls on_recovery
-                general_utils.log_message('Connection dropped. Could not send message %s' % (message_content,))
+                # If connection failed, queue gets deleted automatically (channel is deleted)
+                # => calls on_recovery
+                general_utils.log_message(
+                    'Connection dropped. Could not send message %s' % (message_content,))
                 self.establish_rabbit_connection()
                 self.caller_class.on_connection_recovery()
                 continue
             
             except pika.exceptions.ChannelClosed:
         
-                # If connection failed, queue gets deleted automatically (channel is deleted) => calls on_recovery
-                general_utils.log_message('Connection dropped. Could not send message %s' % (message_content,))
+                # If connection failed, queue gets deleted automatically (channel is deleted)
+                # => calls on_recovery
+                general_utils.log_message(
+                    'Connection dropped. Could not send message %s' % (message_content,))
                 self.establish_rabbit_connection()
                 self.caller_class.on_connection_recovery()
                 continue
@@ -369,18 +381,18 @@ class PikaConnectorManager:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # declare_temporary_queue
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def declare_temporary_queue(self, callback_function):
         """
         Declares a temporary queue messages from the server and declares the feed from this queue
 
         INPUT:
-            callback_function (fun) : the callback function when messages are sent from a queue to a consumer
+            callback_function (fun) callback function when messages are sent from queue to consumer
 
         OUTPUT:
             queue_name (str) : name of the temporary queue created. '' if failed to create
@@ -388,8 +400,8 @@ class PikaConnectorManager:
         
         queue_name = ''
 
-        # Creates queue required. While loop is added to make sure a closed connexion error restarts a connexion
-        # and retries creating the queue
+        # Creates queue required. While loop is added to make sure a closed connexion error restarts
+        #  a connexion and retries creating the queue
         creation_failed = True
         while creation_failed:
             
@@ -406,13 +418,15 @@ class PikaConnectorManager:
                 
             except pika.exceptions.ConnectionClosed:
 
-                general_utils.log_message('Connection dropped. Could not declare/bind temporary queue.')
+                general_utils.log_message(
+                    'Connection dropped. Could not declare/bind temporary queue.')
                 self.establish_rabbit_connection()
                 continue
                 
             except pika.exceptions.ChannelClosed:
 
-                general_utils.log_message('Connection dropped. Could not declare/bind temporary queue.')
+                general_utils.log_message(
+                    'Connection dropped. Could not declare/bind temporary queue.')
                 self.establish_rabbit_connection()
                 continue
 
@@ -428,12 +442,12 @@ class PikaConnectorManager:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # declare_permanent_queues
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def declare_permanent_queues(self, all_routing_keys, exchange_name, queue_name_function=None,
                                  callback_function=None):
         """
@@ -442,15 +456,15 @@ class PikaConnectorManager:
         INPUT:
             all_routing_keys (str[]): all keys to use for queue declaration
             exchange_name (str): Exchange to which the queue must be bound.
-            queue_name_function (Function|None) : function to get name of keys based on key (require key as argument)
-                If None, the routing key is used by itself
+            queue_name_function (Function|None) function to get name of keys based on key (require
+                key as argument). If None, the routing key is used by itself
             callback_function (fun|None):
                 If not None: function called when a message is received (also declares consumption).
                 If None: does not declare any consumption. Simply declare the queue
         """
 
-        # Creates queue required. While loop is added to make sure a closed connexion error simply restarts a connexion
-        # and retries creating the queue
+        # Creates queue required. While loop is added to make sure a closed connexion error simply
+        # restarts a connexion and retries creating the queue
         creation_failed = True
         while creation_failed:
 
@@ -469,13 +483,14 @@ class PikaConnectorManager:
 
                     # Declares and binds queue
                     self.rabbit_channel.queue_declare(queue_name, durable=True)
-                    self.rabbit_channel.queue_bind(exchange=exchange_name, routing_key=routing_key, queue=queue_name)
+                    self.rabbit_channel.queue_bind(exchange=exchange_name, routing_key=routing_key,
+                                                   queue=queue_name)
         
                     # Declares consumption from queue
                     if callback_function is not None:
 
-                        self.rabbit_channel.basic_consume(callback_function, queue=queue_name, no_ack=False,
-                                                          exclusive=True)
+                        self.rabbit_channel.basic_consume(callback_function, queue=queue_name,
+                                                          no_ack=False, exclusive=True)
 
                     general_utils.log_message('Permanent queue %s created.' % (str(queue_name, )))
 
@@ -484,14 +499,16 @@ class PikaConnectorManager:
             except pika.exceptions.ChannelClosed:
                 
                 # If failed to declare all queues, start over
-                general_utils.log_message('Connection dropped. Could not declare/bind permanent queue.')
+                general_utils.log_message(
+                    'Connection dropped. Could not declare/bind permanent queue.')
                 self.establish_rabbit_connection()
                 continue
     
             except pika.exceptions.ConnectionClosed:
                 
                 # If failed to declare all queues, start over
-                general_utils.log_message('Connection dropped. Could not declare/bind permanent queue.')
+                general_utils.log_message(
+                    'Connection dropped. Could not declare/bind permanent queue.')
                 self.establish_rabbit_connection()
                 continue
 
@@ -507,12 +524,12 @@ class PikaConnectorManager:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # delete_permanent_queue
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def delete_permanent_queue(self, queue_name):
         """
         Deletes a permanent queue message from the server.
@@ -522,8 +539,8 @@ class PikaConnectorManager:
 
         """
     
-        # Deletes queue required. While loop is added to make sure a closed connexion error simply restarts a connexion
-        # and retries deleting the queue
+        # Deletes queue required. While loop is added to make sure a closed connexion error simply
+        # restarts a connexion and retries deleting the queue
         deletion_failed = True
         while deletion_failed:
         
@@ -535,15 +552,17 @@ class PikaConnectorManager:
                 deletion_failed = False
         
             except pika.exceptions.ChannelClosed:
-    
-                general_utils.log_message('Connection dropped. Could not delete permanent queue %s' % (queue_name,))
+
+                general_utils.log_message(
+                    'Connection dropped. Could not delete permanent queue %s' % (queue_name,))
                 self.establish_rabbit_connection()
                 self.caller_class.on_connection_recovery()
                 continue
 
             except pika.exceptions.ConnectionClosed:
     
-                general_utils.log_message('Connection dropped. Could not delete permanent queue %s' % (queue_name,))
+                general_utils.log_message(
+                    'Connection dropped. Could not delete permanent queue %s' % (queue_name,))
                 self.establish_rabbit_connection()
                 self.caller_class.on_connection_recovery()
                 continue
@@ -560,12 +579,12 @@ class PikaConnectorManager:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # remove_temporary_queue
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def remove_temporary_queue(self, queue_name):
         """
         Removes a temporary queue from the server.
@@ -603,12 +622,12 @@ class PikaConnectorManager:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # acknowledge_message
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def acknowledge_message(self, pika_method):
         """
         Attempts to send acknowledgements for a message received
@@ -649,18 +668,19 @@ class PikaConnectorManager:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # start_consume
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def start_consume(self):
         """
         Initializes the consumption from all linked queues until an issue occurs.
-        In case an exception is raised, stop the function but does not crash the code, to let the parent function
-        know the consumption eventually encoutnered an error
-        This is an improvement on the default channel.start_consuming, which just exists the code with an exception.
+        In case an exception is raised, stop the function but does not crash the code, to let the 
+        parent function know the consumption eventually encoutnered an error
+        This is an improvement on the default channel.start_consuming, which just exists the code 
+            with an exception.
         """
         
         # Starts consuming until user stops consumption. If connexion fails, waits and retry.
@@ -712,18 +732,19 @@ class PikaConnectorManager:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # stop_consume
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def stop_consume(self, with_acknowledge=None):
         """
         Terminates the consumption from all linked queues and closes the connexions.
         
         INPUT:
-            with_acknowledge (opt, pika.method) : whether a message needs to be acknowledge after the consumption stops
+            with_acknowledge (opt, pika.method) whether a message needs to be acknowledge after 
+                consumption stops
         """
 
         # Stop consuming and closes connexion
@@ -765,12 +786,12 @@ class PikaConnectorManager:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # process_data_events
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2016-11-26 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def process_data_events(self):
         """
         Waits for messages coming from queues for a short period of time.

@@ -4,15 +4,18 @@ Based on https://github.com/bschwind/ir-slinger/blob/master/pyslinger.py
 This code handles sending messages using infrared signals with pigpio library.
 
 To understand this code, it is important to understand how signals are transmitted.
-At this level in the code, signals have been reduced to their almost-basic level, i.e. to a sequence of durations for
-"High" and "Low" signals.
-However, one lower level exists. To avoid LED consuming too much power, the IR emitter uses a specific frequency and
-duty cycle, which is only relevant for "On" state.
-When the signal to send is "High" for X milliseconds, the LED will stay Off for X milliseconds, so there is no problem.
+At this level in the code, signals have been reduced to their almost-basic level, i.e. to a sequence
+    of durations for High" and "Low" signals.
+However, one lower level exists. To avoid LED consuming too much power, the IR emitter uses a 
+    specific frequency and duty cycle, which is only relevant for "On" state.
+When the signal to send is "High" for X milliseconds, the LED will stay Off for X milliseconds, so 
+    there is no problem.
 When the signal to send is "Low" for X milliseconds, the LED will alternate between On and Off.
-   First the X milliseconds duration is split in periods of T milliseconds = 1 / frequency.
-   For each of those T milliseconds, the LED will be On for the first T * duty_cycle ms, then Off for the rest.
-Due to this, High/Low refers to the LED state ignoring the frequency/duty_cycle, and On/Off, to the actual LED state.
+    First the X milliseconds duration is split in periods of T milliseconds = 1 / frequency.
+    For each of those T milliseconds, the LED will be On for the first T * duty_cycle ms, then Off 
+        for the rest.
+Due to this, High/Low refers to the LED state ignoring the frequency/duty_cycle, and On/Off, to the 
+    actual LED state.
 """
 
 #########################
@@ -26,37 +29,38 @@ import general_utils
 # RAW IR ones and zeroes. Specify length for one and zero and simply bitbang the GPIO.
 # The default values are valid for one tested remote which didn't fit in NEC or RC-5 specifications.
 # It can also be used in case you don't want to bother with deciphering raw bytes from IR receiver:
-# i.e. instead of trying to figure out the protocol, simply define bit lengths and send them all here.
+# i.e. instead of trying to figure out protocol, simply define bit lengths and send them all here.
 
 
-####################################################################################################################
+####################################################################################################
 # PulseConverter
-####################################################################################################################
+####################################################################################################
 # Revision History :
 #   2017-01-22 AdBa : Class created
-####################################################################################################################
+####################################################################################################
 class PulseConverter:
     """
-    This class handles the conversion from a sequence of infrared lengths (matching the time the signal is considering
-    UP or down) to a sequence of pulse, which will match exactly when the infrared LED will be ON or OFF based on the
-    frequency and duty cycle of the signal.
+    This class handles conversion from a sequence of infrared lengths (matching the time signal is 
+    considering UP or down) to a sequence of pulse, which will match exactly when the infrared LED 
+    will be ON or OFF based on the frequency and duty cycle of the signal.
     """
 
-    ####################################################################################################################
+    ################################################################################################
     # __init__
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2017-01-22 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def __init__(self, gpio_pin, frequency=36000, duty_cycle=0.33):
         """
-        Initialization function. Assigns the signal specific information (frequency and duty_cycle), along with the GPIO
-        pin to use for sending message. Finally, initializes the array of pulses that will be sent to the pigpio library
+        Initialization function. Assigns the signal specific information (frequency and duty_cycle),
+         along with the GPIO pin to use for sending message. Finally, initializes the array of 
+         pulses that will be sent to the pigpio library
 
         INPUT:
             gpio_pin (int) gpio pin where IR emitter is connected to
             frequency (int) frequency (Hz) of the pulses to send
-            duty_cycle (double) percentage of a "HIGH" period where the IR emitter will actually be on.
+            duty_cycle (double) percentage of a "HIGH" period where IR emitter will actually be on.
         """
 
         # Assigns main parameters internally
@@ -75,12 +79,12 @@ class PulseConverter:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # add_pulse
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2017-01-22 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def add_pulse(self, gpio_on, gpio_off, length_microsec):
         """
         Append a pulse (On or Off state) to the pulse array.
@@ -111,12 +115,12 @@ class PulseConverter:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # send_low
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2017-01-22 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def send_low(self, duration):
         """
         Adds "LOW" segment for a given duration to the full signal.
@@ -139,12 +143,12 @@ class PulseConverter:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # send_high
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2017-01-22 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def send_high(self, duration):
         """
         Adds "HIGH" segment for a given duration to the full signal.
@@ -163,7 +167,7 @@ class PulseConverter:
         # Computes the total number of periods required to reach the desired duration
         total_periods = int(round(duration/period_time))
 
-        # For each period, generates two pulses, one On, one Off with the previously computed duration.
+        # For each period, generates two pulses, one On, one Off with previously computed duration.
         total_pulses = total_periods * 2
         for i in range(total_pulses):
 
@@ -189,19 +193,19 @@ class PulseConverter:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # process_code
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2017-01-22 AdBa : Function created
-    ####################################################################################################################
+    ################################################################################################
     def process_code(self, ir_all_lengths):
         """
-        Converts a sequence of "High/Low" state durations to a sequence of "On", "Off" pulses duration.
+        Converts sequence of "High/Low" state durations to sequence of "On", "Off" pulses duration.
 
         INPUT:
-            ir_all_lengths (int[]) duration (microseconds) of the sequential High/Low states, starting with the length
-                of a "High" state.
+            ir_all_lengths (int[]) duration (microseconds) of sequential High/Low states, starting 
+                with length of a "High" state.
 
         OUTPUT:
             (pigpio.pulse[]) pulse sequences translation of input durations.
@@ -243,34 +247,34 @@ class PulseConverter:
 #
 
 
-####################################################################################################################
+####################################################################################################
 # PigpioInterface
-####################################################################################################################
+####################################################################################################
 # Revision History :
 #   2017-01-22 AdBa : Class created
-####################################################################################################################
+####################################################################################################
 class PigpioInterface:
     """
-    This class handles most interactions with the pigpio module, like initialization connexion to module,
-    clearance of previous pigpio data, parametrization and start of signal to send, ...
+    This class handles most interactions with the pigpio module, like initialization connexion to 
+    module, clearance of previous pigpio data, parametrization and start of signal to send, ...
     """
 
-    ####################################################################################################################
+    ################################################################################################
     # __init__
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2017-01-22 AdBa : Function created
     #   2017-01-27 AdBa : Added internal parameter all_wave_ids
-    ####################################################################################################################
+    ################################################################################################
     def __init__(self, gpio_pin, frequency, duty_cycle):
         """
-        Initialization function. Assigns the signal specific information (frequency and duty_cycle), along with the GPIO
-        pin to use for sending message. Initializes connexion with pigpio daemon.
+        Initialization function. Assigns signal specific information (frequency and duty_cycle), 
+        along with the GPIO pin to use for sending message. Initializes connexion with pigpio daemon
 
         INPUT:
             gpio_pin (int) gpio pin where IR emitter is connected to
             frequency (int) frequency (Hz) of the pulses to send
-            duty_cycle (double) percentage of a "HIGH" period where the IR emitter will actually be on.
+            duty_cycle (double) percentage of "HIGH" period where IR emitter will actually be on
         """
 
         # Initializes connexion to pigpio module.
@@ -293,20 +297,20 @@ class PigpioInterface:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # make_wave
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2017-01-25 AdBa : Function created
     #   2017-01-27 AdBa : Added better return if failure
-    ####################################################################################################################
+    ################################################################################################
     def make_wave(self, ir_all_lengths):
         """
-        Creates a signal wave based on a sequence of ir lengths in pigpio library and returns its ids
+        Creates signal wave based on a sequence of ir lengths in pigpio library and returns its ids
         after creation for future references.
 
         INPUT:
-            ir_all_lengths (int[]) series of 'HIGH' 'LOW' lengths (microseconds) that compose the wave
+            ir_all_lengths (int[]) series of 'HIGH' 'LOW' lengths (microseconds) that compose wave
 
         OUTPUT:
             (int) id of the created wave is >= 0, error code otherwise.
@@ -332,9 +336,9 @@ class PigpioInterface:
 
         except pigpio.error as e:
 
-            ##########################################################################################
+            ####################################################################################
             return general_utils.log_error(-507, error_details='wave_create', python_message=e)
-            ##########################################################################################
+            ####################################################################################
 
         # Updates internal parameters
         self.all_wave_ids.append(wave_id)
@@ -351,21 +355,21 @@ class PigpioInterface:
     #
     #
 
-    ####################################################################################################################
+    ################################################################################################
     # send_code
-    ####################################################################################################################
+    ################################################################################################
     # Revision History :
     #   2017-01-22 AdBa : Function created
     #   2017-01-25 AdBa : Modified whole function.
     #   2017-01-27 AdBa : Reviewed function structure
-    ####################################################################################################################
+    ################################################################################################
     def send_code(self, all_wave_lengths, wave_order):
         """
-        Sends an infrared signal using previously created wave, blocks until signal is sent, deletes all waves used in
-        pigpio and stops connection to pigpio library.
+        Sends infrared signal using previously created wave, blocks until signal is sent, deletes 
+        all waves used in pigpio and stops connection to pigpio library.
 
-        INPUT:
-            all_wave_ids (int[]) list of wave ids to call sequentially, in order (repetition allowed)
+        INPUT
+            all_wave_ids (int[]) wave id list to call sequentially, in order (repetition allowed)
 
         OUTPUT:
             (int) 0 if successfull, negative number otherwise
@@ -382,7 +386,7 @@ class PigpioInterface:
             # Creates wave in pigpio and retrieves its corresponding id
             creation_status = self.make_wave(one_wave_length)
 
-            # If result is negative, an error occured (ids are >= 0), so stop execution and reports error.
+            # If result is negative, an error occured (ids are >= 0), so stop and reports error.
             if creation_status < 0:
 
                 #######################
@@ -400,7 +404,7 @@ class PigpioInterface:
 
             sleep(0.0000001)
 
-        # After signal has been sent, removes all waves created to send signal. (set function makes ids unique)
+        # After signal sent, removes waves created to send signal. (set function makes ids unique)
         for wave_id in set(self.all_wave_ids):
 
             general_utils.log_message("Deleting wave")
@@ -413,7 +417,8 @@ class PigpioInterface:
 
             except ValueError:
 
-                # Could not remove wave id because it was already not there, so nothing to do. This should not happen.
+                # Could not remove wave id because it was already not there, so nothing to do. This
+                # should not happen.
                 pass
 
         # Closes connexion with daemon.
@@ -437,28 +442,29 @@ class PigpioInterface:
 ######################
 
 
-########################################################################################################################
+####################################################################################################
 # convert_bits_to_length
-########################################################################################################################
+####################################################################################################
 # Revision History:
 #   19/01/2016 AB - Created function
 #   26/01/2016 AB - Added trailing signal.
-########################################################################################################################
-def convert_bits_to_length(all_data_bytes, one_bit, zero_bit, header_signal, repeat_signal, trail_signal, n_repeat):
+####################################################################################################
+def convert_bits_to_length(all_data_bytes, one_bit, zero_bit, header_signal, repeat_signal,
+                           trail_signal, n_repeat):
     """
-    Converts a constructed data signal (list of bytes from the base signal formatted as binary string) into a list of
-    lengths of High/Low states for the IR emitter. The first length matches an On status.
+    Converts a constructed data signal (list of bytes from base signal formatted as binary string) 
+    into a list of lengths of High/Low states for the IR emitter. First length matches an On status.
 
     INPUT:
         all_data_bytes ({'0','1'}[]) list of all data bits, string-formatted, to send the aircon
-        one_bit (int[]) length in microseconds of ('High', 'Low') sequence corresponding to a 1-data-bit
-        zero_bit (int[]) length in microseconds of ('High', 'Low') sequence corresponding to a 0-data-bit
-        header_signal (int[]) length in microseconds of ('High', 'Low') sequence preceding the databits
-        repeat_signal (int[]) length in microseconds of ('High', 'Low') sequence between two databits
-        trail_signal (int[]) length in microseconds of ('High', 'Low') sequence to conclude the signal
+        one_bit (int[]) length in micro_sec of ('High', 'Low') sequence for to a 1-data-bit
+        zero_bit (int[]) length in micro_sec of ('High', 'Low') sequence for to a 0-data-bit
+        header_signal (int[]) length in micro_sec of ('High', 'Low') sequence preceding databits
+        repeat_signal (int[]) length in micro_sec of ('High', 'Low') sequence between two databits
+        trail_signal (int[]) length in micro_sec of ('High', 'Low') sequence to conclude the signal
 
     OUTPUT:
-        (int[][]) list of length to apply for High/Low state of the IR emitter for each of the subparts of the signal.
+        (int[][]) list of length to apply for High/Low state of IR emitter for each signal subparts
         (int[]) order in which the here-above subparts should be sent to get the full signal
     """
 
@@ -512,8 +518,8 @@ def convert_bits_to_length(all_data_bytes, one_bit, zero_bit, header_signal, rep
 
         signal_types_order.append(all_signal_types.index(data_signal_as_length))
 
-        # After the data bytes are all sent, the "repeat" information must be sent to signal the receiver the message
-        #     will be repeated. If no repeat are necessary anymore, signal is complete.
+        # After data bytes are all sent, "repeat" information must be sent to signal receiver the
+        # message will be repeated. If no repeat are necessary anymore, signal is complete.
         if sent_index < n_repeat and len(repeat_signal) > 0:
 
             signal_types_order.append(all_signal_types.index(repeat_signal))

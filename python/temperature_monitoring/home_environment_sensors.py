@@ -24,6 +24,7 @@ import ConfigParser  # Reads configuration files for sensor plugged into Raspber
 import os  # Allows file creation/deletion (for output values)
 import time  # Measures when to print output, collect samples, ...
 import urllib2  # Connects to website to post measured data
+import httplib  # Helps catched exceptions from urllib2
 import traceback  # Catches unhandled errors to improve code
 
 import BME280_Driver  # BME280 Sensor. Extension to official Adafruit module
@@ -617,17 +618,8 @@ def read_sensor_values():
                         sensor_object['samples_to_average'][measurement].append(
                             all_values[measurement])
 
-        except IOError as e:
+        except (IOError, ImportError) as e:
 
-            # Measuring sensor failed => Assume disconnection, so warm-up must take place again
-            sensor_object['last_failed_measure_time'] = time.time()
-
-            details = '(' + sensor_name + ', ' + hex(sensor_address) + ')'
-            general_utils.log_error(-409, details, str(e))
-
-        except ImportError as e:
-
-            # NOTE : This error is linked to core files missing, so reboot might be necessary.
             # Measuring sensor failed => Assume disconnection, so warm-up must take place again
             sensor_object['last_failed_measure_time'] = time.time()
 
@@ -955,7 +947,7 @@ def output_measures_to_web():
         # GET request for url to update data.
         urllib2.urlopen(update_url)
 
-    except urllib2.URLError:
+    except (urllib2.URLError, httplib.BadStatusLine):
 
         # Failed to send request to update data. Log error but continue
         general_utils.log_error(-419, update_url)

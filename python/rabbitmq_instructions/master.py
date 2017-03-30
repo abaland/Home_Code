@@ -620,12 +620,7 @@ class RabbitMaster:
                 response_wait_timeout = float(candidate_new_timeout)
 
             # Value unconvertible to float. Not terminal (replace by default)
-            except ValueError as e:
-
-                general_utils.log_error(-5, python_message=e)
-
-            # Value unconvertible to float. Not terminal (replace by default)
-            except TypeError as e:
+            except (ValueError, TypeError) as e:
 
                 general_utils.log_error(-5, python_message=e)
 

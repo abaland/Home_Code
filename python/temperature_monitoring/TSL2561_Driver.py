@@ -140,14 +140,9 @@ def get_measurements(address, _):
             tsl2561_sensor = tsl2561.TSL2561(address)
             all_values['luminosity'] = tsl2561_sensor.lux()
 
-    except IOError as e:
+    except (IOError, Exception) as e:
 
         # Something went wrong when retrieving the values. Log error.
-        general_utils.log_error(-409, 'TSL2561', str(e))
-
-    except Exception as e:
-
-        # Something went wrong when retrieving values. Log error.
         # NOTE : Happened once with Exception 'Sensor is saturated'.
         general_utils.log_error(-409, 'TSL2561', str(e))
 

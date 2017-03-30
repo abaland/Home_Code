@@ -226,13 +226,7 @@ class PikaConnectorManager:
                 connection_failed = False
                 general_utils.log_message('Successfully connected to RabbitMQ server.')
 
-            except pika.exceptions.ChannelClosed:
-
-                # If connexion establishment fails, wait then try again
-                self.test_rabbitmq_node_activity()
-                continue
-
-            except pika.exceptions.ConnectionClosed:
+            except (pika.exceptions.ChannelClosed, pika.exceptions.ConnectionClosed):
 
                 # If connexion establishment fails, wait then try again
                 self.test_rabbitmq_node_activity()
@@ -287,8 +281,8 @@ class PikaConnectorManager:
                 # Successfully declared the exchange
                 general_utils.log_message('Exchange %s successfully created.' % (exchange_name,))
                 declare_failed = False
-    
-            except pika.exceptions.ConnectionClosed:
+
+            except (pika.exceptions.ChannelClosed, pika.exceptions.ConnectionClosed):
         
                 # If connection failed, recreate it and retry declaration (exchange_declare is made
                 # early stage, so do not call .on_recover
@@ -297,15 +291,6 @@ class PikaConnectorManager:
                 self.establish_rabbit_connection()
                 continue
     
-            except pika.exceptions.ChannelClosed:
-
-                # If connection failed, recreate it and retry declaration (exchange_declare is made
-                # early stage, so do not call .on_recover
-                general_utils.log_message(
-                    'Connection dropped. Could not declare exchange %s' % (exchange_name,))
-                self.establish_rabbit_connection()
-                continue
-
         #######
         return
         #######
@@ -348,8 +333,8 @@ class PikaConnectorManager:
                 general_utils.log_message(
                     'Sent message starting with ' + str(message_content[:200]) + '.')
                 publish_failed = False
-    
-            except pika.exceptions.ConnectionClosed:
+
+            except (pika.exceptions.ChannelClosed, pika.exceptions.ConnectionClosed):
         
                 # If connection failed, queue gets deleted automatically (channel is deleted)
                 # => calls on_recovery
@@ -359,16 +344,6 @@ class PikaConnectorManager:
                 self.caller_class.on_connection_recovery()
                 continue
             
-            except pika.exceptions.ChannelClosed:
-        
-                # If connection failed, queue gets deleted automatically (channel is deleted)
-                # => calls on_recovery
-                general_utils.log_message(
-                    'Connection dropped. Could not send message %s' % (message_content,))
-                self.establish_rabbit_connection()
-                self.caller_class.on_connection_recovery()
-                continue
-
         #######
         return
         #######
@@ -415,21 +390,14 @@ class PikaConnectorManager:
                 general_utils.log_message('Temporary queue created.'),
 
                 creation_failed = False
-                
-            except pika.exceptions.ConnectionClosed:
+
+            except (pika.exceptions.ChannelClosed, pika.exceptions.ConnectionClosed):
 
                 general_utils.log_message(
                     'Connection dropped. Could not declare/bind temporary queue.')
                 self.establish_rabbit_connection()
                 continue
                 
-            except pika.exceptions.ChannelClosed:
-
-                general_utils.log_message(
-                    'Connection dropped. Could not declare/bind temporary queue.')
-                self.establish_rabbit_connection()
-                continue
-
         ##################
         return queue_name
         ##################
@@ -495,16 +463,8 @@ class PikaConnectorManager:
                     general_utils.log_message('Permanent queue %s created.' % (str(queue_name, )))
 
                 creation_failed = False
-    
-            except pika.exceptions.ChannelClosed:
-                
-                # If failed to declare all queues, start over
-                general_utils.log_message(
-                    'Connection dropped. Could not declare/bind permanent queue.')
-                self.establish_rabbit_connection()
-                continue
-    
-            except pika.exceptions.ConnectionClosed:
+
+            except (pika.exceptions.ChannelClosed, pika.exceptions.ConnectionClosed):
                 
                 # If failed to declare all queues, start over
                 general_utils.log_message(
@@ -550,17 +510,9 @@ class PikaConnectorManager:
 
                 general_utils.log_message('Permanent queue %s deleted.' % (str(queue_name)))
                 deletion_failed = False
-        
-            except pika.exceptions.ChannelClosed:
 
-                general_utils.log_message(
-                    'Connection dropped. Could not delete permanent queue %s' % (queue_name,))
-                self.establish_rabbit_connection()
-                self.caller_class.on_connection_recovery()
-                continue
+            except (pika.exceptions.ChannelClosed, pika.exceptions.ConnectionClosed):
 
-            except pika.exceptions.ConnectionClosed:
-    
                 general_utils.log_message(
                     'Connection dropped. Could not delete permanent queue %s' % (queue_name,))
                 self.establish_rabbit_connection()
@@ -595,21 +547,14 @@ class PikaConnectorManager:
         try:
             
             self.rabbit_channel.queue_delete(queue_name, if_empty=True)
-    
-        except pika.exceptions.ChannelClosed:
-            
-            # If connection failed, queue gets deleted automatically (channel is deleted)
-            general_utils.log_message('Connection dropped.')
-            self.establish_rabbit_connection()
-            self.caller_class.on_connection_recovery()
-            
-        except pika.exceptions.ConnectionClosed:
-            
-            # If connection failed, queue gets deleted automatically (channel is deleted)
-            general_utils.log_message('Connection dropped.')
-            self.establish_rabbit_connection()
-            self.caller_class.on_connection_recovery()
 
+        except (pika.exceptions.ChannelClosed, pika.exceptions.ConnectionClosed):
+            
+            # If connection failed, queue gets deleted automatically (channel is deleted)
+            general_utils.log_message('Connection dropped.')
+            self.establish_rabbit_connection()
+            self.caller_class.on_connection_recovery()
+            
         #######
         return
         #######
@@ -642,14 +587,7 @@ class PikaConnectorManager:
             self.rabbit_channel.basic_ack(delivery_tag=pika_method.delivery_tag)
             general_utils.log_message('Acknowledged message.')
 
-        except pika.exceptions.ChannelClosed as e:
-
-            general_utils.log_message('Connection dropped. Could not acknowledge message.')
-            general_utils.log_error(-106, python_message=str(e))
-            self.establish_rabbit_connection()
-            self.caller_class.on_connection_recovery()
-
-        except pika.exceptions.ConnectionClosed as e:
+        except (pika.exceptions.ChannelClosed, pika.exceptions.ConnectionClosed) as e:
 
             general_utils.log_message('Connection dropped. Could not acknowledge message.')
             general_utils.log_error(-106, python_message=str(e))
@@ -696,16 +634,8 @@ class PikaConnectorManager:
                 if self.rabbit_connection is None:
 
                     break
-                
-            except pika.exceptions.ChannelClosed:
 
-                # Connection dropped while consuming, so recover the connection and resume
-                general_utils.log_message('Connection dropped during queue consumption.')
-                self.establish_rabbit_connection()
-                self.caller_class.on_connection_recovery()
-                continue
-                
-            except pika.exceptions.ConnectionClosed:
+            except (pika.exceptions.ChannelClosed, pika.exceptions.ConnectionClosed):
 
                 # Connection dropped while consuming, so recover the connection and resume
                 general_utils.log_message('Connection dropped during queue consumption.')
@@ -759,13 +689,8 @@ class PikaConnectorManager:
             self.rabbit_connection.close()
             self.rabbit_connection = None
             self.rabbit_channel = None
- 
-        except pika.exceptions.ChannelClosed as e:
 
-            general_utils.log_message('Connection dropped while stopping consumption.')
-            self.error_status = general_utils.log_error(-108, python_message=str(e))
-
-        except pika.exceptions.ConnectionClosed as e:
+        except (pika.exceptions.ChannelClosed, pika.exceptions.ConnectionClosed) as e:
 
             general_utils.log_message('Connection dropped while stopping consumption.')
             self.error_status = general_utils.log_error(-108, python_message=str(e))
@@ -800,19 +725,13 @@ class PikaConnectorManager:
         try:
 
             self.rabbit_connection.process_data_events()
-        
-        except pika.exceptions.ChannelClosed:
+
+        except (pika.exceptions.ChannelClosed, pika.exceptions.ConnectionClosed):
     
             general_utils.log_message('Connection dropped while processing_data_events')
             self.establish_rabbit_connection()
             self.caller_class.on_connection_recovery()
         
-        except pika.exceptions.ConnectionClosed:
-
-            general_utils.log_message('Connection dropped while processing_data_events')
-            self.establish_rabbit_connection()
-            self.caller_class.on_connection_recovery()
-
         #######
         return
         #######

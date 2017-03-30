@@ -387,13 +387,8 @@ def convert_message_to_xml(xml_message_as_string):
         # Converts response from worker to XML tree
         worker_message_tree = etree.fromstring(xml_message_as_string)
 
-    # The response string had a wrong format.
-    except ValueError as e:
-
-        log_error(-200, error_details=str(xml_message_as_string), python_message=e)
-
-    # The response string did not follow the XML syntax.
-    except etree.XMLSyntaxError as e:
+    # The response string had a wrong format or did not follow the XML syntax.
+    except (ValueError, etree.XMLSyntaxError) as e:
 
         log_error(-200, error_details=str(xml_message_as_string), python_message=e)
 
@@ -424,13 +419,9 @@ def convert_localtime_to_string(stamp, date_time_separator=' '):
         (str) string-formatted timestamp
     """
 
-    formatted_stamp = '%04d-%02d-%02d%s%02d:%02d:%02d' % (stamp[0],
-                                                          stamp[1],
-                                                          stamp[2],
+    formatted_stamp = '%04d-%02d-%02d%s%02d:%02d:%02d' % (stamp[0], stamp[1], stamp[2],
                                                           date_time_separator,
-                                                          stamp[3],
-                                                          stamp[4],
-                                                          stamp[5])
+                                                          stamp[3], stamp[4], stamp[5])
 
     #######################
     return formatted_stamp

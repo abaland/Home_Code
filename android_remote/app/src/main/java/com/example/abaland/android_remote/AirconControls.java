@@ -233,7 +233,7 @@ class AirconControls{
             @Override
             public void onClick(View v){
 
-                String RemoteName = "aircon";
+                String RemoteName = "living_aircon";
                 MainActivity activity = AirconControls.this.activity;
 
                 activity.rabbitManager.publishMessage(RemoteName, getConfigAsString(), activity);

@@ -34,7 +34,7 @@ class LightsControls {
      */
     private void onClickFunction(View v){
 
-        String RemoteName = "tv";
+        String RemoteName = "living_light";
 
         // Casts button clicked as a Button instance, and gets its text content.
         Button clickedButton = (Button) v;

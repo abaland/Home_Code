@@ -2,7 +2,8 @@
 # Import Local package
 #######################
 from python.global_libraries import general_utils  # Generic functions
-from python.infrared_remote import aircon_driver
+from python.infrared_remote import bedroom_aircon_driver
+from python.infrared_remote import living_aircon_driver
 from python.infrared_remote import bedroom_lights_driver
 from python.infrared_remote import living_lights_driver
 from python.infrared_remote import tv_remote_driver
@@ -12,11 +13,37 @@ from python.infrared_remote import tv_remote_driver
 # Declare Global Variables
 ###########################
 target_to_driver = {
-    'aircon': aircon_driver,
-    'bed_light': bedroom_lights_driver,
+    'living_aircon': living_aircon_driver,
     'living_light': living_lights_driver,
+    'bedroom_aircon': bedroom_aircon_driver,
+    'bedroom_light': bedroom_lights_driver,
     'tv': tv_remote_driver
 }
+
+
+####################################################################################################
+# read_pin_configuration
+####################################################################################################
+# Revision History :
+#   2017-05-19 Adba : Function created
+####################################################################################################
+def read_pin_configuration(sand_box):
+    """
+    Processes infrared remote instruction
+
+    INPUT:
+         sand_box (dict): worker sand_box attribute, to update with info about which pin to
+            control when sending signal to a given machine
+    """
+
+
+    #######
+    return
+    #######
+
+#############################
+# END read_pin_configuration
+#############################
 
 
 ####################################################################################################
@@ -24,8 +51,9 @@ target_to_driver = {
 ####################################################################################################
 # Revision History :
 #   2016-09-30 Adba : Function created
+#   2017-05-19 Adba : Added call to read pin configuration
 ####################################################################################################
-def execute(_, instruction_as_xml, worker_base_response):
+def execute(worker_instance, instruction_as_xml, worker_base_response):
     """
     Processes infrared remote instruction
 
@@ -37,6 +65,10 @@ def execute(_, instruction_as_xml, worker_base_response):
     OUTPUT :
          (lxml.etree): worker response
     """
+
+    if 'remote' not in worker_instance.sand_box.keys():
+
+        read_pin_configuration(worker_instance.sand_box)
 
     # Creates base response to be completed in instruction
     remote_control_response = worker_base_response

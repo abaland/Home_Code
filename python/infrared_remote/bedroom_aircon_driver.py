@@ -282,8 +282,9 @@ def convert_info_to_bits(is_turned_on, mode, temperature, wind_speed, wind_direc
 ####################################################################################################
 # Revision History:
 #   19/01/2016 AB - Created function
+#   2017-05-19 Adba : Added gpion_pin parameter
 ####################################################################################################
-def send_signal(is_turned_on, mode, temperature, wind_speed, wind_direction):
+def send_signal(is_turned_on, mode, temperature, wind_speed, wind_direction, gpio_pin=21):
     """
     Sends infrared signal to air conditioning system with given options.
 
@@ -321,7 +322,7 @@ def send_signal(is_turned_on, mode, temperature, wind_speed, wind_direction):
         ##################
 
     # Creates pigpio interface to send infrared signal
-    ir = signal_sender.PigpioInterface(21, 38000, 0.5)
+    ir = signal_sender.PigpioInterface(gpio_pin, 38000, 0.5)
 
     send_status = ir.send_code(all_wave_lengths, wave_order)
 

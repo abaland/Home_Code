@@ -41,7 +41,7 @@ class Rabbit_Manager {
      */
     private String convertToXmlInstruction(String RemoteName, String ConfigToSend){
 
-        String RabbitWorkerId = "living-pi";
+        String RabbitWorkerId = "bedroom";
 
         String Message_To_Send;
 

@@ -57,8 +57,9 @@ all_codes = {
 ####################################################################################################
 # Revision History:
 #   2017-01-27 AB - Created function
+#   2017-05-19 Adba : Added gpion_pin parameter
 ####################################################################################################
-def send_signal(remote_button):
+def send_signal(remote_button, gpio_pin=21):
     """
     Sends infrared signal to air conditioning system with given options.
 
@@ -82,7 +83,7 @@ def send_signal(remote_button):
                                              repeat_signal, trail_signal, n_repeat)
 
     # Creates pigpio interface to send infrared signal
-    ir = signal_sender.PigpioInterface(21, 38000, 0.5)
+    ir = signal_sender.PigpioInterface(gpio_pin, 38000, 0.5)
 
     send_status = ir.send_code(all_wave_lengths, wave_order)
 

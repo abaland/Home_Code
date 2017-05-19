@@ -289,7 +289,7 @@ def send_signal(is_turned_on, mode, temperature, wind_speed, wind_direction):
 
     INPUT:
         is_turned_on {'on', 'off'} whether aircon is on or off
-        mode {'heater', 'cold', 'dry', 'auto'} which mode the aircon is running in
+        mode {'heater', 'cold', 'dry'} which mode the aircon is running in
         temperature {int} temperature target
         wind_speed {'auto', 'low', 'middle', 'high'}
         wind_direction {'auto', 'lowest', 'low', 'middle', 'high', 'highest', 'loop'}

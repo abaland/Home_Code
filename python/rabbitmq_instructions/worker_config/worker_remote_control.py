@@ -12,38 +12,13 @@ from python.infrared_remote import tv_remote_driver
 ###########################
 # Declare Global Variables
 ###########################
-target_to_driver = {
-    'living_aircon': living_aircon_driver,
-    'living_light': living_lights_driver,
-    'bedroom_aircon': bedroom_aircon_driver,
-    'bedroom_light': bedroom_lights_driver,
-    'tv': tv_remote_driver
+remote_to_info = {
+    'living_aircon': [living_aircon_driver, 'bedroom', 21],
+    'living_light': [living_lights_driver, 'bedroom', 21],
+    'bedroom_aircon': [bedroom_aircon_driver, 'bedroom', 21],
+    'bedroom_light': [bedroom_lights_driver, 'bedroom', 21],
+    'tv': [tv_remote_driver, 'bedroom', 21]
 }
-
-
-####################################################################################################
-# read_pin_configuration
-####################################################################################################
-# Revision History :
-#   2017-05-19 Adba : Function created
-####################################################################################################
-def read_pin_configuration(sand_box):
-    """
-    Processes infrared remote instruction
-
-    INPUT:
-         sand_box (dict): worker sand_box attribute, to update with info about which pin to
-            control when sending signal to a given machine
-    """
-
-
-    #######
-    return
-    #######
-
-#############################
-# END read_pin_configuration
-#############################
 
 
 ####################################################################################################
@@ -66,10 +41,6 @@ def execute(worker_instance, instruction_as_xml, worker_base_response):
          (lxml.etree): worker response
     """
 
-    if 'remote' not in worker_instance.sand_box.keys():
-
-        read_pin_configuration(worker_instance.sand_box)
-
     # Creates base response to be completed in instruction
     remote_control_response = worker_base_response
 
@@ -77,25 +48,32 @@ def execute(worker_instance, instruction_as_xml, worker_base_response):
     remote_to_use = instruction_as_xml.get('remote')
 
     # Retrieves appropriate driver using remote name.
-    appropriate_driver = target_to_driver.get(remote_to_use, None)
-    if appropriate_driver is not None:
+    remote_info = remote_to_info.get(remote_to_use, None)
+    if remote_info is not None:
 
-        # Retrieves the "button" to simulate (button name or full configuration information).
-        #   Example: for tv : 'Power', 'Mute', ....  for aircon : 'on,heat,25,strong,highest'
-        configuration_to_send = instruction_as_xml.get('config')
-        try:
+        # Checks if remote is handled by this worker or another. Stops if another.
+        if worker_instance.worker_id != remote_info[1]:
 
-            # Split the comma-separated info (only puts in array if button name)
-            configuration_splitted = configuration_to_send.split(',')
+            status_code = 0
 
-            # Sends each element in array as argument (button name or each of full config parameter)
-            status_code = appropriate_driver.send_signal(*configuration_splitted)
+        else:
 
-        except TypeError:
+            # Retrieves the "button" to simulate (button name or full configuration information).
+            #   Example: for tv : 'Power', 'Mute', ....  for aircon : 'on,heat,25,strong,highest'
+            configuration_to_send = instruction_as_xml.get('config')
+            try:
 
-            # Failed to call function because number of arguments did not match
-            details = '(%s, %s)' % (remote_to_use, configuration_to_send)
-            status_code = general_utils.log_error(-502, error_details=details)
+                # Split the comma-separated info (only puts in array if button name)
+                configuration_splitted = configuration_to_send.split(',')
+
+                # Sends all element in array as argument (button name or all config parameter)
+                status_code = remote_info[0].send_signal(*configuration_splitted)
+
+            except TypeError:
+
+                # Failed to call function because number of arguments did not match
+                details = '(%s, %s)' % (remote_to_use, configuration_to_send)
+                status_code = general_utils.log_error(-502, error_details=details)
 
     else:
 

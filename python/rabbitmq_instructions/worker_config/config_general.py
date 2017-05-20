@@ -6,7 +6,7 @@ config_version = 2
 
 worker_to_instruction = {
     'bedroom': ['remote_control'],
-    'living-pi': []
+    'living': []
 }
 
 instruction_to_module = {

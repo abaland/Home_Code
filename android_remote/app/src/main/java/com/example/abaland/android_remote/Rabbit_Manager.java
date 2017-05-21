@@ -41,7 +41,8 @@ class Rabbit_Manager {
      */
     private String convertToXmlInstruction(String RemoteName, String ConfigToSend){
 
-        String RabbitWorkerId = "bedroom";
+        // Message will be sent to both raspberry pis (they will figure out which one must send)
+        String RabbitWorkerId = "bedroom,living";
 
         String Message_To_Send;
 
@@ -84,7 +85,8 @@ class Rabbit_Manager {
 
 
             // Connection failed. Prints exception, resets parameters, and returns failure status.
-            new CustomLogger("Rabbit", "Could not create Rabbit channel : " + e.getMessage(), context, true);
+            new CustomLogger("Rabbit", "Could not create Rabbit channel : " + e.getMessage(),
+                    context, true);
 
             connection = null;
             channel = null;
@@ -129,12 +131,14 @@ class Rabbit_Manager {
                     try {
 
                         channel.confirmSelect();
-                        channel.basicPublish("ex", InstructionName, false, null, MessageToSend.getBytes());
+                        channel.basicPublish("ex", InstructionName, false, null,
+                                MessageToSend.getBytes());
 
                     } catch (IOException e) {
 
                         // Failed to publish message. Log error and stops
-                        new CustomLogger("Rabbit", "Could not send rabbitmq message. Giving up : " + e.getMessage(), context, true);
+                        new CustomLogger("Rabbit", "Could not send rabbitmq message. Giving up : " +
+                                e.getMessage(), context, true);
 
                     }
 

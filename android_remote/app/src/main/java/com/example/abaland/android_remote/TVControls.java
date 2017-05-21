@@ -94,7 +94,7 @@ class TVControls {
         // Links all GUI items to the script
         bindGUIToScript();
 
-        // Adds all listeners to GUI elements, to update internal parameters / take appropriate actions on change
+        // Adds listeners to GUI, to update internal parameters/take appropriate actions on change
         addGUIListeners();
 
     }

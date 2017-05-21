@@ -12,11 +12,12 @@ from python.infrared_remote import tv_remote_driver
 ###########################
 # Declare Global Variables
 ###########################
+# Each entry is aircon_name: [relevant_driver, raspberry_pi that controls it, pin]
 remote_to_info = {
-    'living_aircon': [living_aircon_driver, 'bedroom', 21],
-    'living_light': [living_lights_driver, 'bedroom', 21],
-    'bedroom_aircon': [bedroom_aircon_driver, 'bedroom', 21],
-    'bedroom_light': [bedroom_lights_driver, 'bedroom', 21],
+    'aircon_living': [living_aircon_driver, 'bedroom', 21],
+    'aircon_bedroom': [bedroom_aircon_driver, 'bedroom', 21],
+    'light_living': [living_lights_driver, 'bedroom', 21],
+    'light_bedroom': [bedroom_lights_driver, 'bedroom', 21],
     'tv': [tv_remote_driver, 'bedroom', 21]
 }
 

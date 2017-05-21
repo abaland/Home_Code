@@ -8,7 +8,8 @@ import android.util.Log;
 class CustomLogger {
 
 
-    CustomLogger(String errorTag, String errorMessage, AppCompatActivity context, boolean isSubthread) {
+    CustomLogger(String errorTag, String errorMessage, AppCompatActivity context,
+                 boolean isSubthread) {
 
         // Logs message in app log.
         Log.d(errorTag, errorMessage);

@@ -35,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
         remoteSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView,
+                                       int position, long id) {
 
                 String selectedRemote = ((AppCompatTextView) selectedItemView).getText().toString();
 

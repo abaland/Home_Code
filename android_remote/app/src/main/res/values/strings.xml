@@ -35,4 +35,6 @@
     <string name="brighter">Bright</string>
     <string name="brightest">Max</string>
     <string name="darkest">Min</string>
+    <string name="bedroom">Bedroom</string>
+    <string name="living">Living</string>
 </resources>

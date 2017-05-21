@@ -2,6 +2,7 @@
     <string-array name="remote_list">
         <item>Aircon</item>
         <item>TV</item>
+        <item>Lights</item>
     </string-array>
     <string-array name="wind_speed_list">
         <item>Auto</item>

@@ -13,6 +13,7 @@ class AirconControls{
 
     // GUI Objects
     private Switch airconStateSwitch;
+    private RadioGroup airconTargetRadio;
     private RadioGroup airconModeRadio;
     private SeekBar airconTemperatureSeekBar;
     private TextView airconTemperatureText;
@@ -22,23 +23,40 @@ class AirconControls{
 
     // Defaults values/indexes
     private boolean airconState = true;
+    private Integer airconTargetIndex = 0; // 0: living, 1: bedroom
     private Integer airconModeIndex = 0; // 0: heat, 1: dry, 2: cold.
     private Integer airconTemperature = 24;
-    private Integer fanSpeedIndex = 0; // 0:auto, 1: weak, 2: middle, 3: strong
-    private Integer fanDirectionIndex = 0; //0:auto, 1: loop, 2: lowest, 3: low, 4: middle, 5: high, 6: highest
+    private Integer fanSpeedIndex = 0; // 0: auto, 1: weak, 2: middle, 3: strong
+    private Integer fanDirectionIndex = 0; //0:auto, 1:loop, 2:lowest, 3:low, 4:middle, 5:high, 6:highest
 
     // Mapping from index to value.
     private HashMap<Boolean, String> airconStateMapping = new HashMap<>();
 
+    private String[] airconTargetMapping = {"living", "bedroom"};
     private String[] airconModeMapping = {"heat", "dry", "cool"};
     private String[] fanSpeedMapping = {"auto", "weak", "middle", "strong"};
-    private String[] fanDirectionMapping = {"auto", "loop", "lowest", "low", "middle", "high", "highest"};
+    private String[] fanDirectionMapping = {"auto", "loop", "lowest", "low", "middle", "high",
+            "highest"};
 
 
     AirconControls (MainActivity activity) {
 
         this.activity = activity;
     }
+
+    /**
+     * Querries aircon target radiobutton from aircon GUI to get which aircon signal must be sent to
+     *
+     * @return {'bedroom', 'living'}
+     */
+    private String getAirconTarget(){
+
+        ///////////////////////////////////////////////////
+        return airconTargetMapping[airconTargetIndex];
+        ///////////////////////////////////////////////////
+
+    }
+
 
     /**
      * Querries all elements from aircon GUI to get related configuration as a string.
@@ -69,6 +87,7 @@ class AirconControls{
     private void bindGUIToScript() {
 
         airconStateSwitch = (Switch) this.activity.findViewById(R.id.Aircon_Power);
+        airconTargetRadio = (RadioGroup) this.activity.findViewById(R.id.Aircon_Target);
         airconModeRadio = (RadioGroup) this.activity.findViewById(R.id.Aircon_Mode);
         airconTemperatureSeekBar = (SeekBar) this.activity.findViewById(R.id.Aircon_Temperature);
         airconTemperatureText = (TextView) this.activity.findViewById(R.id.Aircon_Temperature_Text);
@@ -109,7 +128,23 @@ class AirconControls{
 
         }
 
-        // Sets progress bar for temperature (and related text). Converts from real [16, 31] range to GUI [0, 15].
+        // Checks correct aircon target
+        switch (airconTargetIndex) {
+
+            case  0:
+
+                airconTargetRadio.check(R.id.Aircon_Living);
+                break;
+
+            case 1:
+
+                airconTargetRadio.check(R.id.Aircon_Bedroom);
+                break;
+
+        }
+
+
+        // Sets progress bar for temperature. Converts from real [16, 31] range to GUI [0, 15].
         airconTemperatureSeekBar.setProgress(airconTemperature - 16);
         airconTemperatureText.setText(String.format(Locale.US, "%d", airconTemperature));
 
@@ -133,6 +168,32 @@ class AirconControls{
 
                 // Updates internal parameter
                 airconState = isChecked;
+
+            }
+
+        });
+
+
+        // Adds listener for aircon target radio buttons.
+        airconTargetRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged (RadioGroup group, int checkedId){
+
+                // Updates internal parameter
+                switch(checkedId) {
+
+                    case R.id.Aircon_Living:
+
+                        airconTargetIndex = 0;
+                        break;
+
+                    case R.id.Aircon_Bedroom:
+
+                        airconTargetIndex = 1;
+                        break;
+
+                }
 
             }
 
@@ -197,7 +258,8 @@ class AirconControls{
         fanSpeedSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView,
+                                       int position, long id) {
 
                 // Updates internal parameter
                 fanSpeedIndex = position;
@@ -214,7 +276,8 @@ class AirconControls{
         fanDirectionSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView,
+                                       int position, long id) {
 
                 // Updates internal parameter
                 fanDirectionIndex = position;
@@ -233,7 +296,7 @@ class AirconControls{
             @Override
             public void onClick(View v){
 
-                String RemoteName = "living_aircon";
+                String RemoteName = "aircon_" + getAirconTarget();
                 MainActivity activity = AirconControls.this.activity;
 
                 activity.rabbitManager.publishMessage(RemoteName, getConfigAsString(), activity);
@@ -256,7 +319,7 @@ class AirconControls{
         // Updates GUI correctly based on defaults
         initializeGUIValues();
 
-        // Adds all listeners to GUI elements, to update internal parameters / take appropriate actions on change
+        // Adds listeners to GUI, to update internal parameters/take appropriate actions on change
         addGUIListeners();
 
     }

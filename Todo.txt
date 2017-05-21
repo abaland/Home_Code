@@ -1,1 +1,9 @@
 Specify "except Exception as e" in TSL2561_Driver, for "Sensor saturated" exception.
+
+Add a check every X minutes to make sure connection to server is still alive. An issue occured where
+the code thought it was still connected to the rabbitMQ server (and consuming) although
+the server listened no consumer.
+
+Add default settings in Android App.
+
+Add output of last backup successfully made + rabbitMQ function saying when was last success

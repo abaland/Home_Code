@@ -2,6 +2,7 @@ package com.example.abaland.android_remote;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
 
 import java.util.HashMap;
 
@@ -10,7 +11,14 @@ class LightsControls {
 
     private MainActivity activity;
 
+    // Mapping from the GUI button text to command name in Python script
     private HashMap<String, String> ButtonToInstructionMapping = new HashMap<>();
+
+    private RadioGroup lightTargetRadio;
+
+    private Integer lightTargetIndex = 0; // 0: living, 1: bedroom
+
+    private String[] lightTargetMapping = {"living", "bedroom"};
 
     private Button powerButton;
     private Button brightnessDownButton;
@@ -25,6 +33,21 @@ class LightsControls {
 
     }
 
+
+    /**
+     * Querries lights target radiobutton from lights GUI to get which lights signal must be sent to
+     *
+     * @return {'bedroom', 'living'}
+     */
+    private String getLightTarget(){
+
+        ///////////////////////////////////////////////////
+        return lightTargetMapping[lightTargetIndex];
+        ///////////////////////////////////////////////////
+
+    }
+
+
     /**
      * Applies appropriate function when button on GUI is clicked.
      *
@@ -34,7 +57,7 @@ class LightsControls {
      */
     private void onClickFunction(View v){
 
-        String RemoteName = "living_light";
+        String RemoteName = "light_" + getLightTarget();
 
         // Casts button clicked as a Button instance, and gets its text content.
         Button clickedButton = (Button) v;
@@ -53,6 +76,8 @@ class LightsControls {
      */
     private void bindGUIToScript() {
 
+        lightTargetRadio = (RadioGroup) this.activity.findViewById(R.id.Light_Target);
+
         powerButton = (Button) this.activity.findViewById(R.id.lights_power);
         brightnessDownButton = (Button) this.activity.findViewById(R.id.darker);
         brightnessUpButton = (Button) this.activity.findViewById(R.id.brighter);
@@ -62,9 +87,59 @@ class LightsControls {
     }
 
     /**
+     * Initializes values from GUI elements. Uses default value defined above.
+     *
+     * TODO : add User preferences to default
+     */
+    private void initializeGUIValues() {
+
+        // Checks correct aircon target
+        switch (lightTargetIndex) {
+
+            case  0:
+
+                lightTargetRadio.check(R.id.Light_Living);
+                break;
+
+            case 1:
+
+                lightTargetRadio.check(R.id.Light_Bedroom);
+                break;
+
+        }
+
+    }
+
+
+    /**
      * Adds all listeners to GUI elements, to update internal parameters, send commands, ...
      */
     private void addGUIListeners() {
+
+        // Adds listener for aircon target radio buttons.
+        lightTargetRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged (RadioGroup group, int checkedId){
+
+                // Updates internal parameter
+                switch(checkedId) {
+
+                    case R.id.Light_Living:
+
+                        lightTargetIndex = 0;
+                        break;
+
+                    case R.id.Light_Bedroom:
+
+                        lightTargetIndex = 1;
+                        break;
+
+                }
+
+            }
+
+        });
 
         powerButton.setOnClickListener(new Button.OnClickListener() {
 
@@ -114,6 +189,9 @@ class LightsControls {
 
         // Links all GUI items to the script
         bindGUIToScript();
+
+        // Updates GUI correctly based on defaults
+        initializeGUIValues();
 
         // Adds listeners to GUI, to update internal parameters/take appropriate actions on change
         addGUIListeners();

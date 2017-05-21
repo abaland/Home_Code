@@ -14,6 +14,61 @@
         android:orientation="vertical"
         android:layout_gravity="center">
 
+    <!-- Lights target -->
+    <RadioGroup
+            android:id="@+id/Light_Target"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+        <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+        <RadioButton
+                android:id="@+id/Light_Living"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+        />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/living"
+                android:textSize="20sp"
+                android:textAppearance="@android:style/TextAppearance.Material"
+        />
+
+        <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="15"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bedroom"
+                android:textAppearance="@android:style/TextAppearance.Material"
+                android:textSize="20sp"
+        />
+
+        <RadioButton
+                android:id="@+id/Light_Bedroom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+        />
+
+        <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+    </RadioGroup>
+
     <!-- Power Switch -->
     <Button
             android:id="@+id/lights_power"

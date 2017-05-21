@@ -87,7 +87,7 @@ class TVControls {
     void initialize() {
 
         // Initializes the mapping between text on the buttons and the instruction to send
-        ButtonToInstructionMapping.put("Power", "KEY_POWER");
+        ButtonToInstructionMapping.put("Power", "Power");
         ButtonToInstructionMapping.put("Vol+", "KEY_VOLUMEUP");
         ButtonToInstructionMapping.put("Vol-", "KEY_VOLUMEDOWN");
 

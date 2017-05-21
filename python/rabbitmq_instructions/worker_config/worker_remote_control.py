@@ -67,6 +67,10 @@ def execute(worker_instance, instruction_as_xml, worker_base_response):
                 # Split the comma-separated info (only puts in array if button name)
                 configuration_splitted = configuration_to_send.split(',')
 
+                # Logs remote command to send before sending it, for history and bug tracking
+                general_utils.log_message('Request for remote %s : %s' % (remote_to_use,
+                                                                          configuration_to_send))
+
                 # Sends all element in array as argument (button name or all config parameter)
                 status_code = remote_info[0].send_signal(*configuration_splitted)
 

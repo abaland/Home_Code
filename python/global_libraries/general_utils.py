@@ -92,6 +92,10 @@ all_error_messages = {
     -506: 'Error in SignalSender.',
     -507: 'Pigpio package error',
     ##########
+    # OS
+    ##########
+    -601: 'Could not get space information',
+    ##########
     # General
     ##########
     -995: 'Could not set up custom logger',

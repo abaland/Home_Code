@@ -136,12 +136,15 @@ class PikaConnectorManager:
     # Revision History:
     #   2016-11-26 AdBa : Function created
     ################################################################################################
-    def test_rabbitmq_node_activity(self):
+    def test_rabbitmq_node_activity(self, silent=False):
         """
         Checks whether the RabbitMQ server is alive or not.
         This assumes that management plug-in is enabled. If it is, http://rabbit_server_ip:15672 is 
             reachable.
         This blocks until the server is detected.
+
+        INPUT
+            silent (bool) Whether message must be logged in case of normal behavior (server alive)
         """
 
         # Gets URL to which a connexion must be attempted
@@ -161,7 +164,10 @@ class PikaConnectorManager:
 
                 # Successfully connected, leave the loop.
                 connection_failed = False
-                general_utils.log_message('RabbitMQ server is alive.')
+
+                # Only log message if not in silent mode
+                if not silent:
+                    general_utils.log_message('RabbitMQ server is alive.')
 
             # If connexion establishment fails, wait then try again
             except urllib2.URLError:
@@ -611,6 +617,7 @@ class PikaConnectorManager:
     ################################################################################################
     # Revision History :
     #   2016-11-26 AdBa : Function created
+    #   2017-05-22 AdBa : Replaced start consume (infinite) by multiple 5min interval consumption
     ################################################################################################
     def start_consume(self):
         """
@@ -628,12 +635,18 @@ class PikaConnectorManager:
             try:
                 
                 general_utils.log_message('Starting queue consumption.')
-                self.rabbit_channel.start_consuming()
-                
-                # Channel was closed by program => Exits
-                if self.rabbit_connection is None:
+                while True:
 
-                    break
+                    # Processes incoming for five minutes, then check if server is still dected.
+                    # Avoid silent disconnections where script think it is connected but is not.
+                    self.rabbit_channel.process_data_events(300.)
+                    self.test_rabbitmq_node_activity(silent=True)
+
+                    # Channel was closed by program => Exits
+                    if self.rabbit_connection is None:
+
+                        is_currently_consuming = False
+                        break
 
             except (pika.exceptions.ChannelClosed, pika.exceptions.ConnectionClosed):
 

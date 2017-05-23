@@ -426,7 +426,7 @@ def get_measurements(address, temperature_correction):
         (Dict) dictionnary as {'temperature': value}
     """
 
-    max_number_retry = 3  # Times script will try to get data from sensor in case of failure
+    max_number_retry = 5  # Times script will try to get data from sensor in case of failure
 
     all_values = {
         'temperature': None,

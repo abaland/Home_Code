@@ -111,7 +111,7 @@ all_error_messages = {
 ####################################################################################################
 # Revision History:
 #    2017-02-10 AdBa: Created the function
-#    2017-02-17 AB - Changed permission check
+#    2017-02-17 AdBa: Changed permission check
 ####################################################################################################
 def setup_log_file(log_file_url, logger_name):
     """

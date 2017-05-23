@@ -992,6 +992,9 @@ def main():
         general_utils.get_welcome_end_message(script_class_name, is_start=False)
         exit(success_status)
 
+    # Logs configuration for easier debugging
+    general_utils.log_message(str(all_sensors))
+
     # Deletes temporary variables now that config has been processed properly
     global list_all_output_directories
     del list_all_output_directories

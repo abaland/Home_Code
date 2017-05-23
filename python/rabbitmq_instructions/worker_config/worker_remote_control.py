@@ -33,13 +33,13 @@ def execute(worker_instance, instruction_as_xml, worker_base_response):
     """
     Processes infrared remote instruction
 
-    INPUT:
-         worker_instance (Worker): worker instance
-         instruction_as_xml (lxml.etree): message to process
-         worker_base_response (lxml.etree): base of worker response on which to build
+    INPUT
+         worker_instance (Worker) worker instance
+         instruction_as_xml (lxml.etree) message to process
+         worker_base_response (lxml.etree) base of worker response on which to build
 
-    OUTPUT :
-         (lxml.etree): worker response
+    OUTPUT
+         (lxml.etree) worker response
     """
 
     # Creates base response to be completed in instruction

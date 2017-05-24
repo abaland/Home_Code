@@ -52,6 +52,7 @@ all_error_messages = {
     -304: 'No module could be found for instruction. Maybe the config version is not latest.',
     -305: 'Failed to interpret new configuration. Aborting update.',
     -306: 'Failed to create files/folder for the worker configuration folder',
+    -307: 'Within-module command invalid.',
     ###########
     # Sensors
     ###########

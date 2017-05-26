@@ -27,6 +27,7 @@ def test_sshd_alive():
 ####################################################################################################
 # Revision History :
 #    2017-05-24 Adba : Function created
+#    2017-05-27 Adba : Fixed empty return
 ####################################################################################################
 def execute(_, instruction_as_xml, worker_base_response):
     """
@@ -73,9 +74,9 @@ def execute(_, instruction_as_xml, worker_base_response):
     # Parsing was successfull
     ssh_response.set('status', str(command_status))
 
-    #######
-    return
-    #######
+    ####################
+    return ssh_response
+    ####################
 
 ##############
 # END execute

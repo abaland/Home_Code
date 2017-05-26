@@ -18,7 +18,7 @@ from lxml import etree  # Converts worker response element to a tree-like object
 # Import Local Packages
 ########################
 from python.rabbitmq_instructions.master_config import master_commands
-from python.rabbitmq_instructions.worker_config import config_general
+from python.rabbitmq_instructions.worker_config.config_general import worker_to_instruction
 
 from python.global_libraries import general_utils
 from python.global_libraries import pika_connector_manager
@@ -192,7 +192,7 @@ class RabbitMaster:
         """
 
         # Gets the worker to instruction mapping, to reverse.
-        worker_to_keys = config_general.worker_to_instruction
+        worker_to_keys = worker_to_instruction
 
         # Initializes an array (which will contain the workers) for each instruction
         self.instruction_to_worker_list['heartbeat'] = []

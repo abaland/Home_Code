@@ -108,6 +108,7 @@ def get_sensor_values(output_directory, measurement_type_list, sensor_status):
 ####################################################################################################
 # Revision History :
 #    2017-05-23 Adba : Function created
+#    2017-05-27 Adba : Fixed missing .sand_box and fixed empty return
 ####################################################################################################
 def execute(worker_instance, instruction_as_xml, worker_base_response):
     """
@@ -134,7 +135,7 @@ def execute(worker_instance, instruction_as_xml, worker_base_response):
         get_sensor_list(worker_instance)
 
     # Gets the relevant directories to go through
-    all_sensor_directories = worker_instance['sensors']
+    all_sensor_directories = worker_instance.sand_box['sensors']
 
     # Goes through all sensors to get their measurement
     for sensor_name, sensor_info_dictionary in all_sensor_directories.iteritems():
@@ -157,9 +158,9 @@ def execute(worker_instance, instruction_as_xml, worker_base_response):
     # Parsing was successfull
     sensor_response.set('status', '0')
 
-    #######
-    return
-    #######
+    #######################
+    return sensor_response
+    #######################
 
 ##############
 # END execute

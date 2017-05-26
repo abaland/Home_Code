@@ -14,5 +14,5 @@ worker_to_instruction = {
 instruction_to_module = {
     'remote_control': worker_remote_control,
     'files': worker_files,
-    'worker_sensors': worker_sensors
+    'sensors': worker_sensors
 }

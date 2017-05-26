@@ -59,7 +59,8 @@ def convert_magnitude(byte_value):
 # execute
 ####################################################################################################
 # Revision History :
-#   2017-05-22 Adba : Function created
+#    2017-05-22 Adba : Function created
+#    2017-05-27 Adba : Fixed empty return
 ####################################################################################################
 def execute(_, instruction_as_xml, worker_base_response):
     """
@@ -98,9 +99,9 @@ def execute(_, instruction_as_xml, worker_base_response):
 
     space_response.set('status', str(status_code))
 
-    #######
-    return
-    #######
+    ######################
+    return space_response
+    ######################
 
 ##############
 # END execute

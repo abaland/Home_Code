@@ -6,7 +6,10 @@
 
 from time import sleep  # Waits after sending signal for responses
 from time import time as now
-import RPi.GPIO as GPIO  # Controls and reads GPIO Pins
+try:
+    import RPi.GPIO as GPIO  # Controls and reads GPIO Pins
+except ImportError:
+    GPIO = None
 
 ########################
 # Import local packages
@@ -118,6 +121,13 @@ def collect_pin_values():
     RETURNS:
         (int[]) array of measurements (HIGH=1, LOW=0) for the given pin.
     """
+
+    # Case-handler if the Rpi.GPIO could not be loaded
+    if GPIO is None:
+
+        ##########
+        return []
+        ##########
 
     n_same_value_break = 200  # number of successive time same data is seen until collection stops
     n_same_value_count = 0  # Number of successive times the same value was observed
@@ -439,6 +449,13 @@ def get_measurements(address, temperature_correction):
         'temperature': None,
         'humidity': None
     }
+
+    # Case-handler if the Rpi.GPIO could not be loaded
+    if GPIO is None:
+
+        ##################
+        return all_values
+        ##################
 
     # Sets the pin to use internally.
     pin_gpio_id = address

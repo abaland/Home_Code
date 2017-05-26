@@ -5,6 +5,7 @@
 #########################
 
 from time import sleep  # Waits after sending signal for responses
+from time import time as now
 import RPi.GPIO as GPIO  # Controls and reads GPIO Pins
 
 ########################
@@ -19,6 +20,9 @@ __author__ = 'Baland Adrien'
 # Declare global variables
 ###########################
 pin_gpio_id = -1  # Pin to which DHT11 Sensor is connected.
+
+no_data_bit_error_spacing = 3600.  # Prevents spam log of errors if the "No 40 bits" error occurs.
+no_data_bit_error_last_time = {}  # Each failing sensors should still have its log entry
 
 
 ####################################################################################################
@@ -426,6 +430,9 @@ def get_measurements(address, temperature_correction):
         (Dict) dictionnary as {'temperature': value}
     """
 
+    global pin_gpio_id
+    global no_data_bit_error_last_time
+
     max_number_retry = 5  # Times script will try to get data from sensor in case of failure
 
     all_values = {
@@ -434,7 +441,6 @@ def get_measurements(address, temperature_correction):
     }
 
     # Sets the pin to use internally.
-    global pin_gpio_id
     pin_gpio_id = address
 
     # Sets appropriate mode for GPIO pins
@@ -494,8 +500,18 @@ def get_measurements(address, temperature_correction):
             # Log errors if failed to get 40 data bits from sensor (only log error after n failures)
             if index_retry == max_number_retry:
 
-                general_utils.log_error(-409, 'Not 40 data bits for DHT11')
-                break
+                # Initializes the last time an error has been logged for that particular address
+                if pin_gpio_id not in no_data_bit_error_last_time.keys():
+
+                    no_data_bit_error_last_time[pin_gpio_id] = 0
+
+                # Checks if error should be logged
+                if now() > no_data_bit_error_last_time[pin_gpio_id] + no_data_bit_error_spacing:
+
+                    error_details = 'Address %d.' % (pin_gpio_id,)
+                    general_utils.log_error(-409, 'Not 40 data bits for DHT11', error_details)
+                    no_data_bit_error_last_time = now()
+                    break
 
         # Failed to get measures in current trial, increment counter and try again
         index_retry += 1

@@ -1,6 +1,12 @@
+########################
+# Import Global package
+########################
 import argparse
-import python.global_libraries.general_utils as general_utils
 
+
+####################################################################################################
+# DEFAULTS
+####################################################################################################
 
 ####################################################################################################
 # INSTRUCTION PARSER
@@ -10,7 +16,8 @@ argument_parser = argparse.ArgumentParser()
 
 # Timeout argument
 timeout_help = 'Number of seconds to wait for a response.\n'
-argument_parser.add_argument('--timeout', '-t', action='store', nargs='?', type=int)
+argument_parser.add_argument('--timeout', '-t', action='store', nargs='?', type=int,
+                             help=timeout_help)
 
 #########################
 # END INSTRUCTION PARSER
@@ -21,7 +28,7 @@ argument_parser.add_argument('--timeout', '-t', action='store', nargs='?', type=
 # get_help_message
 ####################################################################################################
 # Revision History :
-#   2016-11-26 AB : Function created
+#   2016-05-25 AdBa : Function created
 ####################################################################################################
 def get_help_message(with_details=False):
     """
@@ -32,8 +39,8 @@ def get_help_message(with_details=False):
             printed, or detailed.
     """
 
-    print('heartbeat.')
-    print('Orders worker to send an activity signal by sending a basic response.')
+    print('Sensors.')
+    print('Querries measurements for sensors plugged in to the machines.')
 
     if with_details:
         
@@ -52,19 +59,20 @@ def get_help_message(with_details=False):
 # get_message
 ####################################################################################################
 # Revision History :
-#   2016-11-26 AB : Function created
+#   2017-05-25 AdBa : Function created
 ####################################################################################################
 def get_message(rabbit_master_object, base_instruction_message, command_arguments):
     """
-    Sends a heartbeat request to the RabbitMQ server
+    Sends a sensors status request to the RabbitMQ server
 
-    INPUT:
+    INPUT
          rabbit_master_object (Master) master controller, sending instruction to RabbitMQ server.
-         my_time_out (str, opt) : timeout value
+         instruction (str) instruction to send camera
+         command_arguments (str, opt) timeout value
 
-    OUTPUT:
-        message (str): an empty string ('heartbeat' instruction name is sufficient)
-        timeout (float): the timeout value to apply
+    OUTPUT
+        (lxml.etree) XML representation of instruction to send, as <camera instruction='...'>
+        timeout value to apply
     """
 
     try:
@@ -79,11 +87,12 @@ def get_message(rabbit_master_object, base_instruction_message, command_argument
         raise ValueError('Could not parse command.')
         #############################################
 
-    input_timeout = parsed_command_arguments.timeout
+    # Reads values to sends (combines defaults and user selections
+    remote_timeout = parsed_command_arguments.timeout
 
-    ###################################################################################
-    return base_instruction_message, rabbit_master_object.parse_timeout(input_timeout)
-    ###################################################################################
+    ####################################################################################
+    return base_instruction_message, rabbit_master_object.parse_timeout(remote_timeout)
+    ####################################################################################
 
 ##################
 # END get_message
@@ -94,25 +103,30 @@ def get_message(rabbit_master_object, base_instruction_message, command_argument
 # process_response
 ####################################################################################################
 # Revision History :
-#   2016-11-26 AB : Function created
+#   2017-05-25 AdBa : Function created
 ####################################################################################################
 def process_response(_, received_worker_message):
     """
-    Processes heartbeat report from a worker.
+    Processes sensor report from a worker.
 
     INPUT:
-         master (Master) : Unused here.
-         received_worker_message (lxml.etree object) message from worker as 
+         master (Master) Unused here.
+         received_worker_message (lxml.etree object) message from worker as
             <worker id=... status=...>
     """
+    
+    print('Sensors response received.')
+    
+    try:
 
-    cpu_percentage = received_worker_message.get('cpu')
-    timestamp = received_worker_message.get('timestamp')
-    code_version = received_worker_message.get('version')
+        for sensor_object in received_worker_message.iter('sensor'):
 
-    general_utils.log_message('CPU: %s%%. Timestamp: %s. Version: %s.' % (cpu_percentage,
-                                                                          timestamp, code_version))
+            print(sensor_object.attrib)
 
+    except Exception as e:
+        
+        print('Could not parse response' + str(e))
+    
     #######
     return
     #######

@@ -15,17 +15,17 @@ import argparse
 argument_parser = argparse.ArgumentParser()
 
 # Instruction parameter : one of the available choices. REQUIRED
-Remote_Name_To_Help = 'Remote to use.\n'
-argument_parser.add_argument('remote_name', action='store', type=str, help=Remote_Name_To_Help)
+remote_name_to_help = 'Remote to use.\n'
+argument_parser.add_argument('remote_name', action='store', type=str, help=remote_name_to_help)
 
 # Framerate argument, integer
-Button_To_Press_Help = 'Button to press on remote or configuration to send through IR (for aircon).'
-argument_parser.add_argument('configuration', action='store', type=str, help=Button_To_Press_Help)
+button_to_press_help = 'Button to press on remote or configuration to send through IR (for aircon).'
+argument_parser.add_argument('configuration', action='store', type=str, help=button_to_press_help)
 
 # Timeout argument
-Timeout_Help = 'Number of seconds to wait for a response.\n'
+timeout_help = 'Number of seconds to wait for a response.\n'
 argument_parser.add_argument('--timeout', '-t', action='store', nargs='?', type=int,
-                             help=Timeout_Help)
+                             help=timeout_help)
 
 #########################
 # END INSTRUCTION PARSER
@@ -71,7 +71,7 @@ def get_help_message(with_details=False):
 ####################################################################################################
 def get_message(rabbit_master_object, base_instruction_message, command_arguments):
     """
-    Sends a camera status request to the RabbitMQ server
+    Sends a remote_control status request to the RabbitMQ server
 
     INPUT:
          rabbit_master_object (Master) master controller, sending instruction to RabbitMQ server.
@@ -121,7 +121,7 @@ def get_message(rabbit_master_object, base_instruction_message, command_argument
 ####################################################################################################
 def process_response(_, received_worker_message):
     """
-    Processes camera report from a worker.
+    Processes remote control report from a worker.
 
     INPUT:
          master (Master) : Unused here.

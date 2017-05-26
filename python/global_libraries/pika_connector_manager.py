@@ -9,6 +9,7 @@ This module handles connexion and interactions with RabbitMQ server
 import ConfigParser
 import os
 import urllib2  # Used to check connection to server
+import socket  # Used by urllib2 and needed to catch a timeout exception
 from time import sleep
 
 import pika
@@ -170,12 +171,12 @@ class PikaConnectorManager:
                     general_utils.log_message('RabbitMQ server is alive.')
 
             # If connexion establishment fails, wait then try again
-            except urllib2.URLError:
+            except (urllib2.URLError, socket.timeout):
 
                 general_utils.log_message('RabbitMQ server not detected. Trying again soon.')
                 sleep(3)
                 continue
-    
+
         #######
         return
         #######
@@ -639,7 +640,7 @@ class PikaConnectorManager:
 
                     # Processes incoming for five minutes, then check if server is still dected.
                     # Avoid silent disconnections where script think it is connected but is not.
-                    self.rabbit_channel.process_data_events(300.)
+                    self.process_data_events(300.)
                     self.test_rabbitmq_node_activity(silent=True)
 
                     # Channel was closed by program => Exits
@@ -729,15 +730,19 @@ class PikaConnectorManager:
     ################################################################################################
     # Revision History :
     #   2016-11-26 AdBa : Function created
+    #   2017-05-26 AdBa: Added optional time limit parameter
     ################################################################################################
-    def process_data_events(self):
+    def process_data_events(self, time_limit=0.5):
         """
         Waits for messages coming from queues for a short period of time.
+
+        INPUT
+            time_limit (float|int) duration of consumption of data events
         """
         
         try:
 
-            self.rabbit_connection.process_data_events()
+            self.rabbit_connection.process_data_events(time_limit)
 
         except (pika.exceptions.ChannelClosed, pika.exceptions.ConnectionClosed):
     

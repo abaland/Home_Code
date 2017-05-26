@@ -26,7 +26,7 @@ def test_sshd_alive():
 # execute
 ####################################################################################################
 # Revision History :
-#    2017-05-23 Adba : Function created
+#    2017-05-24 Adba : Function created
 ####################################################################################################
 def execute(_, instruction_as_xml, worker_base_response):
     """
@@ -40,6 +40,9 @@ def execute(_, instruction_as_xml, worker_base_response):
     OUTPUT
          (lxml.etree) worker response, with status report on instruction execution
     """
+
+    # sudo /etc/init.d/ssh stop
+    # sudo update-rc.d ssh disable
 
     # Creates base response to be completed in instruction
     ssh_response = worker_base_response

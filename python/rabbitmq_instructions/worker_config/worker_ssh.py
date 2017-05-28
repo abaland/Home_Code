@@ -59,13 +59,13 @@ def execute(_, instruction_as_xml, worker_base_response):
 
             if not is_sshd_alive:
 
-                subprocess.call('/etc/init.d/ssh stop')
+                subprocess.call('/etc/init.d/ssh start && update-rc.d ssh disable')
 
         else:
 
             if is_sshd_alive:
 
-                subprocess.call('/etc/init.d/ssh stop')
+                subprocess.call('/etc/init.d/ssh stop && update-rc.d ssh enable')
 
     else:
 

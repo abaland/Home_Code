@@ -34,34 +34,6 @@ class Rabbit_Manager {
 
 
     /**
-     * Converts the KeyToPressName into a XML-formatted instruction which presses that button
-     *
-     * @param RemoteName Name of the remote according to rabbitmq
-     * @param ConfigToSend Key that must be pressed
-     */
-    private String convertToXmlInstruction(String RemoteName, String ConfigToSend){
-
-        // Message will be sent to both raspberry pis (they will figure out which one must send)
-        String RabbitWorkerId = "bedroom,living";
-
-        String Message_To_Send;
-
-        Message_To_Send = "<instruction" +
-                " type=\"" + InstructionName + "\"" +
-                " target=\"" + RabbitWorkerId + "\"" +
-                " remote=\"" + RemoteName + "\"" +
-                " config=\"" + ConfigToSend + "\"" +
-                "/>";
-
-        ////////////////////////
-        return Message_To_Send;
-        ////////////////////////
-
-    }
-
-
-
-    /**
      * Attempts to connect to the RabbitMQ server.
      *
      * @param context Activity that called the publishMessage function
@@ -72,9 +44,13 @@ class Rabbit_Manager {
         // Attempts to connect to the server (only one attempt)
         try {
 
-            // Initializes connection and channel with the RabbitMQ server.
-            connection = factory.newConnection();
-            channel = connection.createChannel();
+            if (channel == null || connection == null) {
+
+                // Initializes connection and channel with the RabbitMQ server.
+                connection = factory.newConnection();
+                channel = connection.createChannel();
+
+            }
 
             // Succeeded : return true.
             /////////////
@@ -82,7 +58,6 @@ class Rabbit_Manager {
             /////////////
 
         } catch (IOException | TimeoutException e) {
-
 
             // Connection failed. Prints exception, resets parameters, and returns failure status.
             new CustomLogger("Rabbit", "Could not create Rabbit channel : " + e.getMessage(),
@@ -103,13 +78,10 @@ class Rabbit_Manager {
     /**
      * Sends message to workers through RabbitMQ.
      *
-     * @param RemoteName Name of the remote according to rabbitmq
-     * @param ConfigToSend Key that must be pressed
+     * @param messageToSend Message to send through RabbitMQ
      * @param context Activity that called the publishMessage function
      */
-    void publishMessage(String RemoteName, String ConfigToSend, final AppCompatActivity context) {
-
-        final String MessageToSend = convertToXmlInstruction(RemoteName, ConfigToSend);
+    void publishMessage(final String messageToSend, final AppCompatActivity context) {
 
         Thread publishThread = new Thread(new Runnable() {
 
@@ -117,7 +89,7 @@ class Rabbit_Manager {
             public void run() {
 
                 // Resets parameters if the channel is closed.
-                if (channel != null && channel.isOpen()){
+                if (channel != null && !channel.isOpen()){
 
                     connection = null;
                     channel = null;
@@ -132,7 +104,7 @@ class Rabbit_Manager {
 
                         channel.confirmSelect();
                         channel.basicPublish("ex", InstructionName, false, null,
-                                MessageToSend.getBytes());
+                                messageToSend.getBytes());
 
                     } catch (IOException e) {
 

@@ -6,7 +6,7 @@ import android.widget.Button;
 import java.util.HashMap;
 
 
-class TVControls {
+class TVControls extends GenericRemoteControls {
 
     private MainActivity activity;
 
@@ -31,17 +31,18 @@ class TVControls {
      */
     private void onClickFunction(View v){
 
-        String RemoteName = "tv";
+        String remoteName = "tv";
 
         // Casts button clicked as a Button instance, and gets its text content.
         Button clickedButton = (Button) v;
         String ButtonText = clickedButton.getText().toString();
 
-        String KeyToPress = ButtonToInstructionMapping.get(ButtonText);
+        String keyToPress = ButtonToInstructionMapping.get(ButtonText);
 
         MainActivity activity = TVControls.this.activity;
 
-        activity.rabbitManager.publishMessage(RemoteName, KeyToPress, activity);
+        String messageToSend = convertToXmlInstruction(remoteName, keyToPress);
+        activity.rabbitManager.publishMessage(messageToSend, activity);
 
     }
 

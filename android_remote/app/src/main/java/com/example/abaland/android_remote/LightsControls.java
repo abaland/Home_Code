@@ -7,7 +7,7 @@ import android.widget.RadioGroup;
 import java.util.HashMap;
 
 
-class LightsControls {
+class LightsControls extends GenericRemoteControls {
 
     private MainActivity activity;
 
@@ -57,17 +57,17 @@ class LightsControls {
      */
     private void onClickFunction(View v){
 
-        String RemoteName = "light_" + getLightTarget();
+        String remoteName = "light_" + getLightTarget();
 
         // Casts button clicked as a Button instance, and gets its text content.
         Button clickedButton = (Button) v;
-        String ButtonText = clickedButton.getText().toString();
+        String buttonText = clickedButton.getText().toString();
 
-        String KeyToPress = ButtonToInstructionMapping.get(ButtonText);
-
+        String keyToPress = ButtonToInstructionMapping.get(buttonText);
         MainActivity activity = LightsControls.this.activity;
 
-        activity.rabbitManager.publishMessage(RemoteName, KeyToPress, activity);
+        String messageToSend = convertToXmlInstruction(remoteName, keyToPress);
+        activity.rabbitManager.publishMessage(messageToSend, activity);
 
     }
 

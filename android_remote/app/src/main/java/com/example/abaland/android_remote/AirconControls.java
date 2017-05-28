@@ -7,7 +7,7 @@ import android.widget.*;
 import java.util.HashMap;
 import java.util.Locale;
 
-class AirconControls{
+class AirconControls extends GenericRemoteControls {
 
     private MainActivity activity;
 
@@ -296,10 +296,10 @@ class AirconControls{
             @Override
             public void onClick(View v){
 
-                String RemoteName = "aircon_" + getAirconTarget();
+                String remoteName = "aircon_" + getAirconTarget();
                 MainActivity activity = AirconControls.this.activity;
-
-                activity.rabbitManager.publishMessage(RemoteName, getConfigAsString(), activity);
+                String messageToSend = convertToXmlInstruction(remoteName, getConfigAsString());
+                activity.rabbitManager.publishMessage(messageToSend, activity);
 
             }
 

@@ -16,7 +16,7 @@ custom_logger = None
 
 all_error_messages = {
     # Loading / Input interpretation
-    -1: '[RabbitMQ] section was missing.',
+    -1: 'Configuration section was missing.',
     -2: 'Configuration option parameter missing.',
     -3: 'RabbitMQ port must be an integer (not a string).',
     -4: 'Found unexpected arguments which will be ignored : ',
@@ -99,6 +99,7 @@ all_error_messages = {
     ##########
     # General
     ##########
+    -994: 'Mail client handler is not properly configured',
     -995: 'Could not set up custom logger',
     -996: 'Custom logger did not have correct permissions.',
     -997: 'Failed to reboot worker.',

@@ -3,6 +3,7 @@ package com.example.abaland.android_remote;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.Consumer;
 
 import android.support.v7.app.AppCompatActivity;
 
@@ -15,8 +16,6 @@ class Rabbit_Manager {
     private ConnectionFactory factory = new ConnectionFactory();
     private Connection connection;
     private Channel channel;
-
-    private String InstructionName = "remote_control";
 
 
     Rabbit_Manager() {
@@ -76,45 +75,173 @@ class Rabbit_Manager {
 
 
     /**
+     * Checks whether the channel is still open and resets paraeters otherwise
+     */
+    private void checkChannelParameters() {
+
+        // Resets parameters if the channel is closed.
+        if (channel != null && !channel.isOpen()){
+
+            connection = null;
+            channel = null;
+
+        }
+
+    }
+
+
+    /**
      * Sends message to workers through RabbitMQ.
      *
      * @param messageToSend Message to send through RabbitMQ
      * @param context Activity that called the publishMessage function
      */
-    void publishMessage(final String messageToSend, final AppCompatActivity context) {
+    private void publishMessage(final String instructionName, final String messageToSend,
+                        final AppCompatActivity context) {
+
+        // Resets parameters if the channel is closed.
+        checkChannelParameters();
+
+        // Creates connexion with RabbitMQ server if it did not exist already.
+        if (createRabbitChannel(context)) {
+
+            // Sends message.
+            try {
+
+                channel.confirmSelect();
+                channel.basicPublish("ex", instructionName, false, null,
+                        messageToSend.getBytes());
+
+            } catch (IOException e) {
+
+                // Failed to publish message. Log error and stops
+                new CustomLogger("Rabbit", "Could not send rabbitmq message. Giving up : " +
+                        e.getMessage(), context, true);
+
+            }
+
+        }
+
+    }
+
+
+    /**
+     * Declares a temporary queue messages from the server and declares the feed from this queue
+     *
+     * @param callback Consumer object that contains the callback function to be called
+     * @param context Activity that called the publishMessage function
+     */
+    private String declareTemporaryQueue(final Consumer callback, final AppCompatActivity context) {
+
+        String queueName = null;
+
+        // Resets parameters if the channel is closed.
+        checkChannelParameters();
+
+        // Creates connexion with RabbitMQ server if it did not exist already.
+        if (createRabbitChannel(context)) {
+
+            // Sends message.
+            try {
+
+                queueName = channel.queueDeclare().getQueue();
+                channel.basicConsume(queueName, false, callback);
+                System.out.println("Temporary queue created");
+
+            } catch (IOException e) {
+
+                // Failed to publish message. Log error and stops
+                new CustomLogger("Rabbit", "Could not send rabbitmq message. Giving up : " +
+                        e.getMessage(), context, true);
+
+            }
+
+        }
+
+        return queueName;
+
+    }
+
+
+    /**
+     * Declares a temporary queue messages from the server and declares the feed from this queue
+     *
+     * @param queueName Name of queue to be removed
+     * @param context Activity that called the publishMessage function
+     */
+    private  void remoteTemporaryQueue(final String queueName, final AppCompatActivity context) {
+
+        // Resets parameters if the channel is closed.
+        checkChannelParameters();
+
+        // Creates connexion with RabbitMQ server if it did not exist already.
+        if (createRabbitChannel(context)) {
+
+            // Sends message.
+            try {
+
+                channel.queueDelete(queueName);
+
+            } catch (IOException e) {
+
+                // Failed to publish message. Log error and stops
+                new CustomLogger("Rabbit", "Could not send rabbitmq message. Giving up : " +
+                        e.getMessage(), context, true);
+
+            }
+
+        }
+
+    }
+
+
+    /**
+     * Declares a temporary queue messages from the server and declares the feed from this queue
+     *
+     * @param deliveryTag ??
+     * @param context Activity that called the publishMessage function
+     */
+    void acknowledgeMessage(final long deliveryTag, final AppCompatActivity context) {
+
+        // Resets parameters if the channel is closed.
+        checkChannelParameters();
+
+        // Creates connexion with RabbitMQ server if it did not exist already.
+        if (createRabbitChannel(context)) {
+
+            // Sends message.
+            try {
+
+                channel.basicAck(deliveryTag, false);
+
+            } catch (IOException e) {
+
+                // Failed to publish message. Log error and stops
+                new CustomLogger("Rabbit", "Could not send rabbitmq message. Giving up : " +
+                        e.getMessage(), context, true);
+
+            }
+
+        }
+
+    }
+
+
+    /**
+     * Sends message to workers through RabbitMQ.
+     *
+     * @param messageToSend Message to send through RabbitMQ
+     * @param context Activity that called the publishMessage function
+     */
+    void askWorker(final String instructionName, final String messageToSend,
+                   final AppCompatActivity context) {
 
         Thread publishThread = new Thread(new Runnable() {
 
             @Override
             public void run() {
 
-                // Resets parameters if the channel is closed.
-                if (channel != null && !channel.isOpen()){
-
-                    connection = null;
-                    channel = null;
-
-                }
-
-                // Creates connexion with RabbitMQ server if it did not exist already.
-                if (createRabbitChannel(context)) {
-
-                    // Sends message.
-                    try {
-
-                        channel.confirmSelect();
-                        channel.basicPublish("ex", InstructionName, false, null,
-                                messageToSend.getBytes());
-
-                    } catch (IOException e) {
-
-                        // Failed to publish message. Log error and stops
-                        new CustomLogger("Rabbit", "Could not send rabbitmq message. Giving up : " +
-                                e.getMessage(), context, true);
-
-                    }
-
-                }
+                publishMessage(instructionName, messageToSend, context);
 
             }
 
@@ -123,5 +250,34 @@ class Rabbit_Manager {
         publishThread.start();
 
     }
+
+
+    /**
+     * Sends message to workers through RabbitMQ.
+     *
+     * @param messageToSend Message to send through RabbitMQ
+     * @param context Activity that called the publishMessage function
+     */
+    void askWorker(final String instructionName, final String messageToSend,
+                   final AppCompatActivity context, final Consumer callback) {
+
+        Thread publishThread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+
+                String queueName = declareTemporaryQueue(callback, context);
+                publishMessage(instructionName, messageToSend, context);
+
+                remoteTemporaryQueue(queueName, context);
+
+            }
+
+        });
+
+        publishThread.start();
+
+    }
+
 
 }

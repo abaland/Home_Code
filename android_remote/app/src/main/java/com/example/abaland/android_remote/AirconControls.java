@@ -299,7 +299,7 @@ class AirconControls extends GenericRemoteControls {
                 String remoteName = "aircon_" + getAirconTarget();
                 MainActivity activity = AirconControls.this.activity;
                 String messageToSend = convertToXmlInstruction(remoteName, getConfigAsString());
-                activity.rabbitManager.publishMessage(messageToSend, activity);
+                activity.rabbitManager.askWorker("remote_control", messageToSend, activity);
 
             }
 

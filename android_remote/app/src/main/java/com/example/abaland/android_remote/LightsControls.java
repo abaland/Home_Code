@@ -67,7 +67,7 @@ class LightsControls extends GenericRemoteControls {
         MainActivity activity = LightsControls.this.activity;
 
         String messageToSend = convertToXmlInstruction(remoteName, keyToPress);
-        activity.rabbitManager.publishMessage(messageToSend, activity);
+        activity.rabbitManager.askWorker("remote_control", messageToSend, activity);
 
     }
 

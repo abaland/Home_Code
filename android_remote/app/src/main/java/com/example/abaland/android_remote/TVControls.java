@@ -42,7 +42,7 @@ class TVControls extends GenericRemoteControls {
         MainActivity activity = TVControls.this.activity;
 
         String messageToSend = convertToXmlInstruction(remoteName, keyToPress);
-        activity.rabbitManager.publishMessage(messageToSend, activity);
+        activity.rabbitManager.askWorker("remote_control", messageToSend, activity);
 
     }
 

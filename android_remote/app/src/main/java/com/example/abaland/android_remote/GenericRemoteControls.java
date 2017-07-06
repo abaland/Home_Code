@@ -10,9 +10,9 @@ class GenericRemoteControls {
      */
     String convertToXmlInstruction(String remoteName, String ConfigToSend){
 
-        String Message_To_Send;
+        String messageToSend;
 
-        Message_To_Send = "<instruction" +
+        messageToSend = "<instruction" +
                 " type=\"remote_control\"" +
                 " target=\"bedroom,living\"" +
                 " remote=\"" + remoteName + "\"" +
@@ -20,7 +20,7 @@ class GenericRemoteControls {
                 "/>";
 
         ////////////////////////
-        return Message_To_Send;
+        return messageToSend;
         ////////////////////////
 
     }

@@ -1,24 +1,21 @@
 package com.example.abaland.android_remote;
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.Consumer;
-
+import com.rabbitmq.client.*;
 import android.support.v7.app.AppCompatActivity;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
+import java.util.UUID;
 
-
-class Rabbit_Manager {
+class RabbitManager {
 
     private ConnectionFactory factory = new ConnectionFactory();
     private Connection connection;
     private Channel channel;
 
 
-    Rabbit_Manager() {
+    RabbitManager() {
 
         String HostIp = "192.168.3.7";
         String RabbitUser = "adrien";
@@ -97,7 +94,7 @@ class Rabbit_Manager {
      * @param context Activity that called the publishMessage function
      */
     private void publishMessage(final String instructionName, final String messageToSend,
-                        final AppCompatActivity context) {
+                        final AMQP.BasicProperties properties, final AppCompatActivity context) {
 
         // Resets parameters if the channel is closed.
         checkChannelParameters();
@@ -109,7 +106,7 @@ class Rabbit_Manager {
             try {
 
                 channel.confirmSelect();
-                channel.basicPublish("ex", instructionName, false, null,
+                channel.basicPublish("ex", instructionName, false, properties,
                         messageToSend.getBytes());
 
             } catch (IOException e) {
@@ -169,7 +166,7 @@ class Rabbit_Manager {
      * @param queueName Name of queue to be removed
      * @param context Activity that called the publishMessage function
      */
-    private  void remoteTemporaryQueue(final String queueName, final AppCompatActivity context) {
+    private void removeTemporaryQueue(final String queueName, final AppCompatActivity context) {
 
         // Resets parameters if the channel is closed.
         checkChannelParameters();
@@ -201,7 +198,7 @@ class Rabbit_Manager {
      * @param deliveryTag ??
      * @param context Activity that called the publishMessage function
      */
-    void acknowledgeMessage(final long deliveryTag, final AppCompatActivity context) {
+    private void acknowledgeMessage(final long deliveryTag, final AppCompatActivity context) {
 
         // Resets parameters if the channel is closed.
         checkChannelParameters();
@@ -228,6 +225,41 @@ class Rabbit_Manager {
 
 
     /**
+     * Make Java-RabbitMQ-formatted object to handle callback on response from worker after this
+     * program send a request.
+     *
+     * @param callback Object to know how to process response from worker
+     * @param context Activity that called the publishMessage function
+     * @return RabbitMQ consumer to process response from server
+     */
+    private Consumer makeConsumer(final RabbitCallback callback, final AppCompatActivity context) {
+
+        return new DefaultConsumer(channel) {
+
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope,
+                                       AMQP.BasicProperties properties,
+                                       byte[] messageReceived) throws IOException {
+
+                try {
+                    String messageAsString = new String(messageReceived, "UTF-8");
+                    callback.execute(messageAsString);
+
+                } catch (RuntimeException e) {
+
+                    System.out.println(" [.] " + e.toString());
+
+                }
+
+                acknowledgeMessage(envelope.getDeliveryTag(), context);
+
+            }
+
+        };
+    }
+
+
+    /**
      * Sends message to workers through RabbitMQ.
      *
      * @param messageToSend Message to send through RabbitMQ
@@ -241,7 +273,13 @@ class Rabbit_Manager {
             @Override
             public void run() {
 
-                publishMessage(instructionName, messageToSend, context);
+                HashMap<String, Object> messageHeaders = new HashMap<>();
+                messageHeaders.put("type", instructionName);
+                AMQP.BasicProperties messageProperties = new AMQP.BasicProperties
+                        .Builder()
+                        .headers(messageHeaders)
+                        .build();
+                publishMessage(instructionName, messageToSend, messageProperties, context);
 
             }
 
@@ -259,17 +297,41 @@ class Rabbit_Manager {
      * @param context Activity that called the publishMessage function
      */
     void askWorker(final String instructionName, final String messageToSend,
-                   final AppCompatActivity context, final Consumer callback) {
+                   final AppCompatActivity context, final RabbitCallback callbackObject,
+                   final int timeoutDuration) {
 
         Thread publishThread = new Thread(new Runnable() {
 
             @Override
             public void run() {
 
-                String queueName = declareTemporaryQueue(callback, context);
-                publishMessage(instructionName, messageToSend, context);
+                long timeoutStamp = System.currentTimeMillis() + (long) timeoutDuration;
 
-                remoteTemporaryQueue(queueName, context);
+                Consumer callback = makeConsumer(callbackObject, context);
+                String queueName = declareTemporaryQueue(callback, context);
+
+                String corrId = UUID.randomUUID().toString();
+                HashMap<String, Object> messageHeaders = new HashMap<>();
+                messageHeaders.put("type", instructionName);
+                AMQP.BasicProperties messageProperties = new AMQP.BasicProperties
+                        .Builder()
+                        .correlationId(corrId)
+                        .replyTo(queueName)
+                        .headers(messageHeaders)
+                        .build();
+
+                publishMessage(instructionName, messageToSend, messageProperties, context);
+
+                // Waits until timeout occurs (see if necessary)
+                while(System.currentTimeMillis()<timeoutStamp) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
+
+                removeTemporaryQueue(queueName, context);
 
             }
 

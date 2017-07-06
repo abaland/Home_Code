@@ -7,7 +7,7 @@
     <string name="up">Up</string>
     <string name="mode">Mode</string>
     <string name="left">Left</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="right">Right</string>
     <string name="down">Down</string>
     <string name="button1">1</string>
@@ -37,4 +37,5 @@
     <string name="darkest">Min</string>
     <string name="bedroom">Bedroom</string>
     <string name="living">Living</string>
+    <string name="querry">querry</string>
 </resources>

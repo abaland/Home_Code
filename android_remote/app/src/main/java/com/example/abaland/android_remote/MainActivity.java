@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
-    Rabbit_Manager rabbitManager;
+    RabbitManager rabbitManager;
 
     private int currentLayoutId;
 
@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         remoteToLayoutMapping.put("Aircon", R.id.aircon_layout);
         remoteToLayoutMapping.put("TV", R.id.tv_layout);
         remoteToLayoutMapping.put("Lights", R.id.lights_layout);
+        remoteToLayoutMapping.put("Temperature", R.id.temperature_layout);
 
         // Adds listener for the fan speed spinner
         remoteSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         ///////////////
 
         // Creates initial rabbitmq connection manager instance
-        rabbitManager = new Rabbit_Manager();
+        rabbitManager = new RabbitManager();
 
         // Set up aircon remote control interface (currently invisible)
         AirconControls airconControls = new AirconControls(this);
@@ -79,6 +80,10 @@ public class MainActivity extends AppCompatActivity {
         // Set up tv remote control interface (currently invisible)
         LightsControls lightControls = new LightsControls(this);
         lightControls.initialize();
+
+        // Set up tv remote control interface (currently invisible)
+        TemperatureControls temperatureControls = new TemperatureControls(this);
+        temperatureControls.initialize();
 
         // Adds listener to remote spinner to choose switch between interfaces
         setupRemoteSpinner();

@@ -30,12 +30,12 @@ class TemperatureControls {
         MainActivity activity = TemperatureControls.this.activity;
 
         String messageToSend = "<instruction" +
-                " type=\"temperature\"" +
+                " type=\"sensors\"" +
                 " target=\"bedroom,living\"" +
                 "/>";
 
-        activity.rabbitManager.askWorker("temperature", messageToSend, activity,
-                callbackObject, 10000);
+        activity.rabbitManager.askWorker("sensors", messageToSend, activity,
+                callbackObject, 5000);
 
     }
 
@@ -47,9 +47,15 @@ class TemperatureControls {
         callbackObject = new RabbitCallback() {
 
             @Override
-            public void execute(String messageToProcess) {
+            public void execute(final String messageToProcess) {
 
-                querryResults.setText(messageToProcess);
+                // Starts an UI-interactive thread to update the view with the received message.
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        querryResults.setText(messageToProcess);
+                    }
+                });
 
             }
 

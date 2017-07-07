@@ -17,7 +17,7 @@ class RabbitManager {
 
     RabbitManager() {
 
-        String HostIp = "192.168.3.7";
+        String HostIp = "192.168.3.5";
         String RabbitUser = "adrien";
         String RabbitPassword = "password";
 
@@ -307,8 +307,11 @@ class RabbitManager {
 
                 long timeoutStamp = System.currentTimeMillis() + (long) timeoutDuration;
 
+                System.out.println("Timeout stamp computed");
                 Consumer callback = makeConsumer(callbackObject, context);
+                System.out.println("Consumer created");
                 String queueName = declareTemporaryQueue(callback, context);
+                System.out.println("Temporary queue declared");
 
                 String corrId = UUID.randomUUID().toString();
                 HashMap<String, Object> messageHeaders = new HashMap<>();
@@ -319,8 +322,10 @@ class RabbitManager {
                         .replyTo(queueName)
                         .headers(messageHeaders)
                         .build();
+                System.out.println("Properties created");
 
                 publishMessage(instructionName, messageToSend, messageProperties, context);
+                System.out.println("Message published");
 
                 // Waits until timeout occurs (see if necessary)
                 while(System.currentTimeMillis()<timeoutStamp) {
@@ -332,6 +337,7 @@ class RabbitManager {
                 }
 
                 removeTemporaryQueue(queueName, context);
+                System.out.println("Queue removed");
 
             }
 

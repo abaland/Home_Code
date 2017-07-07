@@ -3,6 +3,7 @@
         <item>Aircon</item>
         <item>TV</item>
         <item>Lights</item>
+        <item>Temperature</item>
     </string-array>
     <string-array name="wind_speed_list">
         <item>Auto</item>

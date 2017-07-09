@@ -8,6 +8,14 @@ import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 import java.util.UUID;
 
+// XML Parsing
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.xml.sax.InputSource;
+import java.io.StringReader;
+import org.w3c.dom.Document;
+
+
 class RabbitManager {
 
     private ConnectionFactory factory = new ConnectionFactory();
@@ -17,7 +25,7 @@ class RabbitManager {
 
     RabbitManager() {
 
-        String HostIp = "192.168.3.5";
+        String HostIp = "192.168.3.13";
         String RabbitUser = "adrien";
         String RabbitPassword = "password";
 
@@ -224,15 +232,34 @@ class RabbitManager {
     }
 
 
+    private static Document loadXMLFromString(String xml) throws Exception {
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        InputSource is = new InputSource(new StringReader(xml));
+
+        return builder.parse(is);
+    }
+
+
+    private boolean responseBaseTest(Document messageAsXml) {
+
+        return true;
+
+    }
+
+
     /**
      * Make Java-RabbitMQ-formatted object to handle callback on response from worker after this
      * program send a request.
      *
      * @param callback Object to know how to process response from worker
      * @param context Activity that called the publishMessage function
+     * @param correlationId parameter to control validity of response
      * @return RabbitMQ consumer to process response from server
      */
-    private Consumer makeConsumer(final RabbitCallback callback, final AppCompatActivity context) {
+    private Consumer makeConsumer(final RabbitCallback callback, final AppCompatActivity context,
+                                  final String correlationId) {
 
         return new DefaultConsumer(channel) {
 
@@ -242,12 +269,37 @@ class RabbitManager {
                                        byte[] messageReceived) throws IOException {
 
                 try {
-                    String messageAsString = new String(messageReceived, "UTF-8");
-                    callback.execute(messageAsString);
+
+                    if (properties.getCorrelationId().equals(correlationId)) {
+
+                        // Converts message received to a string
+                        String messageAsString = new String(messageReceived, "UTF-8");
+
+                        Document workerMessageFormatted = loadXMLFromString(messageAsString);
+
+                        if (responseBaseTest(workerMessageFormatted)) {
+
+                            // Executes function on message
+                            callback.execute(messageAsString);
+
+                        } else {
+
+                            System.out.println("Base test failed");
+                        }
+
+                    } else {
+
+                        System.out.println("Correlation Id did not match:" + correlationId + "\t" +
+                                properties.getCorrelationId());
+                    }
 
                 } catch (RuntimeException e) {
 
                     System.out.println(" [.] " + e.toString());
+
+                } catch (Exception e) {
+
+                    System.out.println(" [..] " + e.toString());
 
                 }
 
@@ -306,14 +358,11 @@ class RabbitManager {
             public void run() {
 
                 long timeoutStamp = System.currentTimeMillis() + (long) timeoutDuration;
-
-                System.out.println("Timeout stamp computed");
-                Consumer callback = makeConsumer(callbackObject, context);
-                System.out.println("Consumer created");
-                String queueName = declareTemporaryQueue(callback, context);
-                System.out.println("Temporary queue declared");
-
                 String corrId = UUID.randomUUID().toString();
+
+                Consumer callback = makeConsumer(callbackObject, context, corrId);
+                String queueName = declareTemporaryQueue(callback, context);
+
                 HashMap<String, Object> messageHeaders = new HashMap<>();
                 messageHeaders.put("type", instructionName);
                 AMQP.BasicProperties messageProperties = new AMQP.BasicProperties
@@ -322,10 +371,8 @@ class RabbitManager {
                         .replyTo(queueName)
                         .headers(messageHeaders)
                         .build();
-                System.out.println("Properties created");
 
                 publishMessage(instructionName, messageToSend, messageProperties, context);
-                System.out.println("Message published");
 
                 // Waits until timeout occurs (see if necessary)
                 while(System.currentTimeMillis()<timeoutStamp) {

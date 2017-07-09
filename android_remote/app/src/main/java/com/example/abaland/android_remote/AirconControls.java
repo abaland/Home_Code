@@ -33,7 +33,7 @@ class AirconControls extends GenericRemoteControls {
     private HashMap<Boolean, String> airconStateMapping = new HashMap<>();
 
     private String[] airconTargetMapping = {"living", "bedroom"};
-    private String[] airconModeMapping = {"heat", "dry", "cool"};
+    private String[] airconModeMapping = {"heat", "dry", "cold"};
     private String[] fanSpeedMapping = {"auto", "weak", "middle", "strong"};
     private String[] fanDirectionMapping = {"auto", "loop", "lowest", "low", "middle", "high",
             "highest"};

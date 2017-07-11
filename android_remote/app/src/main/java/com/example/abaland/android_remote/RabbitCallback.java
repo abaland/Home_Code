@@ -1,5 +1,8 @@
 package com.example.abaland.android_remote;
 
+import org.w3c.dom.Document;
+
+
 /**
  * Generic interface to process one message received from RabbitMQ server, after the sanity checks
  * have been made
@@ -11,6 +14,6 @@ interface RabbitCallback {
      *
      * @param messageToProcess XML string with all information to process
      */
-    void execute(String messageToProcess);
+    void execute(Document messageToProcess);
 
 }

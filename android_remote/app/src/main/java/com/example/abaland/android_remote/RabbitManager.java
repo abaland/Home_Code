@@ -239,6 +239,7 @@ class RabbitManager {
         InputSource is = new InputSource(new StringReader(xml));
 
         return builder.parse(is);
+
     }
 
 
@@ -270,6 +271,7 @@ class RabbitManager {
 
                 try {
 
+                    System.out.println("Message received");
                     if (properties.getCorrelationId().equals(correlationId)) {
 
                         // Converts message received to a string
@@ -279,8 +281,10 @@ class RabbitManager {
 
                         if (responseBaseTest(workerMessageFormatted)) {
 
+                            System.out.println("Executing function");
+
                             // Executes function on message
-                            callback.execute(messageAsString);
+                            callback.execute(workerMessageFormatted);
 
                         } else {
 

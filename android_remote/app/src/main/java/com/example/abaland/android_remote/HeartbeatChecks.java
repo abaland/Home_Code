@@ -4,13 +4,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import org.w3c.dom.Document;
 
 import java.util.HashMap;
 
-import org.w3c.dom.Document;
 
-
-class TemperatureControls {
+class HeartbeatChecks {
 
     private MainActivity activity;
 
@@ -21,7 +20,7 @@ class TemperatureControls {
     private RabbitCallback callbackObject;
 
 
-    TemperatureControls(MainActivity activity) {
+    HeartbeatChecks(MainActivity activity) {
 
         this.activity = activity;
 
@@ -33,12 +32,19 @@ class TemperatureControls {
      */
     private void onClickFunction(){
 
-        MainActivity activity = TemperatureControls.this.activity;
+        MainActivity activity = HeartbeatChecks.this.activity;
 
-        String messageToSend = "<instruction type=\"sensors\" target=\"bedroom,living\"/>";
+        String messageToSend = "<instruction type=\"heartbeat\" target=\"bedroom,living\"/>";
 
-        activity.rabbitManager.askWorker("sensors", messageToSend, activity,
+        for (TextView view: workerViews.values()) {
+
+            view.setText("");
+        }
+
+        activity.rabbitManager.askWorker("heartbeat", messageToSend, activity,
                 callbackObject, 5000);
+
+
 
     }
 
@@ -63,19 +69,7 @@ class TemperatureControls {
                         TextView responseView = GeneralFunctions.getWorkerView(activity,
                                 workerViews, workerId);
 
-/*                        int totalChildren = messageToProcess.getDocumentElement().children.size();
-                          for (int sensorIndex=0 ; sensorIndex<totalChildren ; sensorIndex++) {
-                            int totalMeasures = messageToProcess.getDocumentElement().children[sensorIndex].attributes.size();
-                            for (int measureIndex=0 ; measureIndex<totalMeasures ; measureIndex++) {
-
-
-                                System.out.println();
-
-                            }
-
-                        }
-*/
-                        responseView.setText(workerId);
+                        responseView.setText(String.format("%s: Active.", workerId));
                         querryResults.addView(responseView);
 
                     }
@@ -94,9 +88,9 @@ class TemperatureControls {
      */
     private void bindGUIToScript() {
 
-        querryButton = (Button) this.activity.findViewById(R.id.temperature_querry);
+        querryButton = (Button) this.activity.findViewById(R.id.heartbeat_querry);
 
-        querryResults = (LinearLayout) this.activity.findViewById(R.id.temperature_layout);
+        querryResults = (LinearLayout) this.activity.findViewById(R.id.heartbeat_layout);
 
     }
 

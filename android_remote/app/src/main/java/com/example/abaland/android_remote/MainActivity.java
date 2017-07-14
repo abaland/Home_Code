@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         remoteToLayoutMapping.put("TV", R.id.tv_layout);
         remoteToLayoutMapping.put("Lights", R.id.lights_layout);
         remoteToLayoutMapping.put("Temperature", R.id.temperature_layout);
+        remoteToLayoutMapping.put("Heartbeat", R.id.heartbeat_layout);
 
         // Adds listener for the fan speed spinner
         remoteSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
@@ -84,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
         // Set up tv remote control interface (currently invisible)
         TemperatureControls temperatureControls = new TemperatureControls(this);
         temperatureControls.initialize();
+
+        // Set up tv remote control interface (currently invisible)
+        HeartbeatChecks heartbeatChecks = new HeartbeatChecks(this);
+        heartbeatChecks.initialize();
 
         // Adds listener to remote spinner to choose switch between interfaces
         setupRemoteSpinner();

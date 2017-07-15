@@ -2,8 +2,7 @@
 # Import Local package
 #######################
 from python.global_libraries import general_utils  # Generic functions
-from python.infrared_remote import bedroom_aircon_driver
-from python.infrared_remote import living_aircon_driver
+from python.infrared_remote import aircon_driver
 from python.infrared_remote import bedroom_lights_driver
 from python.infrared_remote import living_lights_driver
 from python.infrared_remote import tv_remote_driver
@@ -14,8 +13,8 @@ from python.infrared_remote import tv_remote_driver
 ###########################
 # Each entry is aircon_name: [relevant_driver, raspberry_pi that controls it, pin]
 remote_to_info = {
-    'aircon_living': [living_aircon_driver, 'bedroom', 21],
-    'aircon_bedroom': [bedroom_aircon_driver, 'bedroom', 21],
+    'aircon_living': [aircon_driver, 'aircon', 21],
+    'aircon_bedroom': [aircon_driver, 'bedroom', 22],
     'light_living': [living_lights_driver, 'bedroom', 21],
     'light_bedroom': [bedroom_lights_driver, 'bedroom', 21],
     'tv': [tv_remote_driver, 'bedroom', 21]

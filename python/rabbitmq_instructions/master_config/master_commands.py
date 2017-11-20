@@ -7,12 +7,12 @@ This module defines all message-handling functions from the master functions, i.
 #################
 # LOCAL PACKAGES
 #################
-import master_heartbeat
-import master_update
-import master_remote_control
-import master_files
-import master_sensors
-import master_ssh
+from . import master_heartbeat
+from . import master_update
+from . import master_remote_control
+from . import master_files
+from . import master_sensors
+from . import master_ssh
 
 #############
 # CODE START

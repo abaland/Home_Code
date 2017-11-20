@@ -2,8 +2,8 @@
 # Import local packages
 ########################
 
-import BME280_Driver_Official_Adafruit  # Official BME280_Driver module, on which this relies.
-import python.global_libraries.general_utils
+from . import BME280_Driver_Official_Adafruit  # Official BME280_Driver module, on which this relies
+import global_libraries.general_utils
 
 __author__ = 'Baland Adrien'
 
@@ -135,7 +135,7 @@ def get_measurements(address, temperature_correction):
 
         # Something went wrong when retrieving the values. Log error.
         details = 'Failed to get measures from BME280. %s' % str(e)
-        python.global_libraries.general_utils.log_error(-409, details)
+        global_libraries.general_utils.log_error(-409, details)
 
     ##################
     return all_values

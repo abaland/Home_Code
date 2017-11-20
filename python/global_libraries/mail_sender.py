@@ -6,14 +6,14 @@ This module contains a gmail-client handler, to send message through a gmail acc
 # Import Global Packages
 #########################
 import os  # Facilitates update of configuration folders
-import ConfigParser
+import configparser
 import smtplib  # Library to send mail through Gmail
 import socket  # Library used to catch exceptions from smtplib
 
 ########################
 # Import Local Packages
 ########################
-from python.global_libraries import general_utils
+from global_libraries import general_utils
 
 ###########################
 # Declare Global Variables
@@ -138,7 +138,7 @@ class MailSender:
             try:
 
                 # Creates configuration parser and starts parsing configuration file.
-                rabbit_config = ConfigParser.RawConfigParser()
+                rabbit_config = configparser.RawConfigParser()
                 rabbit_config.read(configuration_filename)
 
                 # Extracts credentials for connection
@@ -152,13 +152,13 @@ class MailSender:
                 # Tests if credentials do work or not
                 self.test_credentials()
 
-            except ConfigParser.NoSectionError as e:
+            except configparser.NoSectionError as e:
 
                 # File does not exist, or section (Gmail) does not exist
                 self.error_status = general_utils.log_error(-1, python_message=e,
                                                             error_details='Gmail')
 
-            except ConfigParser.NoOptionError as e:
+            except configparser.NoOptionError as e:
 
                 # Option does not exist
                 self.error_status = general_utils.log_error(-2, python_message=e)

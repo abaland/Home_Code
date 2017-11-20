@@ -28,7 +28,7 @@ The message-structure has the shape
 
 # Parse htm strings
 from lxml import etree
-from cStringIO import StringIO
+from io import StringIO
 
 # handles dates
 from datetime import datetime
@@ -168,8 +168,8 @@ for year in sorted(all_messages.keys()):
 
             for time_since_epoch in sorted(all_messages[year][month][day].keys()):
 
-                print '%04d/%02d/%02d : %s' % (year, month, day,
-                                               all_messages[year][month][day][time_since_epoch])
+                print('%04d/%02d/%02d : %s' % (year, month, day,
+                                               all_messages[year][month][day][time_since_epoch]))
 
 # Outputs untimed messages
 print('========UNTIMED MESSAGES========')

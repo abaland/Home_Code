@@ -1,7 +1,7 @@
 from lxml import etree  # Converts worker response element to a tree-like object
 import os
-from python.temperature_monitoring import home_environment_sensors
-from python.global_libraries import general_utils
+from temperature_monitoring import home_environment_sensors
+from global_libraries import general_utils
 
 
 ####################################################################################################

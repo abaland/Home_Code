@@ -17,11 +17,11 @@ from lxml import etree  # Converts worker response element to a tree-like object
 ########################
 # Import Local Packages
 ########################
-from python.rabbitmq_instructions.master_config import master_commands
-from python.rabbitmq_instructions.worker_config.config_general import worker_to_instruction
+from rabbitmq_instructions.master_config import master_commands
+from rabbitmq_instructions.worker_config.config_general import worker_to_instruction
 
-from python.global_libraries import general_utils
-from python.global_libraries import pika_connector_manager
+from global_libraries import general_utils
+from global_libraries import pika_connector_manager
 
 ###########################
 # Declare Global Variables
@@ -294,7 +294,7 @@ class RabbitMaster:
             print('\nTimeout reached.')
 
             # Prints summary of which worker have failed to send response
-            for worker_id, Has_Received_Response in self.response_received_checklist.iteritems():
+            for worker_id, Has_Received_Response in self.response_received_checklist.items():
                 
                 if not Has_Received_Response:
 
@@ -871,7 +871,7 @@ class RabbitMaster:
     
             # Waits to receive instruction unless waiting time is stopped manually
             try:
-                user_instruction = raw_input('\n\nEnter your instruction : ')
+                user_instruction = input('\n\nEnter your instruction : ')
                 
             except KeyboardInterrupt:
                 
@@ -929,7 +929,7 @@ class RabbitMaster:
         # Parses the arguments
         print('Reading arguments..'),
         parsed_arguments, to_ignore = argument_parser.parse_known_args(command_line_arguments)
-        print ('Done.')
+        print('Done.')
 
         # If unhandled arguments exist, ignore them but print warning.
         if len(to_ignore) > 0:
@@ -1032,6 +1032,7 @@ def main(args):
 ###########
 # END main
 ###########
+
 
 if __name__ == "__main__":
 

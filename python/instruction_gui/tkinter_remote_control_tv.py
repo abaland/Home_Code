@@ -1,7 +1,7 @@
 ##################
 # GLOBAL PACKAGES
 ##################
-import Tkinter as Tk  # GUI Packages
+import tkinter as tk  # GUI Packages
 
 
 ####################################################################################################
@@ -63,107 +63,107 @@ def create_remote(tkinter_frame, command_sender):
 
     for i in range(10):
 
-        Tk.Grid.rowconfigure(tkinter_frame, i, weight=1)
+        tk.Grid.rowconfigure(tkinter_frame, i, weight=1)
 
     for i in range(6):
 
-        Tk.Grid.columnconfigure(tkinter_frame, i, weight=1)
+        tk.Grid.columnconfigure(tkinter_frame, i, weight=1)
 
     # Starts creating the button
 
     # Power
-    Tk.Button(tkinter_frame, text='Power',
+    tk.Button(tkinter_frame, text='Power',
               command=lambda: command_sender(get_command_inputs('KEY_POWER'))).\
         grid(row=0, column=0, rowspan=1, columnspan=6, sticky='NWSE')
 
     # Arrows, Ok, Mode, Back
-    Tk.Button(tkinter_frame, text='Back',
+    tk.Button(tkinter_frame, text='Back',
               command=lambda: command_sender(get_command_inputs('KEY_BACK'))). \
         grid(row=1, column=0, rowspan=1, columnspan=2, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='Mode',
+    tk.Button(tkinter_frame, text='Mode',
               command=lambda: command_sender(get_command_inputs('KEY_MODE'))). \
         grid(row=1, column=4, rowspan=1, columnspan=2, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='Up',
+    tk.Button(tkinter_frame, text='Up',
               command=lambda: command_sender(get_command_inputs('KEY_UP'))). \
         grid(row=1, column=2, rowspan=1, columnspan=2, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='Left',
+    tk.Button(tkinter_frame, text='Left',
               command=lambda: command_sender(get_command_inputs('KEY_LEFT'))). \
         grid(row=2, column=0, rowspan=1, columnspan=2, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='Ok',
+    tk.Button(tkinter_frame, text='Ok',
               command=lambda: command_sender(get_command_inputs('KEY_OK'))). \
         grid(row=2, column=2, rowspan=1, columnspan=2, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='Right',
+    tk.Button(tkinter_frame, text='Right',
               command=lambda: command_sender(get_command_inputs('KEY_RIGHT'))). \
         grid(row=2, column=4, rowspan=1, columnspan=2, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='Bottom',
+    tk.Button(tkinter_frame, text='Bottom',
               command=lambda: command_sender(get_command_inputs('KEY_DOWN'))). \
         grid(row=3, column=2, rowspan=1, columnspan=2, sticky='NWSE')
 
     # Numeric Keypad
-    Tk.Button(tkinter_frame, text='1',
+    tk.Button(tkinter_frame, text='1',
               command=lambda: command_sender(get_command_inputs('KEY_NUMERIC_1'))). \
         grid(row=4, column=0, rowspan=1, columnspan=2, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='2',
+    tk.Button(tkinter_frame, text='2',
               command=lambda: command_sender(get_command_inputs('KEY_NUMERIC_2'))). \
         grid(row=4, column=2, rowspan=1, columnspan=2, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='3',
+    tk.Button(tkinter_frame, text='3',
               command=lambda: command_sender(get_command_inputs('KEY_NUMERIC_3'))). \
         grid(row=4, column=4, rowspan=1, columnspan=2, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='4',
+    tk.Button(tkinter_frame, text='4',
               command=lambda: command_sender(get_command_inputs('KEY_NUMERIC_4'))). \
         grid(row=5, column=0, rowspan=1, columnspan=2, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='5',
+    tk.Button(tkinter_frame, text='5',
               command=lambda: command_sender(get_command_inputs('KEY_NUMERIC_5'))). \
         grid(row=5, column=2, rowspan=1, columnspan=2, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='6',
+    tk.Button(tkinter_frame, text='6',
               command=lambda: command_sender(get_command_inputs('KEY_NUMERIC_6'))). \
         grid(row=5, column=4, rowspan=1, columnspan=2, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='7',
+    tk.Button(tkinter_frame, text='7',
               command=lambda: command_sender(get_command_inputs('KEY_NUMERIC_7'))). \
         grid(row=6, column=0, rowspan=1, columnspan=2, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='8',
+    tk.Button(tkinter_frame, text='8',
               command=lambda: command_sender(get_command_inputs('KEY_NUMERIC_8'))). \
         grid(row=6, column=2, rowspan=1, columnspan=2, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='9',
+    tk.Button(tkinter_frame, text='9',
               command=lambda: command_sender(get_command_inputs('KEY_NUMERIC_9'))). \
         grid(row=6, column=4, rowspan=1, columnspan=2, sticky='NWSE')
 
     # Volume / Chanel
-    Tk.Button(tkinter_frame, text='Ch+',
+    tk.Button(tkinter_frame, text='Ch+',
               command=lambda: command_sender(get_command_inputs('KEY_CHANNELUP'))). \
         grid(row=7, column=0, rowspan=1, columnspan=3, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='Vol+',
+    tk.Button(tkinter_frame, text='Vol+',
               command=lambda: command_sender(get_command_inputs('KEY_VOLUMEUP'))). \
         grid(row=7, column=3, rowspan=1, columnspan=3, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='Ch-',
+    tk.Button(tkinter_frame, text='Ch-',
               command=lambda: command_sender(get_command_inputs('KEY_CHANNELDOWN'))). \
         grid(row=8, column=0, rowspan=1, columnspan=3, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='Vol-',
+    tk.Button(tkinter_frame, text='Vol-',
               command=lambda: command_sender(get_command_inputs('KEY_VOLUMEDOWN'))). \
         grid(row=8, column=3, rowspan=1, columnspan=3, sticky='NWSE')
 
     # Subs / Mute
-    Tk.Button(tkinter_frame, text='Subs',
+    tk.Button(tkinter_frame, text='Subs',
               command=lambda: command_sender(get_command_inputs('KEY_SUBTITLE'))). \
         grid(row=9, column=0, rowspan=1, columnspan=3, sticky='NWSE')
 
-    Tk.Button(tkinter_frame, text='Mute',
+    tk.Button(tkinter_frame, text='Mute',
               command=lambda: command_sender(get_command_inputs('KEY_MUTE'))). \
         grid(row=9, column=3, rowspan=1, columnspan=3, sticky='NWSE')

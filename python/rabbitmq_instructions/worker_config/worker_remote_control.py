@@ -1,11 +1,11 @@
 #######################
 # Import Local package
 #######################
-from python.global_libraries import general_utils  # Generic functions
-from python.infrared_remote import aircon_driver
-from python.infrared_remote import bedroom_lights_driver
-from python.infrared_remote import living_lights_driver
-from python.infrared_remote import tv_remote_driver
+from global_libraries import general_utils  # Generic functions
+from infrared_remote import aircon_driver
+from infrared_remote import bedroom_lights_driver
+from infrared_remote import living_lights_driver
+from infrared_remote import tv_remote_driver
 
 
 ###########################

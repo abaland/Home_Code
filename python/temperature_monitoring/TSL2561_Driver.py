@@ -2,7 +2,7 @@
 ########################
 # Import Local Packages
 ########################
-from python.global_libraries import general_utils
+from global_libraries import general_utils
 
 #########################
 # Import global packages

@@ -6,7 +6,7 @@ import os
 #######################
 # Import Local package
 #######################
-from python.global_libraries import general_utils  # Generic functions
+from global_libraries import general_utils  # Generic functions
 
 
 ####################################################################################################

@@ -21,9 +21,10 @@ from lxml import etree  # Converts some of the message (in a xml format) to a xm
 ########################
 # Import Local Packages
 ########################
-from python.global_libraries import general_utils
-from python.global_libraries import pika_connector_manager
-from worker_config import config_general
+from global_libraries import general_utils
+from global_libraries import pika_connector_manager
+from .worker_config import config_general
+
 
 ###########################
 # Declare Global Variables
@@ -605,7 +606,7 @@ class RabbitWorker:
         # Gets the worker-relevant instructions using the worker ID
         print('Getting supported instruction..'),
         worker_specific_instructions = config_general.worker_to_instruction.get(self.worker_id, [])
-        print ('Done.')
+        print('Done.')
         
         # Appends all the obtained valid instructions to the internal list
         self.accepted_keys = ['heartbeat', 'update']
@@ -691,7 +692,7 @@ class RabbitWorker:
         # Parses the arguments. Currently just the first positional argument
         print('Reading arguments..'),
         parsed_arguments, to_ignore = argument_parser.parse_known_args(command_line_arguments)
-        print ('Done.')
+        print('Done.')
     
         # If unhandled arguments exist, ignore them but print warning.
         if len(to_ignore) > 0:
@@ -772,6 +773,7 @@ def main(args):
 ####################################################################################################
 # END main
 ####################################################################################################
+
 
 if __name__ == "__main__":
 

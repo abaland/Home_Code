@@ -5,16 +5,16 @@
 ##################
 # GLOBAL PACKAGES
 ##################
-import Tkinter as Tk  # GUI Packages
+import tkinter as tk  # GUI Packages
 import threading  # Handles multi-threading in code (send RabbitMQ request, check GUI updates, ...)
 
 ########################
 # Import Local Packages
 ########################
 
-from python.rabbitmq_instructions import master as master_script
-from python.global_libraries import general_utils
-import tkinter_remote_control_tv
+from rabbitmq_instructions import master as master_script
+from global_libraries import general_utils
+from . import tkinter_remote_control_tv
 
 ####################################################################################################
 # CODE START
@@ -45,7 +45,7 @@ class TkinterMaster:
         self.root_window = root_window
 
         # Creates an empty menu bar in the GUI.
-        self.window_menubar = Tk.Menu(self.root_window)
+        self.window_menubar = tk.Menu(self.root_window)
 
         # Master Controller script
         self.rabbit_master = rabbit_master_object  # Makes a reference to the Master Controller
@@ -53,9 +53,9 @@ class TkinterMaster:
         
         # Instructions that can be sent to worker. Read by ConfigParser
         self.all_supported_remotes = ['tv', 'aircon']  # List of all possible remote controls
-        self.chosen_remote = Tk.StringVar()  # Currently chosen instruction index in the list
+        self.chosen_remote = tk.StringVar()  # Currently chosen instruction index in the list
 
-        self.updatable_frame = Tk.Frame(self.root_window)
+        self.updatable_frame = tk.Frame(self.root_window)
 
         ##################
         # Subthread parts
@@ -92,17 +92,17 @@ class TkinterMaster:
 
         # In general GUI grid, only one row is used, containing instruction frame + updatable
         # content frame, so set this row to expand to fill the GUI size.
-        Tk.Grid.rowconfigure(self.root_window, 0, weight=0)
+        tk.Grid.rowconfigure(self.root_window, 0, weight=0)
         for i in range(len(self.all_supported_remotes)):
 
-            Tk.Grid.columnconfigure(self.root_window, i, weight=1)
+            tk.Grid.columnconfigure(self.root_window, i, weight=1)
 
         # For each instruction, creates a radio button, locate it in appropriate spot (i-th row,
         # first column) and makes it fill its parent row
         i = 0
         for remote_name in self.all_supported_remotes:
 
-            Tk.Radiobutton(self.root_window, text=remote_name, indicatoron=0,
+            tk.Radiobutton(self.root_window, text=remote_name, indicatoron=0,
                            variable=self.chosen_remote, value=remote_name,
                            command=self.update_value, padx=5)\
                 .grid(row=0, column=i, rowspan=1, columnspan=1, sticky='NWSE')
@@ -156,7 +156,7 @@ class TkinterMaster:
         self.set_remote_menu()
 
         # Initializes frame
-        Tk.Grid.rowconfigure(self.root_window, 1, weight=1)
+        tk.Grid.rowconfigure(self.root_window, 1, weight=1)
         self.updatable_frame.grid(row=1, column=0, rowspan=1, columnspan=2, sticky='NWSE')
 
         # Initializes instruction chosen to be first one, and calls appropriate functions in how to
@@ -249,7 +249,7 @@ class TkinterMaster:
     def add_response(self, instruction_name, worker_id, worker_response):
         """
         Processes response from a worker internally.
-        This does NOT update GUI because it is called as a subthread (Tkinter only modifies GUI 
+        This does NOT update GUI because it is called as a subthread (tkinter only modifies GUI
         through main thread).
         Given the response, worker id, and instruction name, fetches relevant module and updates 
         internal parameters
@@ -382,14 +382,14 @@ def main():
     Starts Tkinter GUI
     """
 
-    class_name = 'Tkinter'
+    class_name = 'tkinter'
     general_utils.get_welcome_end_message(class_name, True)
 
     # Creates the instance for a master controller and sets it to listen to GUI commands.
     rabbit_master_program = master_script.main(['-gui'])
 
     # Creates main window for program GUI
-    tkinter_master_window = Tk.Tk()
+    tkinter_master_window = tk.Tk()
 
     # Creates GUI Object, to update GUI window
     tkinter_master_object = TkinterMaster(tkinter_master_window, rabbit_master_program)

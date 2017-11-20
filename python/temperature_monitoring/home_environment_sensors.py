@@ -20,24 +20,24 @@ NOTES:
 # Import global packages
 #########################
 
-import ConfigParser  # Reads configuration files for sensor plugged into Raspberry
+import configparser  # Reads configuration files for sensor plugged into Raspberry
 import os  # Allows file creation/deletion (for output values)
 import time  # Measures when to print output, collect samples, ...
-import urllib2  # Connects to website to post measured data
-import httplib  # Helps catched exceptions from urllib2
+from urllib import request  # Connects to website to post measured data
+import http.client  # Helps catched exceptions from urllib2
 import traceback  # Catches unhandled errors to improve code
 
-import BME280_Driver  # BME280 Sensor. Extension to official Adafruit module
-import DHT11_Driver  # DHT11 Sensor
-import DS18B20_Driver  # DS18B20 (One-wire) Sensor
-import TSL2561_Driver  # TSL2561_Driver
+from . import BME280_Driver  # BME280 Sensor. Extension to official Adafruit module
+from . import DHT11_Driver  # DHT11 Sensor
+from . import DS18B20_Driver  # DS18B20 (One-wire) Sensor
+from . import TSL2561_Driver  # TSL2561_Driver
 
 ########################
 # Import Local Packages
 ########################
 
-import python.global_libraries.general_utils as general_utils
-import python.temperature_monitoring.Sensehat_Driver as Sensehat_Driver  # Sensehat
+import global_libraries.general_utils as general_utils
+import temperature_monitoring.Sensehat_Driver as Sensehat_Driver  # Sensehat
 
 __author__ = 'Baland Adrien'  # That's me, yeay.
 
@@ -336,7 +336,7 @@ def read_configuration(config_filename):
     ########################################
     # Creates configuration parser + parses
     ########################################
-    parsed_config = ConfigParser.RawConfigParser()
+    parsed_config = configparser.RawConfigParser()
     if not os.path.isfile(config_filename):
 
         #####################################################
@@ -880,7 +880,7 @@ def post_collection_actions():
         print("== Sensor %s ==" % sensor_object["name"])
 
         # Only computes/print smoothed average if last sample_collection was successfull
-        first_key = sensor_object['samples_to_average'].keys()[0]
+        first_key = list(sensor_object['samples_to_average'].keys())[0]
         if len(sensor_object['samples_to_average'][first_key]) > 0:
 
             print("Number of Samples: " + str(len(sensor_object['samples_to_average'])))
@@ -945,9 +945,9 @@ def output_measures_to_web():
     try:
 
         # GET request for url to update data.
-        urllib2.urlopen(update_url)
+        request.urlopen(update_url)
 
-    except (urllib2.URLError, httplib.BadStatusLine):
+    except (request.URLError, http.client.BadStatusLine):
 
         # Failed to send request to update data. Log error but continue
         general_utils.log_error(-419, update_url)
@@ -1058,6 +1058,7 @@ def main():
 ###########
 # END main
 ###########
+
 
 if __name__ == "__main__":
 

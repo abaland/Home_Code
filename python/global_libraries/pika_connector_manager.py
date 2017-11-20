@@ -6,16 +6,16 @@ This module handles connexion and interactions with RabbitMQ server
 #########################
 # Import Global Packages
 #########################
-import ConfigParser
+import configparser
 import os
-import urllib2  # Used to check connection to server
+from urllib import request  # Used to check connection to server
 import socket  # Used by urllib2 and needed to catch a timeout exception
 from time import sleep
 
 import pika
 import pika.exceptions
 
-import general_utils
+from . import general_utils
 
 
 ####################################################################################################
@@ -83,7 +83,7 @@ class PikaConnectorManager:
             try:
 
                 # Creates configuration parser and starts parsing configuration file.
-                rabbit_config = ConfigParser.RawConfigParser()
+                rabbit_config = configparser.RawConfigParser()
                 rabbit_config.read(configuration_filename)
 
                 # Extracts credentials for connection and server information
@@ -99,12 +99,12 @@ class PikaConnectorManager:
                 # Successully parsed configuration.
                 general_utils.log_message('Rabbit configuration loaded.')
 
-            except ConfigParser.NoSectionError as e:
+            except configparser.NoSectionError as e:
 
                 # File does not exist, or section (RabbitMQ) does not exist
                 self.error_status = general_utils.log_error(-1, python_message=e)
 
-            except ConfigParser.NoOptionError as e:
+            except configparser.NoOptionError as e:
 
                 # Option does not exist
                 self.error_status = general_utils.log_error(-2, python_message=e)
@@ -161,7 +161,7 @@ class PikaConnectorManager:
 
                 # Attempts connexion to webpage (with timeout, to make sure we can log failed
                 #   attempts)
-                urllib2.urlopen(rabbitmq_url, timeout=3)
+                request.urlopen(rabbitmq_url, timeout=3)
 
                 # Successfully connected, leave the loop.
                 connection_failed = False
@@ -171,7 +171,7 @@ class PikaConnectorManager:
                     general_utils.log_message('RabbitMQ server is alive.')
 
             # If connexion establishment fails, wait then try again
-            except (urllib2.URLError, socket.timeout):
+            except (request.URLError, socket.timeout):
 
                 general_utils.log_message('RabbitMQ server not detected. Trying again soon.')
                 sleep(3)

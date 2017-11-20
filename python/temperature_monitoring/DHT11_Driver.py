@@ -15,7 +15,7 @@ except ImportError:
 # Import local packages
 ########################
 
-from python.global_libraries import general_utils
+from global_libraries import general_utils
 
 __author__ = 'Baland Adrien'
 

@@ -1,12 +1,151 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="509f6d7d-1d52-42ec-bee8-0e303679c35e" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/python/infrared_remote/living_aircon_driver.py" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/python/infrared_remote/bedroom_aircon_driver.py" afterPath="$PROJECT_DIR$/python/infrared_remote/aircon_driver.py" />
+    <list default="true" id="509f6d7d-1d52-42ec-bee8-0e303679c35e" name="Default" comment="Merged bedroom_aircon_driver into living_aircon_driver (same parameters)">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/python/python.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/mipmap-hdpi/ic_launcher.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/mipmap-mdpi/ic_launcher.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/mipmap-xhdpi/ic_launcher.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/gradle/wrapper/gradle-wrapper.jar" afterPath="$PROJECT_DIR$/android_remote/gradle/wrapper/gradle-wrapper.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/infrared_remote/Mitsubishi_Aircon_Info.pdf" afterPath="$PROJECT_DIR$/python/infrared_remote/Mitsubishi_Aircon_Info.pdf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/monkey.png" afterPath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/monkey.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Home_Code.iml" afterPath="$PROJECT_DIR$/Home_Code.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Todo.txt" afterPath="$PROJECT_DIR$/Todo.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/__init__.py" afterPath="$PROJECT_DIR$/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/.gitignore" afterPath="$PROJECT_DIR$/android_remote/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/.idea/codeStyleSettings.xml" afterPath="$PROJECT_DIR$/android_remote/.idea/codeStyleSettings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/.idea/compiler.xml" afterPath="$PROJECT_DIR$/android_remote/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/android_remote/.idea/copyright/profiles_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/.idea/gradle.xml" afterPath="$PROJECT_DIR$/android_remote/.idea/gradle.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/android_remote/.idea/inspectionProfiles/Project_Default.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/.idea/inspectionProfiles/profiles_settings.xml" afterPath="$PROJECT_DIR$/android_remote/.idea/inspectionProfiles/profiles_settings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/.idea/misc.xml" afterPath="$PROJECT_DIR$/android_remote/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/.idea/modules.xml" afterPath="$PROJECT_DIR$/android_remote/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/.idea/uiDesigner.xml" afterPath="$PROJECT_DIR$/android_remote/.idea/uiDesigner.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/.idea/vcs.xml" afterPath="$PROJECT_DIR$/android_remote/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/.gitignore" afterPath="$PROJECT_DIR$/android_remote/app/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/build.gradle" afterPath="$PROJECT_DIR$/android_remote/app/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/proguard-rules.pro" afterPath="$PROJECT_DIR$/android_remote/app/proguard-rules.pro" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/AirconControls.java" afterPath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/AirconControls.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/CustomLogger.java" afterPath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/CustomLogger.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/GeneralFunctions.java" afterPath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/GeneralFunctions.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/GenericRemoteControls.java" afterPath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/GenericRemoteControls.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/HeartbeatChecks.java" afterPath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/HeartbeatChecks.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/LightsControls.java" afterPath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/LightsControls.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/MainActivity.java" afterPath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/RabbitCallback.java" afterPath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/RabbitCallback.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/RabbitManager.java" afterPath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/RabbitManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/TVControls.java" afterPath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/TVControls.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/TemperatureControls.java" afterPath="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/TemperatureControls.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/drawable/thumb.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/drawable/thumb.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/drawable/tickmark.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/drawable/tickmark.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/layout/activity_main.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/layout/aircon_remote.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/layout/aircon_remote.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/layout/heartbeat.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/layout/heartbeat.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/layout/lights_remote.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/layout/lights_remote.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/layout/temperature.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/layout/temperature.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/layout/toolbar.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/layout/toolbar.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/layout/tv_remote.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/layout/tv_remote.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/menu/menu_main.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/menu/menu_main.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/values-v21/styles.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/values-v21/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/values-w820dp/dimens.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/values-w820dp/dimens.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/values/array.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/values/array.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/values/colors.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/values/dimens.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/values/dimens.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/android_remote/app/src/main/res/values/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/build.gradle" afterPath="$PROJECT_DIR$/android_remote/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/gradle.properties" afterPath="$PROJECT_DIR$/android_remote/gradle.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/gradle/wrapper/gradle-wrapper.properties" afterPath="$PROJECT_DIR$/android_remote/gradle/wrapper/gradle-wrapper.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/gradlew.bat" afterPath="$PROJECT_DIR$/android_remote/gradlew.bat" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android_remote/settings.gradle" afterPath="$PROJECT_DIR$/android_remote/settings.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bash/auto_self_backup.sh" afterPath="$PROJECT_DIR$/bash/auto_self_backup.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bash/cron_config" afterPath="$PROJECT_DIR$/bash/cron_config" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bash/rc.local" afterPath="$PROJECT_DIR$/bash/rc.local" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bash/rsync-exclude.txt" afterPath="$PROJECT_DIR$/bash/rsync-exclude.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/configs/RabbitMQConfig.ini" afterPath="$PROJECT_DIR$/configs/RabbitMQConfig.ini" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/configs/SensorConfigBedRoom.ini" afterPath="$PROJECT_DIR$/configs/SensorConfigBedRoom.ini" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/configs/SensorConfigLiving.ini" afterPath="$PROJECT_DIR$/configs/SensorConfigLiving.ini" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/configs/mailConfig.ini" afterPath="$PROJECT_DIR$/configs/mailConfig.ini" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/heater_auto_auto_24_on_off.txt" afterPath="$PROJECT_DIR$/data/heater_auto_auto_24_on_off.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/heater_auto_auto_25_on_off.txt" afterPath="$PROJECT_DIR$/data/heater_auto_auto_25_on_off.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/__init__.py" afterPath="$PROJECT_DIR$/python/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/global_libraries/__init__.py" afterPath="$PROJECT_DIR$/python/global_libraries/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/global_libraries/general_utils.py" afterPath="$PROJECT_DIR$/python/global_libraries/general_utils.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/global_libraries/mail_sender.py" afterPath="$PROJECT_DIR$/python/global_libraries/mail_sender.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/global_libraries/pika_connector_manager.py" afterPath="$PROJECT_DIR$/python/global_libraries/pika_connector_manager.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/global_libraries/signal_sender.py" afterPath="$PROJECT_DIR$/python/global_libraries/signal_sender.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/infrared_remote/__init__.py" afterPath="$PROJECT_DIR$/python/infrared_remote/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/infrared_remote/aircon_driver.py" afterPath="$PROJECT_DIR$/python/infrared_remote/aircon_driver.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/infrared_remote/bedroom_lights_driver.py" afterPath="$PROJECT_DIR$/python/infrared_remote/bedroom_lights_driver.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/infrared_remote/convert_aircon_ir.py" afterPath="$PROJECT_DIR$/python/infrared_remote/convert_aircon_ir.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/infrared_remote/living_lights_driver.py" afterPath="$PROJECT_DIR$/python/infrared_remote/living_lights_driver.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/infrared_remote/tv_remote_driver.py" afterPath="$PROJECT_DIR$/python/infrared_remote/tv_remote_driver.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/instruction_gui/__init__.py" afterPath="$PROJECT_DIR$/python/instruction_gui/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/instruction_gui/master_tkinter.py" afterPath="$PROJECT_DIR$/python/instruction_gui/master_tkinter.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/instruction_gui/tkinter_remote_control_tv.py" afterPath="$PROJECT_DIR$/python/instruction_gui/tkinter_remote_control_tv.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/miscellaneous/__init__.py" afterPath="$PROJECT_DIR$/python/miscellaneous/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/miscellaneous/filter_facebook_message.py" afterPath="$PROJECT_DIR$/python/miscellaneous/filter_facebook_message.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/rabbitmq_instructions/__init__.py" afterPath="$PROJECT_DIR$/python/rabbitmq_instructions/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/rabbitmq_instructions/master.py" afterPath="$PROJECT_DIR$/python/rabbitmq_instructions/master.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/__init__.py" afterPath="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_commands.py" afterPath="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_commands.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_files.py" afterPath="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_files.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_heartbeat.py" afterPath="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_heartbeat.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_remote_control.py" afterPath="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_remote_control.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_sensors.py" afterPath="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_sensors.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_ssh.py" afterPath="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_ssh.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_update.py" afterPath="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_update.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/rabbitmq_instructions/worker.py" afterPath="$PROJECT_DIR$/python/rabbitmq_instructions/worker.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/__init__.py" afterPath="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/config_general.py" afterPath="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/config_general.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_files.py" afterPath="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_files.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_remote_control.py" afterPath="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_remote_control.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_sensors.py" afterPath="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_sensors.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_ssh.py" afterPath="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_ssh.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/temperature_monitoring/BME280_Driver.py" afterPath="$PROJECT_DIR$/python/temperature_monitoring/BME280_Driver.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/temperature_monitoring/BME280_Driver_Official_Adafruit.py" afterPath="$PROJECT_DIR$/python/temperature_monitoring/BME280_Driver_Official_Adafruit.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/temperature_monitoring/DHT11_Driver.py" afterPath="$PROJECT_DIR$/python/temperature_monitoring/DHT11_Driver.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/temperature_monitoring/DS18B20_Driver.py" afterPath="$PROJECT_DIR$/python/temperature_monitoring/DS18B20_Driver.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/temperature_monitoring/Sensehat_Driver.py" afterPath="$PROJECT_DIR$/python/temperature_monitoring/Sensehat_Driver.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/temperature_monitoring/TSL2561_Driver.py" afterPath="$PROJECT_DIR$/python/temperature_monitoring/TSL2561_Driver.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/temperature_monitoring/__init__.py" afterPath="$PROJECT_DIR$/python/temperature_monitoring/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/python/temperature_monitoring/home_environment_sensors.py" afterPath="$PROJECT_DIR$/python/temperature_monitoring/home_environment_sensors.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/.idea/compiler.xml" afterPath="$PROJECT_DIR$/../Web_Scraper/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/../Web_Scraper/.idea/copyright/profiles_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/../Web_Scraper/.idea/inspectionProfiles/Project_Default.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/.idea/inspectionProfiles/profiles_settings.xml" afterPath="$PROJECT_DIR$/../Web_Scraper/.idea/inspectionProfiles/profiles_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/.idea/misc.xml" afterPath="$PROJECT_DIR$/../Web_Scraper/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/.idea/modules.xml" afterPath="$PROJECT_DIR$/../Web_Scraper/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/.idea/vcs.xml" afterPath="$PROJECT_DIR$/../Web_Scraper/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../Web_Scraper/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper.iml" afterPath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/.idea/HTML.iml" afterPath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/.idea/HTML.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/.idea/compiler.xml" afterPath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/.idea/copyright/profiles_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/.idea/misc.xml" afterPath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/.idea/modules.xml" afterPath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/README.md" afterPath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/background.html" afterPath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/background.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/manifest.json" afterPath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/manifest.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/popup.html" afterPath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/popup.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/scraper_background.js" afterPath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/scraper_background.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/scraper_contentscript.js" afterPath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/scraper_contentscript.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/scraper_popup.js" afterPath="$PROJECT_DIR$/../Web_Scraper/Web_Scraper/scraper_popup.js" />
     </list>
     <ignored path="Home_Code.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -19,41 +158,21 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Home_Code$Home_Code.coverage" NAME="Home_Code Coverage Results" MODIFIED="1495358679101" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/Home_Code$Pi_Heartbeat_Monitor.coverage" NAME="Pi-Heartbeat-Monitor Coverage Results" MODIFIED="1491398395981" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Dropbox/Development/RA-Development/Pi-Heartbeat" />
-    <SUITE FILE_PATH="coverage/Home_Code$worker.coverage" NAME="worker Coverage Results" MODIFIED="1499440840664" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python/rabbitmq_instructions" />
-    <SUITE FILE_PATH="coverage/Home_Code$master.coverage" NAME="master Coverage Results" MODIFIED="1495875404988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python/rabbitmq_instructions" />
-    <SUITE FILE_PATH="coverage/Home_Code$master_update.coverage" NAME="master_update Coverage Results" MODIFIED="1495368185939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python/rabbitmq_instructions/master_config" />
-  </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="Home_Code" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="aircon_driver.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/python/infrared_remote/aircon_driver.py">
+      <file leaf-file-name="BME280_Driver_Official_Adafruit.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/python/temperature_monitoring/BME280_Driver_Official_Adafruit.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="43">
-              <caret line="286" column="85" lean-forward="false" selection-start-line="286" selection-start-column="77" selection-end-line="286" selection-end-column="85" />
+            <state relative-caret-position="60">
+              <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
               <folding>
-                <element signature="e#1569#1580#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="worker_remote_control.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_remote_control.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="20" column="1" lean-forward="true" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
-              <folding>
-                <element signature="e#71#141#0" expanded="true" />
+                <element signature="e#37#51#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -71,8 +190,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>1228      488      373      485     1231      487</find>
-      <find>3</find>
       <find>3498</find>
       <find>could not co</find>
       <find />
@@ -101,6 +218,8 @@
       <find>GPIO</find>
       <find>GPIO.</find>
       <find>config_general</find>
+      <find>Tk</find>
+      <find>request</find>
     </findStrings>
     <replaceStrings>
       <replace>headers</replace>
@@ -111,6 +230,7 @@
       <replace>################################################################################################</replace>
       <replace>delta_max</replace>
       <replace>measure_status</replace>
+      <replace>tk</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -129,25 +249,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/python/temperature_monitoring/Sensehat_Driver.py" />
-        <option value="$PROJECT_DIR$/python/temperature_monitoring/DS18B20_Driver.py" />
-        <option value="$PROJECT_DIR$/python/temperature_monitoring/BME280_Driver.py" />
-        <option value="$PROJECT_DIR$/python/rabbitmq_instructions/worker.py" />
-        <option value="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_update.py" />
-        <option value="$PROJECT_DIR$/python/miscellaneous/filter_facebook_message.py" />
-        <option value="$PROJECT_DIR$/python/instruction_gui/tkinter_remote_control_tv.py" />
-        <option value="$PROJECT_DIR$/python/instruction_gui/master_tkinter.py" />
-        <option value="$PROJECT_DIR$/python/infrared_remote/convert_aircon_ir.py" />
-        <option value="$PROJECT_DIR$/python/global_libraries/signal_sender.py" />
-        <option value="$PROJECT_DIR$/python/temperature_monitoring/TSL2561_Driver.py" />
-        <option value="$PROJECT_DIR$/python/infrared_remote/aircon_driver.py" />
         <option value="$USER_HOME$/Dropbox/Development/RA-Development/Pi-Heartbeat/Pi-Heartbeat-Monitor.py" />
         <option value="$PROJECT_DIR$/python/temperature_monitoring/BME280_Driver_Official_Adafruit.py" />
-        <option value="$PROJECT_DIR$/python/infrared_remote/tv_remote_driver.py" />
-        <option value="$PROJECT_DIR$/python/infrared_remote/living_lights_driver.py" />
         <option value="$PROJECT_DIR$/python/infrared_remote/living_aircon_driver.py" />
-        <option value="$PROJECT_DIR$/python/infrared_remote/bedroom_lights_driver.py" />
         <option value="$PROJECT_DIR$/python/infrared_remote/bedroom_aircon_driver.py" />
         <option value="$PROJECT_DIR$/configs/InfraredBedRoom.ini" />
         <option value="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/AirconControls.java" />
@@ -159,27 +263,43 @@
         <option value="$APPLICATION_PLUGINS_DIR$/python/helpers/pydev/pydevd.py" />
         <option value="$PROJECT_DIR$/Todo.txt" />
         <option value="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/function_manager_files.py" />
-        <option value="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_heartbeat.py" />
         <option value="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_remote_control.py" />
         <option value="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_files.py" />
         <option value="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_sensors.py" />
         <option value="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_ssh.py" />
-        <option value="$PROJECT_DIR$/python/global_libraries/pika_connector_manager.py" />
         <option value="$PROJECT_DIR$/configs/SensorConfigLiving.ini" />
-        <option value="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_commands.py" />
-        <option value="$PROJECT_DIR$/python/rabbitmq_instructions/master.py" />
-        <option value="$PROJECT_DIR$/python/temperature_monitoring/DHT11_Driver.py" />
-        <option value="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_sensors.py" />
-        <option value="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_files.py" />
-        <option value="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/config_general.py" />
         <option value="$PROJECT_DIR$/configs/SensorConfigBedRoom.ini" />
-        <option value="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_ssh.py" />
-        <option value="$PROJECT_DIR$/python/global_libraries/general_utils.py" />
-        <option value="$PROJECT_DIR$/python/global_libraries/mail_sender.py" />
         <option value="$PROJECT_DIR$/configs/mailConfig.ini" />
-        <option value="$PROJECT_DIR$/python/temperature_monitoring/home_environment_sensors.py" />
         <option value="$PROJECT_DIR$/configs/RabbitMQConfig.ini" />
+        <option value="$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/RabbitManager.java" />
+        <option value="$PROJECT_DIR$/configs/PiConfig.ini" />
+        <option value="$PROJECT_DIR$/configs/RabbitConfigBedroom.ini" />
+        <option value="$PROJECT_DIR$/python/global_libraries/general_utils.py" />
+        <option value="$PROJECT_DIR$/python/miscellaneous/filter_facebook_message.py" />
+        <option value="$PROJECT_DIR$/python/rabbitmq_instructions/worker.py" />
+        <option value="$PROJECT_DIR$/python/global_libraries/mail_sender.py" />
+        <option value="$PROJECT_DIR$/python/global_libraries/pika_connector_manager.py" />
+        <option value="$PROJECT_DIR$/python/global_libraries/signal_sender.py" />
+        <option value="$PROJECT_DIR$/python/infrared_remote/aircon_driver.py" />
+        <option value="$PROJECT_DIR$/python/infrared_remote/bedroom_lights_driver.py" />
+        <option value="$PROJECT_DIR$/python/infrared_remote/living_lights_driver.py" />
+        <option value="$PROJECT_DIR$/python/infrared_remote/tv_remote_driver.py" />
+        <option value="$PROJECT_DIR$/python/instruction_gui/master_tkinter.py" />
+        <option value="$PROJECT_DIR$/python/instruction_gui/tkinter_remote_control_tv.py" />
+        <option value="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_commands.py" />
+        <option value="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_heartbeat.py" />
+        <option value="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/config_general.py" />
+        <option value="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_files.py" />
         <option value="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_remote_control.py" />
+        <option value="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_sensors.py" />
+        <option value="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_ssh.py" />
+        <option value="$PROJECT_DIR$/python/rabbitmq_instructions/master.py" />
+        <option value="$PROJECT_DIR$/python/temperature_monitoring/BME280_Driver.py" />
+        <option value="$PROJECT_DIR$/python/temperature_monitoring/home_environment_sensors.py" />
+        <option value="$PROJECT_DIR$/python/temperature_monitoring/TSL2561_Driver.py" />
+        <option value="$PROJECT_DIR$/python/temperature_monitoring/Sensehat_Driver.py" />
+        <option value="$PROJECT_DIR$/python/temperature_monitoring/DS18B20_Driver.py" />
+        <option value="$PROJECT_DIR$/python/temperature_monitoring/DHT11_Driver.py" />
       </list>
     </option>
   </component>
@@ -190,11 +310,11 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds">
-    <option name="x" value="1" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="30" />
     <option name="y" value="23" />
-    <option name="width" value="1280" />
-    <option name="height" value="773" />
+    <option name="width" value="1250" />
+    <option name="height" value="777" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -240,16 +360,10 @@
             <id>Android Lint for Kotlin</id>
           </State>
           <State>
-            <id>BashSupport</id>
-          </State>
-          <State>
             <id>CSS</id>
           </State>
           <State>
             <id>Class structureJava</id>
-          </State>
-          <State>
-            <id>Code StylePHP</id>
           </State>
           <State>
             <id>Code quality toolsCSS</id>
@@ -268,9 +382,6 @@
           </State>
           <State>
             <id>DOM issuesJavaScript</id>
-          </State>
-          <State>
-            <id>Django</id>
           </State>
           <State>
             <id>Error handlingGroovy</id>
@@ -318,9 +429,6 @@
             <id>Manifest</id>
           </State>
           <State>
-            <id>PHP</id>
-          </State>
-          <State>
             <id>Portability issuesJava</id>
           </State>
           <State>
@@ -331,9 +439,6 @@
           </State>
           <State>
             <id>Properties Files</id>
-          </State>
-          <State>
-            <id>Python</id>
           </State>
           <State>
             <id>SetupSpring CoreSpring</id>
@@ -350,10 +455,12 @@
           <State>
             <id>TypeScript</id>
           </State>
-          <State>
-            <id>UndefinedPHP</id>
-          </State>
         </expanded-state>
+        <selected-state>
+          <State>
+            <id>Android</id>
+          </State>
+        </selected-state>
       </profile-state>
     </entry>
   </component>
@@ -377,101 +484,57 @@
     <panes>
       <pane id="ProjectPane">
         <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Home_Code" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Home_Code" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Home_Code" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Home_Code" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="python" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Home_Code" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Home_Code" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="python" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rabbitmq_instructions" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Home_Code" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Home_Code" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="python" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rabbitmq_instructions" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="worker_config" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Home_Code" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Home_Code" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="python" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="infrared_remote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
+          <expand>
+            <path>
+              <item name="Home_Code" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Home_Code" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Home_Code" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Home_Code" type="462c0819:PsiDirectoryNode" />
+              <item name="python" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Home_Code" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Home_Code" type="462c0819:PsiDirectoryNode" />
+              <item name="python" type="462c0819:PsiDirectoryNode" />
+              <item name="miscellaneous" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Home_Code" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Home_Code" type="462c0819:PsiDirectoryNode" />
+              <item name="python" type="462c0819:PsiDirectoryNode" />
+              <item name="rabbitmq_instructions" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Home_Code" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Home_Code" type="462c0819:PsiDirectoryNode" />
+              <item name="python" type="462c0819:PsiDirectoryNode" />
+              <item name="rabbitmq_instructions" type="462c0819:PsiDirectoryNode" />
+              <item name="worker_config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Home_Code" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Home_Code" type="462c0819:PsiDirectoryNode" />
+              <item name="python" type="462c0819:PsiDirectoryNode" />
+              <item name="temperature_monitoring" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="/usr/bin/python" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
@@ -484,19 +547,19 @@
     </option>
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/configs" />
+      <recent name="$PROJECT_DIR$/python/global_libraries" />
+      <recent name="$PROJECT_DIR$/python/rabbitmq_instructions/master_config" />
+      <recent name="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config" />
+      <recent name="$PROJECT_DIR$/python/infrared_remote" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/python/infrared_remote" />
       <recent name="$PROJECT_DIR$/python/global_libraries" />
       <recent name="$PROJECT_DIR$/python/temperature_monitoring" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/.idea" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/python/global_libraries" />
-      <recent name="$PROJECT_DIR$/configs" />
-      <recent name="$PROJECT_DIR$/python/rabbitmq_instructions/master_config" />
-      <recent name="$PROJECT_DIR$/python/rabbitmq_instructions/worker_config" />
-      <recent name="$PROJECT_DIR$/python/infrared_remote" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -512,7 +575,25 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.worker">
-    <configuration default="false" name="Pi-Heartbeat-Monitor" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="Home_Code" type="PythonConfigurationType" factoryName="Python" singleton="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/local/bin/python3" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/python" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Home_Code" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Home_Code.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
+    <configuration name="Pi-Heartbeat-Monitor" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -529,82 +610,88 @@
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
-      <method />
     </configuration>
-    <configuration default="false" name="build" type="GroovyScriptRunConfiguration" factoryName="Groovy" temporary="true">
-      <module name="Home_Code" />
-      <setting name="path" value="file://$PROJECT_DIR$/android_remote/build.gradle" />
+    <configuration default="true" type="ArquillianJUnit" factoryName="">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+    </configuration>
+    <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails">
       <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workDir" value="file://$PROJECT_DIR$/android_remote" />
-      <setting name="debug" value="false" />
-      <method>
-        <option name="Make" enabled="false" />
-      </method>
+      <setting name="cmdLine" value="run-app" />
+      <setting name="passParentEnv" value="true" />
+      <setting name="launchBrowser" value="true" />
+      <setting name="launchBrowserUrl" value="" />
+      <setting name="depsClasspath" value="false" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
     </configuration>
-    <configuration default="false" name="master_update" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/python/rabbitmq_instructions/master_config" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Home_Code" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_update.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
     </configuration>
-    <configuration default="false" name="master" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/python/rabbitmq_instructions" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Home_Code" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/python/rabbitmq_instructions/master.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="worker" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/python/rabbitmq_instructions" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Home_Code" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/python/rabbitmq_instructions/worker.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
     </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
       <option name="PROGRAM_PARAMETERS" />
       <predefined_log_file id="idea.log" enabled="true" />
-      <method />
     </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="" />
@@ -629,6 +716,30 @@
         <option name="GAPID_DISABLE_PCS" value="false" />
         <option name="SUPPORT_LIB_ENABLED" value="true" />
         <option name="INSTRUMENTATION_ENABLED" value="true" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="" />
+      <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <Java />
+      <Profilers>
+        <option name="GAPID_DISABLE_PCS" value="false" />
       </Profilers>
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -659,47 +770,6 @@
         <option name="SUPPORT_LIB_ENABLED" value="true" />
         <option name="INSTRUMENTATION_ENABLED" value="true" />
       </Profilers>
-      <method />
-    </configuration>
-    <configuration default="true" type="Application" factoryName="Application">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
       <method />
     </configuration>
     <configuration default="true" type="ArquillianTestNG" factoryName="">
@@ -735,17 +805,6 @@
       <listeners />
       <method />
     </configuration>
-    <configuration default="true" type="BashConfigurationType" factoryName="Bash">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="INTERPRETER_PATH" value="/bin/bash" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <module name="" />
-      <envs />
-      <method />
-    </configuration>
     <configuration default="true" type="Cold Fusion runner description" factoryName="Cold Fusion" custom_browser="" web_path="">
       <method />
     </configuration>
@@ -766,26 +825,6 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
       <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Home_Code" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="TARGET" value="" />
-      <option name="SETTINGS_FILE" value="" />
-      <option name="CUSTOM_SETTINGS" value="false" />
-      <option name="USE_OPTIONS" value="false" />
-      <option name="OPTIONS" value="" />
       <method />
     </configuration>
     <configuration default="true" type="FlashRunConfigurationType" factoryName="Flash App">
@@ -853,16 +892,6 @@
       </ExternalSystemSettings>
       <method />
     </configuration>
-    <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails">
-      <setting name="vmparams" value="" />
-      <setting name="cmdLine" value="run-app" />
-      <setting name="passParentEnv" value="true" />
-      <setting name="launchBrowser" value="true" />
-      <setting name="launchBrowserUrl" value="" />
-      <setting name="depsClasspath" value="false" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method />
-    </configuration>
     <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
       <module name="" />
       <setting name="path" value="" />
@@ -870,27 +899,6 @@
       <setting name="params" value="" />
       <setting name="workDir" value="file://$PROJECT_DIR$" />
       <setting name="debug" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
       <method />
     </configuration>
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
@@ -912,13 +920,6 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
       <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerJest" factoryName="Jest">
-      <node-interpreter value="project" />
-      <working-dir value="" />
-      <envs />
-      <scope-kind value="ALL" />
       <method />
     </configuration>
     <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
@@ -955,60 +956,6 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
-      <TestRunner />
-      <method />
-    </configuration>
-    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
-      <method />
-    </configuration>
-    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Home_Code" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="ADDITIONAL_ARGS" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="PyLettuceRunConfigurationType" factoryName="Lettuce">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Home_Code" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="ADDITIONAL_ARGS" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
     <configuration default="true" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -1043,43 +990,8 @@
       <listeners />
       <method />
     </configuration>
-    <configuration default="true" type="Tox" factoryName="Tox">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <module name="Home_Code" />
-      <method />
-    </configuration>
-    <configuration default="true" type="executeSpecs" factoryName="Gauge Execution">
-      <setting name="environment" value="" />
-      <setting name="specsToExecute" value="" />
-      <setting name="tags" value="" />
-      <setting name="parallelNodes" value="" />
-      <setting name="execInParallel" value="false" />
-      <setting name="programParameters" value="" />
-      <setting name="workingDirectory" value="" />
-      <setting name="moduleName" value="" />
-      <envMap />
-      <setting name="rowsRange" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <envs />
-      <method />
-    </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
-      <command value="run" />
+      <command value="run-script" />
       <scripts />
       <node-interpreter value="project" />
       <envs />
@@ -1091,102 +1003,84 @@
     <configuration default="true" type="osgi.bnd.run" factoryName="Test Launcher (JUnit)">
       <method />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Doctests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
+    <configuration name="build" type="GroovyScriptRunConfiguration" factoryName="Groovy" temporary="true">
       <module name="Home_Code" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <method />
+      <setting name="path" value="file://$PROJECT_DIR$/android_remote/build.gradle" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="file://$PROJECT_DIR$/android_remote" />
+      <setting name="debug" value="false" />
+      <method>
+        <option name="Make" enabled="false" />
+      </method>
     </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Home_Code" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;.&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Home_Code" type="PythonConfigurationType" factoryName="Python" singleton="true">
+    <configuration name="master" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/python/rabbitmq_instructions" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="Home_Code" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Home_Code.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/python/rabbitmq_instructions/master.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
-      <method />
+    </configuration>
+    <configuration name="master_update" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/python/rabbitmq_instructions/master_config" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Home_Code" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_update.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
+    <configuration name="worker" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/local/bin/python3" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/python/rabbitmq_instructions" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Home_Code" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/python/rabbitmq_instructions/worker.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
     <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Python.Home_Code" />
-      <item index="1" class="java.lang.String" itemvalue="Python.Pi-Heartbeat-Monitor" />
-      <item index="2" class="java.lang.String" itemvalue="Groovy.build" />
-      <item index="3" class="java.lang.String" itemvalue="Python.master_update" />
-      <item index="4" class="java.lang.String" itemvalue="Python.master" />
+      <item index="1" class="java.lang.String" itemvalue="Groovy.build" />
+      <item index="2" class="java.lang.String" itemvalue="Python.Pi-Heartbeat-Monitor" />
+      <item index="3" class="java.lang.String" itemvalue="Python.master" />
+      <item index="4" class="java.lang.String" itemvalue="Python.master_update" />
       <item index="5" class="java.lang.String" itemvalue="Python.worker" />
     </list>
     <recent_temporary>
-      <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.worker" />
-        <item index="1" class="java.lang.String" itemvalue="Python.master" />
-        <item index="2" class="java.lang.String" itemvalue="Python.master_update" />
-        <item index="3" class="java.lang.String" itemvalue="Groovy.build" />
-        <item index="4" class="java.lang.String" itemvalue="Python.Pi-Heartbeat-Monitor" />
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Groovy.build" />
       </list>
     </recent_temporary>
-    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
-      <module name="" />
-      <option name="DEPLOY" value="true" />
-      <option name="ARTIFACT_NAME" value="" />
-      <option name="PM_INSTALL_OPTIONS" value="" />
-      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
-      <option name="MODE" value="default_activity" />
-      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="DEBUGGER_TYPE" value="Java" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <Java />
-      <Profilers>
-        <option name="GAPID_DISABLE_PCS" value="false" />
-      </Profilers>
-      <option name="DEEP_LINK" value="" />
-      <option name="ACTIVITY_CLASS" value="" />
-      <method />
-    </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
@@ -1311,14 +1205,16 @@
       <workItem from="1499438740972" duration="307000" />
       <workItem from="1499607455386" duration="93000" />
       <workItem from="1499609270099" duration="1243000" />
-      <workItem from="1500108406259" duration="335000" />
-    </task>
-    <task id="LOCAL-00013" summary="Updated readme">
-      <created>1480180031022</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1480180031022</updated>
+      <workItem from="1500108406259" duration="1004000" />
+      <workItem from="1500295315330" duration="199000" />
+      <workItem from="1500896611329" duration="132000" />
+      <workItem from="1500897239680" duration="232000" />
+      <workItem from="1506648637562" duration="308000" />
+      <workItem from="1506649835618" duration="204000" />
+      <workItem from="1506650080709" duration="318000" />
+      <workItem from="1511074422546" duration="179000" />
+      <workItem from="1511091731609" duration="4353000" />
+      <workItem from="1511178196177" duration="864000" />
     </task>
     <task id="LOCAL-00014" summary="Updated configs&#10;Created filter_facebook_message function&#10;Added base for ios_remote&#10;Added bash script for automatic self-backups of pis.&#10;Added other configs for pi os.">
       <created>1483805547182</created>
@@ -1656,50 +1552,88 @@
       <option name="project" value="LOCAL" />
       <updated>1499180540849</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="Merged bedroom_aircon_driver into living_aircon_driver (same parameters)">
+      <created>1500108787904</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1500108787905</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="295566000" />
+    <option name="totallyTimeSpent" value="303024000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="23" width="1280" height="773" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="23" width="1280" height="777" extended-state="6" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.54478705" sideWeight="0.50646204" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.49655765" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25201938" sideWeight="0.4948605" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.253125" sideWeight="0.4948605" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959612" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959612" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46696034" sideWeight="0.49353796" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15105008" sideWeight="0.5051395" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46696034" sideWeight="0.49353796" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25110132" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.49676898" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.54478705" sideWeight="0.50646204" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959612" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959612" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46696034" sideWeight="0.49353796" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25110132" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.49655765" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35465926" sideWeight="0.4948605" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.49676898" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15105008" sideWeight="0.5051395" order="7" side_tool="true" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="processedProjectFiles" value="true" />
+    <option name="version" value="1" />
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -1715,7 +1649,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Added full tracing of unhandled errors, to improve code with time&#10;Added custom logger option to stop polluting syslog" />
     <MESSAGE value="Added exception handling in environment sensors&#10;Added custom logger for rabbitmq worker" />
     <MESSAGE value="Started working on other remote modules for Android App." />
     <MESSAGE value="Complete review of code structure for Android App.&#10;Moved from multiple activity, each with their own layout, that were supposed to switch from one to the other to one main activity calling small packages and hiding/showing layouts." />
@@ -1740,28 +1673,15 @@
     <MESSAGE value="Started adding sensor monitoring functionality through Android App" />
     <MESSAGE value="Added function to send mail through gmail client" />
     <MESSAGE value="Added part of rabbitMQ master functions on android app." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added part of rabbitMQ master functions on android app." />
+    <MESSAGE value="Merged bedroom_aircon_driver into living_aircon_driver (same parameters)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merged bedroom_aircon_driver into living_aircon_driver (same parameters)" />
     <option name="UPDATE_GROUP_BY_PACKAGES" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$USER_HOME$/Dropbox/Development/RA-Development/Pi-Heartbeat/Pi-Heartbeat-Monitor.py</url>
-          <line>183</line>
-          <option name="timeStamp" value="52" />
-        </line-breakpoint>
-      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <default-breakpoints>
-        <breakpoint type="python-exception">
-          <properties notifyOnTerminate="true" exception="BaseException">
-            <option name="notifyOnTerminate" value="true" />
-          </properties>
-        </breakpoint>
-      </default-breakpoints>
       <option name="time" value="53" />
     </breakpoint-manager>
     <watches-manager />
@@ -1771,13 +1691,24 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/python/infrared_remote/aircon_driver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_remote_control.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="29" column="49" lean-forward="false" selection-start-line="29" selection-start-column="49" selection-end-line="29" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/python/global_libraries/general_utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="33">
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding>
-            <element signature="e#77#86#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1785,9 +1716,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="880">
           <caret line="80" column="0" lean-forward="false" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-          <folding>
-            <element signature="e#886#968#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1795,9 +1723,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="143">
           <caret line="29" column="27" lean-forward="false" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
-          <folding>
-            <element signature="e#327#382#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1805,27 +1730,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="33">
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding>
-            <element signature="e#71#141#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/python/infrared_remote/living_aircon_driver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3278">
-          <caret line="304" column="20" lean-forward="true" selection-start-line="304" selection-start-column="20" selection-end-line="304" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/python/infrared_remote/living_aircon_driver.py" />
     <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_sensors.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1177">
           <caret line="110" column="69" lean-forward="false" selection-start-line="110" selection-start-column="69" selection-end-line="110" selection-end-column="69" />
-          <folding>
-            <element signature="e#0#80#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1833,9 +1745,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4642">
           <caret line="437" column="65" lean-forward="false" selection-start-line="437" selection-start-column="44" selection-end-line="437" selection-end-column="65" />
-          <folding>
-            <element signature="e#287#342#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1843,11 +1752,95 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/infrared_remote/living_aircon_driver.py" />
+    <entry file="file://$PROJECT_DIR$/configs/RabbitMQConfig.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="33">
+          <caret line="3" column="19" lean-forward="false" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android_remote/app/src/main/java/com/example/abaland/android_remote/RabbitManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="27" column="37" lean-forward="false" selection-start-line="27" selection-start-column="37" selection-end-line="27" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/mailConfig.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/RabbitConfigBedroom.ini" />
+    <entry file="file://$PROJECT_DIR$/Todo.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bash/cron_config">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/global_libraries/general_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4644">
+          <caret line="387" column="0" lean-forward="false" selection-start-line="387" selection-start-column="0" selection-end-line="387" selection-end-column="0" />
+          <folding>
+            <element signature="e#77#86#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/global_libraries/mail_sender.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2198">
+          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding>
+            <element signature="e#171#227#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/infrared_remote/aircon_driver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2954">
+          <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/python/infrared_remote/bedroom_lights_driver.py">
+    <entry file="file://$PROJECT_DIR$/python/global_libraries/pika_connector_manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="17" column="27" lean-forward="true" selection-start-line="17" selection-start-column="27" selection-end-line="17" selection-end-column="27" />
+          <folding>
+            <element signature="e#155#174#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/global_libraries/signal_sender.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding>
+            <element signature="e#1203#1225#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/infrared_remote/convert_aircon_ir.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1855,88 +1848,238 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/worker.py">
+    <entry file="file://$PROJECT_DIR$/python/infrared_remote/living_lights_driver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="29" column="27" lean-forward="false" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
+        <state relative-caret-position="276">
+          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding>
-            <element signature="e#327#382#0" expanded="true" />
+            <element signature="e#798#840#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/python/temperature_monitoring/home_environment_sensors.py">
+    <entry file="file://$PROJECT_DIR$/python/infrared_remote/tv_remote_driver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11">
-          <caret line="80" column="0" lean-forward="false" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+        <state relative-caret-position="216">
+          <caret line="18" column="6" lean-forward="false" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/instruction_gui/master_tkinter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding>
-            <element signature="e#886#968#0" expanded="false" />
+            <element signature="e#66#102#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/python/global_libraries/general_utils.py">
+    <entry file="file://$PROJECT_DIR$/python/instruction_gui/tkinter_remote_control_tv.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding>
-            <element signature="e#77#86#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1992">
+          <caret line="166" column="6" lean-forward="false" selection-start-line="166" selection-start-column="6" selection-end-line="166" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/master.py">
+    <entry file="file://$PROJECT_DIR$/python/miscellaneous/filter_facebook_message.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="616">
-          <caret line="437" column="65" lean-forward="false" selection-start-line="437" selection-start-column="44" selection-end-line="437" selection-end-column="65" />
+        <state relative-caret-position="2064">
+          <caret line="172" column="0" lean-forward="true" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
           <folding>
-            <element signature="e#287#342#0" expanded="true" />
+            <element signature="e#780#802#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_remote_control.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
+        <state relative-caret-position="1500">
           <caret line="125" column="10" lean-forward="true" selection-start-line="125" selection-start-column="10" selection-end-line="125" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/python/infrared_remote/aircon_driver.py">
+    <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_heartbeat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="43">
-          <caret line="286" column="85" lean-forward="false" selection-start-line="286" selection-start-column="77" selection-end-line="286" selection-end-column="85" />
+        <state relative-caret-position="12">
+          <caret line="1" column="7" lean-forward="false" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_files.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_commands.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="14" column="7" lean-forward="false" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_ssh.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_sensors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/master_config/master_update.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-622">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1569#1580#0" expanded="true" />
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/config_general.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/infrared_remote/bedroom_lights_driver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="22" column="5" lean-forward="false" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_files.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding>
+            <element signature="e#77#86#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_remote_control.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-482">
+          <caret line="7" column="5" lean-forward="false" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_ssh.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12">
+          <caret line="1" column="5" lean-forward="false" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/temperature_monitoring/BME280_Driver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="2" column="19" lean-forward="false" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+          <folding>
+            <element signature="e#75#175#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/worker.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding>
+            <element signature="e#327#382#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/master.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="933" column="26" lean-forward="false" selection-start-line="933" selection-start-column="26" selection-end-line="933" selection-end-column="26" />
+          <folding>
+            <element signature="e#287#342#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_sensors.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="616">
-          <caret line="110" column="69" lean-forward="false" selection-start-line="110" selection-start-column="69" selection-end-line="110" selection-end-column="69" />
-          <folding>
-            <element signature="e#0#80#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/python/infrared_remote/living_aircon_driver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+        <state relative-caret-position="-1394">
+          <caret line="2" column="5" lean-forward="false" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/python/rabbitmq_instructions/worker_config/worker_remote_control.py">
+    <entry file="file://$PROJECT_DIR$/python/temperature_monitoring/home_environment_sensors.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="20" column="1" lean-forward="true" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
+        <state relative-caret-position="399">
+          <caret line="941" column="41" lean-forward="true" selection-start-line="941" selection-start-column="41" selection-end-line="941" selection-end-column="41" />
           <folding>
-            <element signature="e#71#141#0" expanded="true" />
+            <element signature="e#886#968#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/temperature_monitoring/TSL2561_Driver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="4" column="5" lean-forward="false" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/temperature_monitoring/Sensehat_Driver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-986">
+          <caret line="4" column="5" lean-forward="false" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/temperature_monitoring/DS18B20_Driver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1382">
+          <caret line="10" column="5" lean-forward="false" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/temperature_monitoring/DHT11_Driver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="17" column="5" lean-forward="false" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/temperature_monitoring/BME280_Driver_Official_Adafruit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding>
+            <element signature="e#37#51#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1970,7 +2113,7 @@
       </state>
       <state key="GlobalLibrariesConfigurable.UI">
         <settings>
-          <last-edited>Python 2.7.12 (/usr/local/Cellar/python/2.7.12/Frameworks/Python.framework/Versions/2.7/bin/python2.7) interpreter library</last-edited>
+          <last-edited>Python 2.7.10 (/usr/bin/python) interpreter library</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1982,7 +2125,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>Python 2.7.12 (/usr/local/Cellar/python/2.7.12/Frameworks/Python.framework/Versions/2.7/bin/python2.7)</last-edited>
+          <last-edited>Python 3.6.2 (/usr/local/bin/python3)</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -2005,6 +2148,17 @@
         </settings>
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
         <settings>
           <splitter-proportions>
             <option name="proportions">

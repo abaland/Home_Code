@@ -24,7 +24,7 @@ Due to this, High/Low refers to the LED state ignoring the frequency/duty_cycle,
 from time import sleep
 import pigpio
 
-import general_utils
+from . import general_utils
 
 # RAW IR ones and zeroes. Specify length for one and zero and simply bitbang the GPIO.
 # The default values are valid for one tested remote which didn't fit in NEC or RC-5 specifications.
@@ -469,7 +469,7 @@ def convert_bits_to_length(all_data_bytes, one_bit, zero_bit, header_signal, rep
     """
 
     # Starts by merging all the bytes together to facilitate the loop through bits to come
-    if not isinstance(all_data_bytes, basestring):
+    if not isinstance(all_data_bytes, str):
 
         details = 'all_data_bytes is not a string : %s' % (all_data_bytes,)
         ##################################################################

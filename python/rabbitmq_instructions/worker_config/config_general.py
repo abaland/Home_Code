@@ -1,6 +1,6 @@
-import worker_remote_control
-import worker_files
-import worker_sensors
+from . import worker_remote_control
+from . import worker_files
+from . import worker_sensors
 
 is_default = False
 

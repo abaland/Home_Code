@@ -1,6 +1,5 @@
 import subprocess
-from python.global_libraries import general_utils
-import psutil
+from global_libraries import general_utils
 
 
 ####################################################################################################

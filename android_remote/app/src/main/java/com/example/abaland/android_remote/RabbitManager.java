@@ -1,5 +1,10 @@
 package com.example.abaland.android_remote;
 
+import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.view.ViewGroup.LayoutParams;
+
 import com.rabbitmq.client.*;
 import android.support.v7.app.AppCompatActivity;
 
@@ -16,6 +21,7 @@ import java.io.StringReader;
 import org.w3c.dom.Document;
 
 
+
 class RabbitManager {
 
     private ConnectionFactory factory = new ConnectionFactory();
@@ -25,17 +31,37 @@ class RabbitManager {
 
     RabbitManager() {
 
-        String HostIp = "192.168.3.13";
-        String RabbitUser = "adrien";
-        String RabbitPassword = "password";
+        String hostIp = "192.168.3.19";
+        String rabbitUser = "adrien";
+        String rabbitPassword = "password";
+        int connectionTimeout = 10000; // Waits for 10s to connect
 
         // Initializes connectionFactory parameters, to start connexions with server
-        factory.setHost(HostIp);
-        factory.setUsername(RabbitUser);
-        factory.setPassword(RabbitPassword);
+        factory.setHost(hostIp);
+        factory.setUsername(rabbitUser);
+        factory.setPassword(rabbitPassword);
+        factory.setConnectionTimeout(connectionTimeout);
 
     }
 
+
+    public void startConnectionPopup(AppCompatActivity context) {
+
+        PopupWindow popUpWindow = new PopupWindow(context);
+        LinearLayout containerLayout = new LinearLayout(context);
+
+        TextView tvMsg = new TextView(context);
+        tvMsg.setText("Hi this is pop up window...");
+
+        LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT);
+
+        containerLayout.setOrientation(LinearLayout.VERTICAL);
+        containerLayout.addView(tvMsg, layoutParams);
+
+        popUpWindow.setContentView(containerLayout);
+
+    }
 
     /**
      * Attempts to connect to the RabbitMQ server.
@@ -62,6 +88,8 @@ class RabbitManager {
             /////////////
 
         } catch (IOException | TimeoutException e) {
+
+            startConnectionPopup(context);
 
             // Connection failed. Prints exception, resets parameters, and returns failure status.
             new CustomLogger("Rabbit", "Could not create Rabbit channel : " + e.getMessage(),
@@ -366,6 +394,9 @@ class RabbitManager {
 
                 Consumer callback = makeConsumer(callbackObject, context, corrId);
                 String queueName = declareTemporaryQueue(callback, context);
+                if (queueName == null) {
+                    return;
+                }
 
                 HashMap<String, Object> messageHeaders = new HashMap<>();
                 messageHeaders.put("type", instructionName);

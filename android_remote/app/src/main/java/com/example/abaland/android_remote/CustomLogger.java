@@ -30,23 +30,14 @@ class CustomLogger {
 
                 });
 
-        if (!isSubthread) {
+        context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
 
-            context.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    AlertDialog alert11 = builder1.create();
-                    alert11.show();
-                }
-            });
-
-        } else {
-
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
-
-        }
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+            }
+        });
 
     }
 

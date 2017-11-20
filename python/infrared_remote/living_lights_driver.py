@@ -19,8 +19,8 @@ Finally, the signal concludes with a Trail (High, Low) of (450, 22700)
 ########################
 # Import local packages
 ########################
-from python.global_libraries import signal_sender
-from python.global_libraries import general_utils
+from global_libraries import signal_sender
+from global_libraries import general_utils
 
 ####################
 # Global parameters

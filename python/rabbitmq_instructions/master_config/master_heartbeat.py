@@ -1,5 +1,5 @@
 import argparse
-import python.global_libraries.general_utils as general_utils
+import global_libraries.general_utils as general_utils
 
 
 ####################################################################################################

@@ -37,8 +37,8 @@ import copy
 ########################
 # Import local Packages
 ########################
-from python.global_libraries import signal_sender
-from python.global_libraries import general_utils
+from global_libraries import signal_sender
+from global_libraries import general_utils
 
 ####################
 # Global parameters

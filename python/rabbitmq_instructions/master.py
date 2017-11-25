@@ -924,7 +924,7 @@ class RabbitMaster:
 
         # Creates a parser and sets its accepted arguments.
         argument_parser = argparse.ArgumentParser()
-        argument_parser.add_argument('-gui', action='store_true')
+        argument_parser.add_argument('-no_block', action='store_true')
 
         # Parses the arguments
         print('Reading arguments..'),
@@ -937,7 +937,7 @@ class RabbitMaster:
             general_utils.log_error(-4, error_details=str(to_ignore))
 
         # Starts the live command line feed if GUI option is not enabled
-        if not parsed_arguments.gui:
+        if not parsed_arguments.no_block:
 
             self.has_commandline_feed = True
 

@@ -13,7 +13,7 @@ import socket  # Library used to catch exceptions from smtplib
 ########################
 # Import Local Packages
 ########################
-from global_libraries import general_utils
+import general_utils
 
 ###########################
 # Declare Global Variables
@@ -211,6 +211,7 @@ class MailSender:
             try:
 
                 mail_server = smtplib.SMTP(self.client)
+                mail_server.ehlo()
                 mail_server.starttls()
                 mail_server.login(self.username, self.password)
                 mail_server.sendmail(self.username, destination_address, message_to_send)
@@ -247,3 +248,24 @@ class MailSender:
 #################
 # END MailSender
 #################
+
+
+####################################################################################################
+# create_mail_sender
+####################################################################################################
+# Revision History :
+#   2017-11-23 AdBa : Function created
+####################################################################################################
+def create_mail_sender():
+
+    mail_sender = MailSender()
+
+    mail_sender.load_config(account_configuration_filename)
+
+    #######
+    return
+    #######
+
+#########################
+# END create_mail_sender
+#########################

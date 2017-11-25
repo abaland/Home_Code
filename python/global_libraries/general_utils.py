@@ -96,6 +96,10 @@ all_error_messages = {
     # OS
     ##########
     -601: 'Could not get space information',
+    #######################
+    # HeartBeat Monitoring
+    #######################
+    -601: 'Worker that sent message was not in list of workerss',
     ##########
     # General
     ##########

@@ -12,7 +12,7 @@ import threading  # Handles multi-threading in code (send RabbitMQ request, chec
 # Import Local Packages
 ########################
 
-from rabbitmq_instructions import master as master_script
+from rabbitmq_instructions import main as main_script
 from global_libraries import general_utils
 from . import tkinter_remote_control_tv
 
@@ -22,12 +22,12 @@ from . import tkinter_remote_control_tv
 
 
 ####################################################################################################
-# TkinterMaster
+# TkinterMain
 ####################################################################################################
 # Revision History:
 #   2016-11-26 AB - Class Created
 ####################################################################################################
-class TkinterMaster:
+class TkinterMain:
 
     #
     #
@@ -39,7 +39,7 @@ class TkinterMaster:
     # Revision History:
     #   2016-11-26 AB - Function Created
     ################################################################################################
-    def __init__(self, root_window, rabbit_master_object):
+    def __init__(self, root_window, rabbit_main_object):
 
         # The GUI itself.
         self.root_window = root_window
@@ -47,9 +47,9 @@ class TkinterMaster:
         # Creates an empty menu bar in the GUI.
         self.window_menubar = tk.Menu(self.root_window)
 
-        # Master Controller script
-        self.rabbit_master = rabbit_master_object  # Makes a reference to the Master Controller
-        self.rabbit_master.forward_response_target = self  # Makes reference to GUI inside Master
+        # Main Controller script
+        self.rabbit_main = rabbit_main_object  # Makes a reference to the Main Controller
+        self.rabbit_main.forward_response_target = self  # Makes reference to GUI inside Main
         
         # Instructions that can be sent to worker. Read by ConfigParser
         self.all_supported_remotes = ['tv', 'aircon']  # List of all possible remote controls
@@ -280,12 +280,12 @@ class TkinterMaster:
     #
 
     ################################################################################################
-    # send_request_slave
+    # send_request_subordinate
     ################################################################################################
     # Revision History:
     #   2016-11-26 AB - Function Created
     ################################################################################################
-    def send_request_slave(self, arguments_as_array):
+    def send_request_subordinate(self, arguments_as_array):
         """
         Starts sending the same request periodically (status request) to workers via RabbitMQ.
 
@@ -294,16 +294,16 @@ class TkinterMaster:
                 ['heartbeat', '--timeout', '10']
         """
 
-        # Sends command to RabbitMQ Master Controller script
-        self.rabbit_master.keep_listening_for_response = True
-        self.rabbit_master.process_live_commands(arguments_as_array)
+        # Sends command to RabbitMQ Main Controller script
+        self.rabbit_main.keep_listening_for_response = True
+        self.rabbit_main.process_live_commands(arguments_as_array)
 
         #######
         return
         #######
 
     ##############################
-    # send_request_slave
+    # send_request_subordinate
     ##############################
 
     #
@@ -326,8 +326,8 @@ class TkinterMaster:
              'timeout', '10']
         """
 
-        # Starts subthread that repeatedly ask master to send a request to worker
-        self.requests_thread = threading.Thread(target=self.send_request_slave,
+        # Starts subthread that repeatedly ask main to send a request to worker
+        self.requests_thread = threading.Thread(target=self.send_request_subordinate,
                                                 args=(argument_as_array,))
         self.requests_thread.start()
     
@@ -355,8 +355,8 @@ class TkinterMaster:
             stop)
         """
 
-        # Tells master controller script to stop listening for responses
-        self.rabbit_master.keep_listening_for_response = False
+        # Tells main controller script to stop listening for responses
+        self.rabbit_main.keep_listening_for_response = False
 
         #######
         return
@@ -367,7 +367,7 @@ class TkinterMaster:
     ################
 
 ####################
-# END TkinterMaster
+# END TkinterMain
 ####################
 
 
@@ -385,26 +385,26 @@ def main():
     class_name = 'tkinter'
     general_utils.get_welcome_end_message(class_name, True)
 
-    # Creates the instance for a master controller and sets it to listen to GUI commands.
-    rabbit_master_program = master_script.main(['-gui'])
+    # Creates the instance for a main controller and sets it to listen to GUI commands.
+    rabbit_main_program = main_script.main(['-gui'])
 
     # Creates main window for program GUI
-    tkinter_master_window = tk.Tk()
+    tkinter_main_window = tk.Tk()
 
     # Creates GUI Object, to update GUI window
-    tkinter_master_object = TkinterMaster(tkinter_master_window, rabbit_master_program)
+    tkinter_main_object = TkinterMain(tkinter_main_window, rabbit_main_program)
 
     # Starts building the GUI with all requirement information
-    tkinter_master_object.start_setup(400, 300)
+    tkinter_main_object.start_setup(400, 300)
 
     # Update the GUI elements
-    tkinter_master_object.root_window.update_idletasks()
+    tkinter_main_object.root_window.update_idletasks()
 
     # Starts displaying GUI (blocks the scripts until window is closed)
-    tkinter_master_object.root_window.mainloop()
+    tkinter_main_object.root_window.mainloop()
 
     # Once the window was closed, stops all subthreads.
-    tkinter_master_object.terminate()
+    tkinter_main_object.terminate()
     
     #######
     return

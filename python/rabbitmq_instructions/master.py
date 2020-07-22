@@ -1,5 +1,5 @@
 """
-This module creates a master controller for a RabbitMQ-communication system. Given instructions, it 
+This module creates a main controller for a RabbitMQ-communication system. Given instructions, it 
 will send them to a RabbitMQ server for dispatch, and listen to incoming response for a given time.
 """
 
@@ -17,7 +17,7 @@ from lxml import etree  # Converts worker response element to a tree-like object
 ########################
 # Import Local Packages
 ########################
-from rabbitmq_instructions.master_config import master_commands
+from rabbitmq_instructions.main_config import main_commands
 from rabbitmq_instructions.worker_config.config_general import worker_to_instruction
 
 from global_libraries import general_utils
@@ -42,7 +42,7 @@ rabbit_configuration_filename = '/Users/abaland/IdeaProjects/Home_Code/configs/R
 def version_check(worker_message_tree):
     """
     Check version status report from worker and print warning if:
-        (a) mismatch between worker_version and master_version
+        (a) mismatch between worker_version and main_version
         (b) last warning was printed long ago
 
     INPUT:
@@ -75,15 +75,15 @@ def version_check(worker_message_tree):
 
 
 ####################################################################################################
-# RabbitMaster
+# RabbitMain
 ####################################################################################################
 # Revision History :
 #   2016-11-26 AdBa : Class created
 ####################################################################################################
-class RabbitMaster:
+class RabbitMain:
     """
-    Master instance, with a RabbitMQ connection to the RabbitMQ server.
-    A master sends instructions to Worker instances through RabbitMQ
+    Main instance, with a RabbitMQ connection to the RabbitMQ server.
+    A main sends instructions to Worker instances through RabbitMQ
     """
 
     ################################################################################################
@@ -94,8 +94,8 @@ class RabbitMaster:
     ################################################################################################
     def __init__(self, configuration_filename):
         """
-        Creates a Master instance, which opens a RabbitMQ connection to the RabbitMQ server.
-        A master sends instructions to Worker instances through RabbitMQ
+        Creates a Main instance, which opens a RabbitMQ connection to the RabbitMQ server.
+        A main sends instructions to Worker instances through RabbitMQ
         
         INPUT:
             configuration_filename (str) : path to the RabbitMQ configuration file
@@ -197,7 +197,7 @@ class RabbitMaster:
         # Initializes an array (which will contain the workers) for each instruction
         self.instruction_to_worker_list['heartbeat'] = []
         self.instruction_to_worker_list['update'] = []
-        for worker_instruction in master_commands.all_instructions:
+        for worker_instruction in main_commands.all_instructions:
 
             self.instruction_to_worker_list[worker_instruction] = []
 
@@ -284,7 +284,7 @@ class RabbitMaster:
                 self.delete_queue_flag = True
                 self.pika_connector.process_data_events()
 
-        # Tests why master stopped listening to responses : all received or timeout elapsed
+        # Tests why main stopped listening to responses : all received or timeout elapsed
         if self.total_response_received == len(self.response_received_checklist):
 
             print('\nResponse received from everyone')
@@ -440,8 +440,8 @@ class RabbitMaster:
             # Response had a success status report, so process it appropriately
             if worker_message_formatted is not None:
 
-                # Finds appropriate response processing function in the master configuration folder
-                appropriate_module = master_commands.instruction_to_functions.get(
+                # Finds appropriate response processing function in the main configuration folder
+                appropriate_module = main_commands.instruction_to_functions.get(
                     sent_instruction_name, None)
              
                 if appropriate_module is None:
@@ -511,7 +511,7 @@ class RabbitMaster:
             return
             #######
 
-        # When will the Master stop listening for responses
+        # When will the Main stop listening for responses
         timeout_timestamp = time.time() + response_timeout
 
         # Gives unique id to query (sent back by worker) to make sure response and instruction match
@@ -674,7 +674,7 @@ class RabbitMaster:
             #######
 
         # Retrieves instruction-dependent function to obtain message to send worker with instruction
-        appropriate_module = master_commands.instruction_to_functions.get(
+        appropriate_module = main_commands.instruction_to_functions.get(
             user_instruction_as_array[0], None)
 
         # Checks if function actually exists (otherwise, instruction invalid, so skip command)
@@ -786,11 +786,11 @@ class RabbitMaster:
             if len(user_instruction_as_array) == 1:
 
                 # No argument, global summary
-                for instruction_name in master_commands.instruction_to_functions.keys():
+                for instruction_name in main_commands.instruction_to_functions.keys():
 
                     try:
 
-                        master_commands.instruction_to_functions[instruction_name]\
+                        main_commands.instruction_to_functions[instruction_name]\
                             .get_help_message(False)
                         print('')
 
@@ -803,11 +803,11 @@ class RabbitMaster:
                 instruction_name = user_instruction_as_array[1]
 
                 # Argument provided, detailled description
-                if instruction_name in master_commands.instruction_to_functions.keys():
+                if instruction_name in main_commands.instruction_to_functions.keys():
 
                     try:
 
-                        master_commands.instruction_to_functions[instruction_name]\
+                        main_commands.instruction_to_functions[instruction_name]\
                             .get_help_message(True)
 
                     except AttributeError:
@@ -981,7 +981,7 @@ class RabbitMaster:
     #
 
 ###################
-# END RabbitMaster
+# END RabbitMain
 ###################
 
 
@@ -999,34 +999,34 @@ def main(args):
          args (str[]) command lines arguments, excluding the first one (containing program name)
 
     OUTPUT :
-         master (Master) : the master instance.
+         main (Main) : the main instance.
     """
 
-    class_name = 'Master'
+    class_name = 'Main'
     general_utils.get_welcome_end_message(class_name, True)
 
-    # Creates the Master object, which establishes the RabbitMQ connexion
-    rabbit_master_instance = RabbitMaster(rabbit_configuration_filename)
-    general_utils.test_fatal_error(rabbit_master_instance, class_name)
+    # Creates the Main object, which establishes the RabbitMQ connexion
+    rabbit_main_instance = RabbitMain(rabbit_configuration_filename)
+    general_utils.test_fatal_error(rabbit_main_instance, class_name)
 
     # Sets the exchange to use for transactions
-    rabbit_master_instance.set_exchange('ex')
-    general_utils.test_fatal_error(rabbit_master_instance, class_name)
+    rabbit_main_instance.set_exchange('ex')
+    general_utils.test_fatal_error(rabbit_main_instance, class_name)
 
     # Creates mapping from instruction names to the worker that support them
-    rabbit_master_instance.get_instruction_to_worker()
+    rabbit_main_instance.get_instruction_to_worker()
 
-    rabbit_master_instance.parse_arguments(args)
+    rabbit_main_instance.parse_arguments(args)
 
-    print('Master initialization complete.')
+    print('Main initialization complete.')
 
     # Switches to live feed mode for commands if necessary
-    if rabbit_master_instance.has_commandline_feed:
+    if rabbit_main_instance.has_commandline_feed:
 
-        rabbit_master_instance.listen_to_live_commands()
+        rabbit_main_instance.listen_to_live_commands()
 
     ##############################
-    return rabbit_master_instance
+    return rabbit_main_instance
     ##############################
 
 ###########
@@ -1039,6 +1039,6 @@ if __name__ == "__main__":
     main(sys.argv[1:])
 
     # Exits code
-    general_utils.get_welcome_end_message('Master', False)
+    general_utils.get_welcome_end_message('Main', False)
     
     exit(0)

@@ -17,7 +17,7 @@ import traceback  # Gets full information about unhandled exceptions
 #################
 # Local packages
 #################
-from rabbitmq_instructions import master  # code for Rabbit Master Controller
+from rabbitmq_instructions import main  # code for Rabbit Main Controller
 from global_libraries import general_utils
 from global_libraries import mail_sender
 
@@ -52,19 +52,19 @@ class HeartbeatMonitoring:
     # Revision History:
     #   2017-11-21 AdBa - Function Created
     ################################################################################################
-    def __init__(self, rabbit_master_object):
+    def __init__(self, rabbit_main_object):
         """
-        Creates instance of Rabbit Master that will monitor activity of other pis
+        Creates instance of Rabbit Main that will monitor activity of other pis
         
         INPUT:
-            rabbit_master_object (RabbitMaster) : instance of RabbitMaster to send/receive message        
+            rabbit_main_object (RabbitMain) : instance of RabbitMain to send/receive message        
         """
 
         self.error_status = 0
         
-        # Master Controller script
-        self.rabbit_master = rabbit_master_object  # Reference to the Master Controller
-        self.rabbit_master.forward_response_target = self  # Ref to this constructor inside master
+        # Main Controller script
+        self.rabbit_main = rabbit_main_object  # Reference to the Main Controller
+        self.rabbit_main.forward_response_target = self  # Ref to this constructor inside main
 
         # Mail Sender object to send gmail failure report
         self.mail_sender = mail_sender.create_mail_sender()
@@ -277,9 +277,9 @@ class HeartbeatMonitoring:
             self.activity_checklist[worker_id] = False
 
         # Sends request to workers to check if they are active or not. The processing function
-        #   will be called by the master object (self.rabbit_master) when it receives response
+        #   will be called by the main object (self.rabbit_main) when it receives response
         base_instruction_message = etree.Element('instruction', type='heartbeat')
-        self.rabbit_master.ask_worker('heartbeat', base_instruction_message, self.request_interval,
+        self.rabbit_main.ask_worker('heartbeat', base_instruction_message, self.request_interval,
                                       workers_to_monitor)
 
         self.maybe_send_failure_report()
@@ -289,7 +289,7 @@ class HeartbeatMonitoring:
     #######################
 
 ################################
-# END HeartbeatMonitoringMaster
+# END HeartbeatMonitoringMain
 ################################
 
 
@@ -308,12 +308,12 @@ def main():
         class_name = 'HeartbeatMonitor'
         general_utils.get_welcome_end_message(class_name, True)
     
-        # Creates the instance for a master controller and sets it to GUI mode.
-        # Sets no_block argument to prevent master from waiting for user command line inputs
-        rabbit_master = master.main(['-no_block'])
+        # Creates the instance for a main controller and sets it to GUI mode.
+        # Sets no_block argument to prevent main from waiting for user command line inputs
+        rabbit_main = main.main(['-no_block'])
     
         # Creates GUI Object, to update GUI window
-        monitor = HeartbeatMonitoring(rabbit_master)
+        monitor = HeartbeatMonitoring(rabbit_main)
     
         # Reads config file to get relevant parameters (workers to monitor, monitoring interval)
         monitor.read_configuration(monitoring_config_url)

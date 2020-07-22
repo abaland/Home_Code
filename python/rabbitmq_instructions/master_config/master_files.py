@@ -61,12 +61,12 @@ def get_help_message(with_details=False):
 # Revision History :
 #   2017-05-25 AdBa : Function created
 ####################################################################################################
-def get_message(rabbit_master_object, base_instruction_message, command_arguments):
+def get_message(rabbit_main_object, base_instruction_message, command_arguments):
     """
     Sends a files status request to the RabbitMQ server
 
     INPUT:
-         rabbit_master_object (Master) master controller, sending instruction to RabbitMQ server.
+         rabbit_main_object (Main) main controller, sending instruction to RabbitMQ server.
          instruction (str) : instruction to send camera
          my_time_out (str, opt) : timeout value
 
@@ -91,7 +91,7 @@ def get_message(rabbit_master_object, base_instruction_message, command_argument
     remote_timeout = parsed_command_arguments.timeout
 
     ####################################################################################
-    return base_instruction_message, rabbit_master_object.parse_timeout(remote_timeout)
+    return base_instruction_message, rabbit_main_object.parse_timeout(remote_timeout)
     ####################################################################################
 
 ##################
@@ -110,7 +110,7 @@ def process_response(_, received_worker_message):
     Processes files report from a worker.
 
     INPUT:
-         master (Master) Unused here.
+         main (Main) Unused here.
          received_worker_message (lxml.etree object) message from worker as
             <worker id=... status=...>
     """

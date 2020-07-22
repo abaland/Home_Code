@@ -199,7 +199,7 @@ class RabbitWorker:
     ################################################################################################
     def update_config(self, message_as_xml, worker_base_response):
         """
-        Updates configuration folder when Master Controller calls for an update. This overwrites 
+        Updates configuration folder when Main Controller calls for an update. This overwrites 
         whole config folder.
 
         INPUT:
@@ -461,7 +461,7 @@ class RabbitWorker:
     ################################################################################################
     def process_order(self, _, pika_method, in_properties, message_received):
         """
-        Defines how to process order from the master program.
+        Defines how to process order from the main program.
         If request has timeout and the reception occurs too late : acknowledges messages and stops.
         Calls appropriate instruction, sends an answer (optional + timeoutcheck) and acknowledges 
         message afterwards
@@ -717,7 +717,7 @@ class RabbitWorker:
     ######################
 
 ###################
-# END RabbitMaster
+# END RabbitMain
 ###################
 
 

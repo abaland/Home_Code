@@ -81,25 +81,25 @@ def read_temperature(address):
     temperature = None
 
     # Address of the file containing the measure
-    url_file = '/sys/devices/w1_bus_master1/' + str(address) + '/w1_slave'
+    url_file = '/sys/devices/w1_bus_main1/' + str(address) + '/w1_subordinate'
     
     if os.path.isfile(url_file):
         
-        # Array to contain content of slave_file
-        slave_info = []
+        # Array to contain content of subordinate_file
+        subordinate_info = []
         
-        # Gets name of all slaves (names are used later, to open this file as short as possible)
-        with open(url_file, 'r') as slave_file:
+        # Gets name of all subordinates (names are used later, to open this file as short as possible)
+        with open(url_file, 'r') as subordinate_file:
             
-            # Slave file has 2 lines : crc/detect info, and value info.
-            for line in slave_file:
+            # Subordinate file has 2 lines : crc/detect info, and value info.
+            for line in subordinate_file:
 
                 # Strips linebreak
-                slave_info.append(line[:-1])
+                subordinate_info.append(line[:-1])
             
             # First line contain crc/detect info => metadata. Second line contains value at the end
-            meta = slave_info[0]
-            value = slave_info[1]
+            meta = subordinate_info[0]
+            value = subordinate_info[1]
             
             # Only process the value if the metadata line says the measure is ok
             if not meta.startswith('00 00 00 00 00 00 00 00 00') and not meta.endswith('NO'):
@@ -121,7 +121,7 @@ def read_temperature(address):
 
     else:
 
-        details = '(' + address + '). Slave file does not exist.'
+        details = '(' + address + '). Subordinate file does not exist.'
         general_utils.log_error(-409, details)
         
     ##################

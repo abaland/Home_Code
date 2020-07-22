@@ -34,7 +34,7 @@ def get_help_message(with_details=False):
 
     print('update.')
     print('Orders worker to update its configuration, by copying configuration in '
-          'worker_config_master.')
+          'worker_config_main.')
     print('Compares it with current time of this program.')
 
     if with_details:
@@ -56,13 +56,13 @@ def get_help_message(with_details=False):
 # Revision History:
 #   2016-11-26 AB - Function Created
 ####################################################################################################
-def copy_folder_structure(base_instruction_message, master_config_folder_name,
+def copy_folder_structure(base_instruction_message, main_config_folder_name,
                           worker_config_folder_name):
     """
     Converts the configuration folder to be used by worker into a xml-formatted string.
 
     INPUT:
-         Rabbit_Master_Object (Master)  master controller, sending instruction to RabbitMQ server.
+         Rabbit_Main_Object (Main)  main controller, sending instruction to RabbitMQ server.
          my_time_out (str, opt) : timeout value
 
     OUTPUT:
@@ -70,7 +70,7 @@ def copy_folder_structure(base_instruction_message, master_config_folder_name,
         timeout (float): the timeout value to apply
     """
     
-    # Names where worker config folder is in Master Controller system, and in the Worker system.
+    # Names where worker config folder is in Main Controller system, and in the Worker system.
     base_instruction_message.set('to_delete', worker_config_folder_name)
     
     # Creates top folder as <dir name='config_updated' parent='.'>, which will be parent of all
@@ -79,11 +79,11 @@ def copy_folder_structure(base_instruction_message, master_config_folder_name,
     
     # Goes through worker configuration folder to create other entries in the xml-formatted string
     for config_top_folder_names, config_folder_names, config_file_names in os.walk(
-            master_config_folder_name):
+            main_config_folder_name):
         
         # Updates file/folder parent path to respect parent architecture instead of worker one.
         config_top_folders_name_new = str(config_top_folder_names)\
-            .replace(master_config_folder_name, worker_config_folder_name)
+            .replace(main_config_folder_name, worker_config_folder_name)
 
         # Adds all folders from the configuration
         for config_folder_name in config_folder_names:
@@ -125,7 +125,7 @@ def copy_folder_structure(base_instruction_message, master_config_folder_name,
 # Revision History:
 #   2016-11-26 AB - Function Created
 ####################################################################################################
-def get_message(rabbit_master_object, base_instruction_message, command_arguments):
+def get_message(rabbit_main_object, base_instruction_message, command_arguments):
     """
     Converts the configuration folder to be used by worker into a xml-formatted string.
     Only folder + files ending with extension .py get converted
@@ -133,7 +133,7 @@ def get_message(rabbit_master_object, base_instruction_message, command_argument
     attribute.
 
     INPUT:
-         master (Master) : the master controller object, sending instruction to the RabbitMQ server.
+         main (Main) : the main controller object, sending instruction to the RabbitMQ server.
          my_time_out (str, opt) : timeout value
 
     OUTPUT:
@@ -164,7 +164,7 @@ def get_message(rabbit_master_object, base_instruction_message, command_argument
     
     # Converts the object to a string.
     ###################################################################################
-    return base_instruction_message, rabbit_master_object.parse_timeout(input_timeout)
+    return base_instruction_message, rabbit_main_object.parse_timeout(input_timeout)
     ###################################################################################
 
 ##################
